@@ -124,6 +124,7 @@ ng generate @sonny-ui/core:component button
 
 ## Links
 
+- [Documentation](https://coci-dev.github.io/sonny-ui/)
 - [GitHub](https://github.com/coci-dev/sonny-ui)
 - [Issues](https://github.com/coci-dev/sonny-ui/issues)
 
