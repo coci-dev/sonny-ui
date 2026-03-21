@@ -224,7 +224,7 @@ export function cn(...inputs: ClassValue[]): string {
         // Rewrite imports to use local cn utility
         content = content.replace(
           /from ['"]\.\.\/core\/utils\/cn['"]/g,
-          `from '../../utils/cn'`
+          `from '../utils/cn'`
         );
 
         // Rewrite prefix if custom
