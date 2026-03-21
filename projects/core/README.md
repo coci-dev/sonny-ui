@@ -43,7 +43,7 @@ export const appConfig = {
 And import the theme in your global styles:
 
 ```css
-@import '@sonny-ui/core/src/styles/sonny-theme.css';
+@import '@sonny-ui/core/styles/sonny-theme.css';
 ```
 
 ### Requirements

@@ -1,6 +1,6 @@
 {
   "name": "@sonny-ui/core",
-  "version": "0.1.0-alpha.6",
+  "version": "0.1.0-alpha.7",
   "description": "Angular UI component library inspired by shadcn/ui — signals, zoneless, Tailwind CSS v4",
   "peerDependencies": {
     "@angular/common": "^21.0.0",
@@ -36,5 +36,10 @@
   "homepage": "https://coci-dev.github.io/sonny-ui/",
   "bugs": {
     "url": "https://github.com/coci-dev/sonny-ui/issues"
+  },
+  "exports": {
+    "./styles/*": {
+      "default": "./src/styles/*"
+    }
   }
 }
