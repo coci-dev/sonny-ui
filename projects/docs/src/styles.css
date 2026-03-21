@@ -1,0 +1,60 @@
+@import "tailwindcss";
+@import "../../../projects/core/src/styles/sonny-theme.css";
+
+@source "../../../projects/core/src/lib";
+@source "./app";
+
+body {
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+  background-color: var(--sny-background);
+  color: var(--sny-foreground);
+  min-height: 100vh;
+  margin: 0;
+}
+
+/* Prism.js One Dark theme */
+code[class*="language-"],
+pre[class*="language-"] {
+  color: #abb2bf;
+  background: none;
+  font-family: 'Fira Code', 'JetBrains Mono', Consolas, Monaco, 'Andale Mono', monospace;
+  font-size: 0.875rem;
+  text-align: left;
+  white-space: pre;
+  word-spacing: normal;
+  word-break: normal;
+  word-wrap: normal;
+  line-height: 1.6;
+  tab-size: 2;
+  hyphens: none;
+}
+
+.token.comment,
+.token.prolog,
+.token.doctype,
+.token.cdata { color: #5c6370; font-style: italic; }
+.token.punctuation { color: #abb2bf; }
+.token.property,
+.token.tag,
+.token.boolean,
+.token.number,
+.token.constant,
+.token.symbol,
+.token.deleted { color: #e06c75; }
+.token.selector,
+.token.attr-name,
+.token.string,
+.token.char,
+.token.builtin,
+.token.inserted { color: #98c379; }
+.token.operator,
+.token.entity,
+.token.url { color: #56b6c2; }
+.token.atrule,
+.token.attr-value,
+.token.keyword { color: #c678dd; }
+.token.function,
+.token.class-name { color: #61afef; }
+.token.regex,
+.token.important,
+.token.variable { color: #d19a66; }

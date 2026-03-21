@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@custom-variant dark (&:is(.dark *));
+
+@theme {
+  --color-background: var(--sny-background);
+  --color-foreground: var(--sny-foreground);
+  --color-primary: var(--sny-primary);
+  --color-primary-foreground: var(--sny-primary-foreground);
+  --color-secondary: var(--sny-secondary);
+  --color-secondary-foreground: var(--sny-secondary-foreground);
+  --color-muted: var(--sny-muted);
+  --color-muted-foreground: var(--sny-muted-foreground);
+  --color-accent: var(--sny-accent);
+  --color-accent-foreground: var(--sny-accent-foreground);
+  --color-destructive: var(--sny-destructive);
+  --color-destructive-foreground: var(--sny-destructive-foreground);
+  --color-card: var(--sny-card);
+  --color-card-foreground: var(--sny-card-foreground);
+  --color-border: var(--sny-border);
+  --color-input: var(--sny-input);
+  --color-ring: var(--sny-ring);
+  --radius-sm: var(--sny-radius);
+}
+
+:root {
+  --sny-background: #ffffff;
+  --sny-foreground: #0a0a0a;
+  --sny-primary: #171717;
+  --sny-primary-foreground: #fafafa;
+  --sny-secondary: #f5f5f5;
+  --sny-secondary-foreground: #171717;
+  --sny-muted: #f5f5f5;
+  --sny-muted-foreground: #737373;
+  --sny-accent: #f5f5f5;
+  --sny-accent-foreground: #171717;
+  --sny-destructive: #ef4444;
+  --sny-destructive-foreground: #fafafa;
+  --sny-card: #ffffff;
+  --sny-card-foreground: #0a0a0a;
+  --sny-border: #e5e5e5;
+  --sny-input: #e5e5e5;
+  --sny-ring: #0a0a0a;
+  --sny-radius: 0.5rem;
+}
+
+.dark,
+[data-theme="dark"] {
+  --sny-background: #0a0a0a;
+  --sny-foreground: #fafafa;
+  --sny-primary: #fafafa;
+  --sny-primary-foreground: #171717;
+  --sny-secondary: #262626;
+  --sny-secondary-foreground: #fafafa;
+  --sny-muted: #262626;
+  --sny-muted-foreground: #a3a3a3;
+  --sny-accent: #262626;
+  --sny-accent-foreground: #fafafa;
+  --sny-destructive: #dc2626;
+  --sny-destructive-foreground: #fafafa;
+  --sny-card: #0a0a0a;
+  --sny-card-foreground: #fafafa;
+  --sny-border: #262626;
+  --sny-input: #262626;
+  --sny-ring: #d4d4d4;
+}
+
+[data-theme="corporate"] {
+  --sny-background: #f8fafc;
+  --sny-foreground: #0f172a;
+  --sny-primary: #1e40af;
+  --sny-primary-foreground: #ffffff;
+  --sny-secondary: #e2e8f0;
+  --sny-secondary-foreground: #1e293b;
+  --sny-muted: #f1f5f9;
+  --sny-muted-foreground: #64748b;
+  --sny-accent: #dbeafe;
+  --sny-accent-foreground: #1e3a8a;
+  --sny-destructive: #dc2626;
+  --sny-destructive-foreground: #ffffff;
+  --sny-card: #ffffff;
+  --sny-card-foreground: #0f172a;
+  --sny-border: #cbd5e1;
+  --sny-input: #cbd5e1;
+  --sny-ring: #3b82f6;
+  --sny-radius: 0.375rem;
+}
+
+/* ─── Dialog / Sheet overlay ─── */
+
+.sny-dialog-backdrop {
+  background-color: rgba(0, 0, 0, 0.5) !important;
+}
+
+/* Sheet panel — styling only; positioning handled by CDK GlobalPositionStrategy */
+.sny-sheet-panel {
+  background-color: var(--sny-background);
+  padding: 1.5rem;
+  box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -4px rgba(0, 0, 0, 0.1);
+  overflow-y: auto;
+}
+
+.sny-sheet-right {
+  border-left: 1px solid var(--sny-border);
+}
+
+.sny-sheet-left {
+  border-right: 1px solid var(--sny-border);
+}
+
+.sny-sheet-top {
+  border-bottom: 1px solid var(--sny-border);
+}
+
+.sny-sheet-bottom {
+  border-top: 1px solid var(--sny-border);
+}
+
+/* Search dialog panel */
+.sny-search-dialog {
+  background-color: var(--sny-background);
+  border: 1px solid var(--sny-border);
+  border-radius: 0.5rem;
+  box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25);
+  overflow: hidden;
+}

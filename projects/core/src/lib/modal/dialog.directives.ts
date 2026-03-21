@@ -1,0 +1,90 @@
+import { Directive, computed, input, inject } from '@angular/core';
+import { DialogRef } from '@angular/cdk/dialog';
+import { cn } from '../core/utils/cn';
+
+@Directive({
+  selector: '[snyDialogHeader]',
+  standalone: true,
+  host: { '[class]': 'computedClass()' },
+})
+export class SnyDialogHeaderDirective {
+  readonly class = input<string>('');
+  protected readonly computedClass = computed(() =>
+    cn('flex flex-col space-y-1.5 text-center sm:text-left', this.class())
+  );
+}
+
+@Directive({
+  selector: '[snyDialogTitle]',
+  standalone: true,
+  host: { '[class]': 'computedClass()' },
+})
+export class SnyDialogTitleDirective {
+  readonly class = input<string>('');
+  protected readonly computedClass = computed(() =>
+    cn('text-lg font-semibold leading-none tracking-tight', this.class())
+  );
+}
+
+@Directive({
+  selector: '[snyDialogDescription]',
+  standalone: true,
+  host: { '[class]': 'computedClass()' },
+})
+export class SnyDialogDescriptionDirective {
+  readonly class = input<string>('');
+  protected readonly computedClass = computed(() =>
+    cn('text-sm text-muted-foreground', this.class())
+  );
+}
+
+@Directive({
+  selector: '[snyDialogContent]',
+  standalone: true,
+  host: { '[class]': 'computedClass()' },
+})
+export class SnyDialogContentDirective {
+  readonly class = input<string>('');
+  protected readonly computedClass = computed(() =>
+    cn(
+      'relative bg-background rounded-sm border border-border shadow-lg p-6 w-full max-w-lg mx-auto',
+      this.class()
+    )
+  );
+}
+
+@Directive({
+  selector: '[snyDialogFooter]',
+  standalone: true,
+  host: { '[class]': 'computedClass()' },
+})
+export class SnyDialogFooterDirective {
+  readonly class = input<string>('');
+  protected readonly computedClass = computed(() =>
+    cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', this.class())
+  );
+}
+
+@Directive({
+  selector: '[snyDialogClose]',
+  standalone: true,
+  host: {
+    '[class]': 'computedClass()',
+    '(click)': 'onClick()',
+  },
+})
+export class SnyDialogCloseDirective {
+  readonly class = input<string>('');
+  protected readonly computedClass = computed(() =>
+    cn(
+      'absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none',
+      this.class()
+    )
+  );
+
+  private readonly dialogRef = inject(DialogRef, { optional: true });
+
+  onClick(): void {
+    this.dialogRef?.close();
+  }
+}
