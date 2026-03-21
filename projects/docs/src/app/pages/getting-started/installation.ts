@@ -16,7 +16,7 @@ import { CodeBlockComponent } from '../../shared/code-block';
         <h2 class="text-xl font-semibold">Prerequisites</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
           <li>Angular 21 or later</li>
-          <li>Tailwind CSS v4</li>
+          <li><a href="https://tailwindcss.com/docs/installation/framework-guides/angular" target="_blank" rel="noopener" class="text-primary underline">Tailwind CSS v4</a> — see the official Angular installation guide</li>
           <li>Node.js 22+</li>
         </ul>
       </section>
