@@ -1,5 +1,5 @@
 export const MODAL_DOC_ES = {
-  title: 'Modal / Diálogo',
+  title: 'Modal',
   description: 'Un diálogo modal que interrumpe al usuario con contenido importante.',
   basicDialog: 'Diálogo Básico',
   confirmationDialog: 'Diálogo de Confirmación',

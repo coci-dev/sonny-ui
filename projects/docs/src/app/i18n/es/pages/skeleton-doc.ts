@@ -1,5 +1,5 @@
 export const SKELETON_DOC_ES = {
-  title: 'Esqueleto',
+  title: 'Skeleton',
   description: 'Se usa para mostrar un marcador de posición mientras el contenido se carga.',
   loadingCard: 'Tarjeta de Carga',
   accessibility: [

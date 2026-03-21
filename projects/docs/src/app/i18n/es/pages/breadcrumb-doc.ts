@@ -1,5 +1,5 @@
 export const BREADCRUMB_DOC_ES = {
-  title: 'Migas de Pan',
+  title: 'Breadcrumb',
   description: 'Muestra la ruta al recurso actual usando una jerarquía de enlaces.',
   dynamicBreadcrumb: 'Migas de Pan Dinámicas',
   accessibility: [

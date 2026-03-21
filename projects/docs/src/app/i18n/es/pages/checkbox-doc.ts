@@ -1,5 +1,5 @@
 export const CHECKBOX_DOC_ES = {
-  title: 'Casilla de Verificación',
+  title: 'Checkbox',
   description: 'Un control que permite al usuario alternar entre marcado y no marcado.',
   todoList: 'Lista de Tareas',
   propDescriptions: {

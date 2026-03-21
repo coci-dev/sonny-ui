@@ -1,5 +1,5 @@
 export const BUTTON_DOC_ES = {
-  title: 'Botón',
+  title: 'Button',
   description: 'Muestra un botón o un componente con apariencia de botón.',
   examplesDesc: 'Patrones de uso del mundo real con gestión de estado.',
   asyncSubmitButton: 'Botón de Envío Asíncrono',
