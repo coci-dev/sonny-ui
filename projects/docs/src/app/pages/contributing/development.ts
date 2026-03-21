@@ -65,7 +65,7 @@ import { CodeBlockComponent } from '../../shared/code-block';
 })
 export class DevelopmentComponent {
   setupCode = `# Clone the repository
-git clone https://github.com/poseimus/sonny-ui.git
+git clone https://github.com/coci-dev/sonny-ui.git
 cd sonny-ui
 
 # Install dependencies
