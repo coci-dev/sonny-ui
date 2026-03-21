@@ -22,7 +22,23 @@ import { CodeBlockComponent } from '../../shared/code-block';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">How to copy a component</h2>
+        <h2 class="text-xl font-semibold">Automatic (recommended)</h2>
+        <p class="text-sm text-muted-foreground">
+          Use the schematic to copy a component automatically. It handles file copying, import rewrites, and the <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">cn()</code> utility for you:
+        </p>
+        <docs-code-block [code]="generateCode" language="bash" />
+        <p class="text-sm text-muted-foreground">
+          Options:
+        </p>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">--path</code> — target directory (default: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">src/app/ui</code>)</li>
+          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">--prefix</code> — selector prefix (default: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">sny</code>)</li>
+          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">--skipTests</code> — don't copy test files</li>
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">Manual</h2>
         <ol class="list-decimal pl-6 space-y-2 text-sm text-muted-foreground">
           <li>
             <strong class="text-foreground">Copy the source files</strong> — Each component lives in its own folder
@@ -64,6 +80,8 @@ import { CodeBlockComponent } from '../../shared/code-block';
   `,
 })
 export class CopyPasteComponent {
+  generateCode = `ng generate @sonny-ui/core:component button`;
+
   structureCode = `src/
   ui/
     utils/
