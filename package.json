@@ -3,10 +3,17 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "ng serve",
-    "build": "ng build",
-    "watch": "ng build --watch --configuration development",
-    "test": "ng test"
+    "start": "ng serve docs",
+    "build": "ng build core --configuration production",
+    "build:all": "npm run build && npm run build:schematics",
+    "build:schematics": "tsc -p projects/core/schematics/tsconfig.schematics.json && copyfiles -u 3 projects/core/schematics/**/schema.json projects/core/schematics/collection.json dist/core/schematics",
+    "watch": "ng build core --watch --configuration development",
+    "test": "ng test core --watch=false",
+    "test:watch": "ng test core",
+    "docs:dev": "ng serve docs",
+    "docs:build": "ng build docs --configuration production",
+    "prepublish:core": "npm run build && npm run build:schematics",
+    "publish:core": "cd dist/core && npm publish --access public"
   },
   "prettier": {
     "printWidth": 100,
@@ -23,18 +30,33 @@
   "private": true,
   "packageManager": "npm@11.6.2",
   "dependencies": {
+    "@angular/cdk": "^21.2.3",
     "@angular/common": "^21.0.0",
     "@angular/compiler": "^21.0.0",
     "@angular/core": "^21.0.0",
     "@angular/forms": "^21.0.0",
     "@angular/platform-browser": "^21.0.0",
     "@angular/router": "^21.0.0",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "prismjs": "^1.30.0",
     "rxjs": "~7.8.0",
+    "tailwind-merge": "^3.5.0",
     "tslib": "^2.3.0"
   },
   "devDependencies": {
+    "@angular/build": "^21.2.3",
     "@angular/cli": "^21.0.5",
     "@angular/compiler-cli": "^21.0.0",
-    "typescript": "~5.9.2"
+    "@tailwindcss/postcss": "^4.2.2",
+    "@types/node": "^25.5.0",
+    "@types/prismjs": "^1.26.6",
+    "copyfiles": "^2.4.1",
+    "jsdom": "^28.0.0",
+    "ng-packagr": "^21.2.0",
+    "postcss": "^8.5.8",
+    "tailwindcss": "^4.2.2",
+    "typescript": "~5.9.2",
+    "vitest": "^4.0.8"
   }
 }

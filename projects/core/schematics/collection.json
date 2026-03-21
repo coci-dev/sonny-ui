@@ -1,0 +1,16 @@
+{
+  "$schema": "../../../node_modules/@angular-devkit/schematics/collection-schema.json",
+  "schematics": {
+    "ng-add": {
+      "description": "Add SonnyUI to a project",
+      "factory": "./ng-add/index#ngAdd",
+      "schema": "./ng-add/schema.json"
+    },
+    "component": {
+      "description": "Copy a SonnyUI component source to your project (shadcn-style)",
+      "factory": "./ng-generate/component/index#generateComponent",
+      "schema": "./ng-generate/component/schema.json",
+      "aliases": ["c"]
+    }
+  }
+}

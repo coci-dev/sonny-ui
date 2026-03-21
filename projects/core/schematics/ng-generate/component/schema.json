@@ -1,0 +1,32 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SonnyUIGenerateComponentSchema",
+  "title": "SonnyUI component generator (copy-paste style)",
+  "type": "object",
+  "properties": {
+    "name": {
+      "type": "string",
+      "description": "The component to copy (accordion, avatar, badge, breadcrumb, button, button-group, card, checkbox, combobox, input, loader, modal, radio, select, sheet, skeleton, slider, switch, table, tabs, toast, toggle).",
+      "$default": {
+        "$source": "argv",
+        "index": 0
+      }
+    },
+    "path": {
+      "type": "string",
+      "default": "src/app/ui",
+      "description": "The path to copy the component into."
+    },
+    "prefix": {
+      "type": "string",
+      "default": "sny",
+      "description": "The prefix to use for selectors."
+    },
+    "skipTests": {
+      "type": "boolean",
+      "default": false,
+      "description": "Skip copying test files."
+    }
+  },
+  "required": ["name"]
+}

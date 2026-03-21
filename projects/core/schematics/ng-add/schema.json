@@ -1,0 +1,19 @@
+{
+  "$schema": "http://json-schema.org/schema",
+  "id": "SonnyUIAddSchema",
+  "title": "SonnyUI ng-add schematic",
+  "type": "object",
+  "properties": {
+    "project": {
+      "type": "string",
+      "description": "The project to add SonnyUI to."
+    },
+    "theme": {
+      "type": "string",
+      "default": "light",
+      "enum": ["light", "dark", "corporate"],
+      "description": "Default theme to configure."
+    }
+  },
+  "required": []
+}

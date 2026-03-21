@@ -1,0 +1,40 @@
+{
+  "name": "@sonny-ui/core",
+  "version": "0.1.0-alpha.3",
+  "description": "Angular UI component library inspired by shadcn/ui — signals, zoneless, Tailwind CSS v4",
+  "peerDependencies": {
+    "@angular/common": "^21.0.0",
+    "@angular/core": "^21.0.0",
+    "@angular/cdk": "^21.0.0"
+  },
+  "dependencies": {
+    "tslib": "^2.3.0",
+    "class-variance-authority": "^0.7.0",
+    "clsx": "^2.0.0",
+    "tailwind-merge": "^3.0.0"
+  },
+  "schematics": "./schematics/collection.json",
+  "ng-add": {
+    "save": "dependencies"
+  },
+  "sideEffects": false,
+  "keywords": [
+    "angular",
+    "ui",
+    "components",
+    "tailwind",
+    "shadcn",
+    "signals",
+    "zoneless"
+  ],
+  "license": "MIT",
+  "author": "coci_dev",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/coci-dev/sonny-ui.git"
+  },
+  "homepage": "https://github.com/coci-dev/sonny-ui#readme",
+  "bugs": {
+    "url": "https://github.com/coci-dev/sonny-ui/issues"
+  }
+}
