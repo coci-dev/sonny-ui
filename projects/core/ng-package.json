@@ -6,6 +6,7 @@
   },
   "assets": [
     "src/styles/**/*.css",
+    "src/lib/*/*.ts",
     "schematics/**/schema.json",
     "schematics/collection.json"
   ],
