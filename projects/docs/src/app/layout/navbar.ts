@@ -1,7 +1,8 @@
 import { Component, inject, output } from '@angular/core';
-import { RouterLink } from '@angular/router';
+import { Router, RouterLink } from '@angular/router';
 import { ThemeService, type Theme, SnyDialogService } from 'core';
 import { SearchDialogComponent } from '../shared/search-dialog';
+import { I18nService } from '../i18n/i18n.service';
 
 @Component({
   selector: 'docs-navbar',
@@ -18,33 +19,41 @@ import { SearchDialogComponent } from '../shared/search-dialog';
           <button
             class="lg:hidden p-2 rounded-sm hover:bg-accent transition-colors"
             (click)="toggleSidebar.emit()"
-            aria-label="Toggle sidebar"
+            [attr.aria-label]="i18n.common().nav.toggleSidebar"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="4" x2="20" y1="12" y2="12"/><line x1="4" x2="20" y1="6" y2="6"/><line x1="4" x2="20" y1="18" y2="18"/></svg>
           </button>
-          <a routerLink="/" class="flex items-center gap-2 text-lg font-bold tracking-tight">
+          <a [routerLink]="i18n.localizeLink('/')" class="flex items-center gap-2 text-lg font-bold tracking-tight">
             <img src="logo.png" alt="SonnyUI" class="h-8 w-auto" />
             SonnyUI
-            <span class="text-[10px] font-medium uppercase tracking-wider rounded-sm bg-yellow-500/10 text-yellow-600 border border-yellow-500/20 px-1.5 py-0.5">alpha</span>
+            <span class="text-[10px] font-medium uppercase tracking-wider rounded-sm bg-yellow-500/10 text-yellow-600 border border-yellow-500/20 px-1.5 py-0.5">{{ i18n.common().nav.alpha }}</span>
           </a>
         </div>
 
         <!-- Center links (desktop) -->
         <nav class="hidden md:flex items-center gap-6 text-sm">
-          <a routerLink="/docs" class="text-muted-foreground hover:text-foreground transition-colors">Docs</a>
-          <a routerLink="/docs/components/button" class="text-muted-foreground hover:text-foreground transition-colors">Components</a>
-          <a href="https://github.com/coci-dev/sonny-ui" target="_blank" rel="noopener" class="text-muted-foreground hover:text-foreground transition-colors">GitHub</a>
+          <a [routerLink]="i18n.localizeLink('/docs')" class="text-muted-foreground hover:text-foreground transition-colors">{{ i18n.common().nav.docs }}</a>
+          <a [routerLink]="i18n.localizeLink('/docs/components/button')" class="text-muted-foreground hover:text-foreground transition-colors">{{ i18n.common().nav.components }}</a>
+          <a href="https://github.com/coci-dev/sonny-ui" target="_blank" rel="noopener" class="text-muted-foreground hover:text-foreground transition-colors">{{ i18n.common().nav.github }}</a>
         </nav>
 
-        <!-- Right: search + theme toggle -->
+        <!-- Right: search + lang switcher + theme toggle -->
         <div class="flex items-center gap-2">
           <button
             (click)="openSearch()"
             class="hidden md:inline-flex items-center gap-2 border border-border rounded-sm px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
-            Search docs...
+            {{ i18n.common().nav.searchPlaceholder }}
             <kbd class="ml-2 rounded border border-border bg-muted px-1.5 py-0.5 font-mono text-[10px]">Ctrl K</kbd>
+          </button>
+
+          <!-- Language switcher -->
+          <button
+            (click)="switchLanguage()"
+            class="rounded-sm px-2.5 py-1 text-xs font-medium transition-colors text-muted-foreground hover:bg-accent hover:text-accent-foreground border border-border"
+          >
+            {{ i18n.locale() === 'es' ? 'EN' : 'ES' }}
           </button>
 
           <div class="flex items-center gap-1">
@@ -70,8 +79,10 @@ import { SearchDialogComponent } from '../shared/search-dialog';
 export class NavbarComponent {
   readonly toggleSidebar = output();
   readonly themeService = inject(ThemeService);
+  readonly i18n = inject(I18nService);
   readonly themes: Theme[] = ['light', 'dark', 'corporate'];
 
+  private readonly router = inject(Router);
   private readonly dialogService = inject(SnyDialogService);
   private searchOpen = false;
 
@@ -93,5 +104,10 @@ export class NavbarComponent {
     ref.closed.subscribe(() => {
       this.searchOpen = false;
     });
+  }
+
+  switchLanguage(): void {
+    const newUrl = this.i18n.switchLocaleUrl(this.router.url);
+    this.router.navigateByUrl(newUrl);
   }
 }

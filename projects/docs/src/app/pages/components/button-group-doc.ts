@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
+import { I18nService } from '../../i18n/i18n.service';
+import { BUTTON_GROUP_DOC_EN } from '../../i18n/en/pages/button-group-doc';
+import { BUTTON_GROUP_DOC_ES } from '../../i18n/es/pages/button-group-doc';
 import { SnyButtonGroupDirective, SnyButtonDirective } from 'core';
 
 @Component({
@@ -11,17 +14,17 @@ import { SnyButtonGroupDirective, SnyButtonDirective } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Button Group</h1>
-        <p class="text-muted-foreground mt-2">Groups a series of buttons together with connected borders.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <div snyButtonGroup>
             <button snyBtn variant="outline">Left</button>
@@ -32,7 +35,7 @@ import { SnyButtonGroupDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Vertical</h2>
+        <h2 class="text-xl font-semibold">{{ t().vertical }}</h2>
         <docs-component-preview [code]="verticalCode">
           <div snyButtonGroup orientation="vertical">
             <button snyBtn variant="outline">Top</button>
@@ -43,8 +46,8 @@ import { SnyButtonGroupDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">View Mode Toggle</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().viewModeToggle }}</h3>
         <docs-component-preview [code]="exampleCode" language="typescript">
           <div class="space-y-4">
             <div snyButtonGroup>
@@ -64,13 +67,16 @@ import { SnyButtonGroupDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <docs-props-table [props]="props" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <docs-props-table [props]="props()" />
       </section>
     </div>
   `,
 })
 export class ButtonGroupDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? BUTTON_GROUP_DOC_ES : BUTTON_GROUP_DOC_EN);
+
   views = ['Grid', 'List', 'Table'];
   readonly activeView = signal('Grid');
 
@@ -97,8 +103,8 @@ export class ButtonGroupDocComponent {
   }
 </div>`;
 
-  props: PropDef[] = [
-    { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: 'The layout direction of the button group.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly props = computed<PropDef[]>(() => [
+    { name: 'orientation', type: "'horizontal' | 'vertical'", default: "'horizontal'", description: this.t().propDescriptions.orientation },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }

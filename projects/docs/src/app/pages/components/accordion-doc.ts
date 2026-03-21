@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -8,6 +8,9 @@ import {
   SnyAccordionTriggerDirective,
   SnyAccordionContentDirective,
 } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { ACCORDION_DOC_EN } from '../../i18n/en/pages/accordion-doc';
+import { ACCORDION_DOC_ES } from '../../i18n/es/pages/accordion-doc';
 
 @Component({
   selector: 'docs-accordion-doc',
@@ -24,17 +27,17 @@ import {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Accordion</h1>
-        <p class="text-muted-foreground mt-2">A vertically stacked set of interactive headings that each reveal content.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode" language="markup">
           <div snyAccordion class="max-w-lg">
             <div snyAccordionItem value="item-1">
@@ -69,8 +72,8 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">FAQ with Multi Mode</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().faqWithMultiMode }}</h3>
         <docs-component-preview [code]="exampleCode" language="typescript">
           <div class="space-y-4 max-w-lg">
             <div class="flex items-center gap-2">
@@ -100,16 +103,19 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">Accordion</h3>
-        <docs-props-table [props]="accordionProps" />
-        <h3 class="text-lg font-medium mt-4">AccordionItem</h3>
-        <docs-props-table [props]="itemProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().accordion }}</h3>
+        <docs-props-table [props]="accordionProps()" />
+        <h3 class="text-lg font-medium mt-4">{{ t().accordionItem }}</h3>
+        <docs-props-table [props]="itemProps()" />
       </section>
     </div>
   `,
 })
 export class AccordionDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? ACCORDION_DOC_ES : ACCORDION_DOC_EN);
+
   readonly multiMode = signal(false);
 
   faqs = [
@@ -147,13 +153,13 @@ export class AccordionDocComponent {
   }
 </div>`;
 
-  accordionProps: PropDef[] = [
-    { name: 'multi', type: 'boolean', default: 'false', description: 'Allow multiple items to be open at once.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly accordionProps = computed<PropDef[]>(() => [
+    { name: 'multi', type: 'boolean', default: 'false', description: this.t().propDescriptions.multi },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 
-  itemProps: PropDef[] = [
-    { name: 'value', type: 'string', default: '(required)', description: 'Unique identifier for the accordion item.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly itemProps = computed<PropDef[]>(() => [
+    { name: 'value', type: 'string', default: '(required)', description: this.t().itemPropDescriptions.value },
+    { name: 'class', type: 'string', default: "''", description: this.t().itemPropDescriptions.class },
+  ]);
 }

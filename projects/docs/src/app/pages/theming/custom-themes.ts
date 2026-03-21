@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
+import { I18nService } from '../../i18n/i18n.service';
+import { THEMING_CUSTOM_THEMES_EN } from '../../i18n/en/pages/theming-custom-themes';
+import { THEMING_CUSTOM_THEMES_ES } from '../../i18n/es/pages/theming-custom-themes';
 
 @Component({
   selector: 'docs-custom-themes',
@@ -8,45 +11,40 @@ import { CodeBlockComponent } from '../../shared/code-block';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Custom Themes</h1>
-        <p class="text-muted-foreground mt-2">Create your own themes by overriding CSS variables.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Creating a theme</h2>
-        <p class="text-sm text-muted-foreground">
-          Define a new theme by setting CSS variables under a <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">data-theme</code> attribute selector:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().creatingTheme }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().creatingThemeDesc"></p>
         <docs-code-block [code]="themeCode" language="css" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Applying the theme</h2>
-        <p class="text-sm text-muted-foreground">
-          Use the <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">ThemeService</code> to activate your custom theme:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().applyingTheme }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().applyingThemeDesc"></p>
         <docs-code-block [code]="applyCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Built-in: Corporate theme</h2>
-        <p class="text-sm text-muted-foreground">
-          The corporate theme is included as an example of a custom theme. It uses blue tones with a professional look:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().builtInCorporate }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().builtInCorporateDesc }}</p>
         <docs-code-block [code]="corporateCode" language="css" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Token reference</h2>
-        <p class="text-sm text-muted-foreground">
-          Override any of these CSS variables to customize your theme:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().tokenReference }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().tokenReferenceDesc }}</p>
         <docs-code-block [code]="tokensCode" language="css" />
       </section>
     </div>
   `,
 })
 export class CustomThemesComponent {
+  private readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? THEMING_CUSTOM_THEMES_ES : THEMING_CUSTOM_THEMES_EN);
+
   themeCode = `[data-theme="ocean"] {
   --sny-background: #0c1222;
   --sny-foreground: #e2e8f0;

@@ -1,0 +1,38 @@
+export const MODAL_DOC_EN = {
+  title: 'Modal / Dialog',
+  description: 'A modal dialog that interrupts the user with important content.',
+  basicDialog: 'Basic Dialog',
+  confirmationDialog: 'Confirmation Dialog',
+  examplesDescription: 'Real-world usage patterns with state management.',
+  editFormInDialog: 'Edit Form in Dialog',
+  snyDialogService: 'SnyDialogService',
+  snyDialogConfig: 'SnyDialogConfig',
+  contentDirectives: 'Content directives',
+  contentDirectivesList: [
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogContent</code> — Main container with styling',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogHeader</code> — Header section',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogTitle</code> — Dialog title',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogDescription</code> — Description text',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogFooter</code> — Footer with actions',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogClose</code> — Close button',
+  ],
+  accessibility: [
+    'Built on Angular CDK Dialog for robust focus management',
+    'Traps focus within the dialog when open',
+    'Closes on Escape key by default',
+    'Supports <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ariaLabelledBy</code> and <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ariaDescribedBy</code>',
+  ],
+  servicePropDescriptions: {
+    open: 'Open a dialog with the given component.',
+    closeAll: 'Close all open dialogs.',
+  },
+  configPropDescriptions: {
+    width: 'Dialog width.',
+    maxWidth: 'Maximum dialog width.',
+    closeOnBackdrop: 'Close when clicking the backdrop.',
+    closeOnEsc: 'Close on Escape key.',
+    data: 'Data to inject into the dialog component.',
+    ariaLabelledBy: 'ID of the element labelling the dialog.',
+    ariaDescribedBy: 'ID of the element describing the dialog.',
+  },
+};

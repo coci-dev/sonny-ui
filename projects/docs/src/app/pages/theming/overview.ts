@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
+import { I18nService } from '../../i18n/i18n.service';
+import { THEMING_OVERVIEW_EN } from '../../i18n/en/pages/theming-overview';
+import { THEMING_OVERVIEW_ES } from '../../i18n/es/pages/theming-overview';
 
 @Component({
   selector: 'docs-theming-overview',
@@ -8,24 +11,18 @@ import { CodeBlockComponent } from '../../shared/code-block';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Theming Overview</h1>
-        <p class="text-muted-foreground mt-2">
-          SonnyUI uses CSS custom properties for theming. Three built-in themes are included: light, dark, and corporate.
-        </p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2" [innerHTML]="t().description"></p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">How it works</h2>
-        <p class="text-sm text-muted-foreground">
-          All colors are defined as CSS variables on <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">:root</code>.
-          The Tailwind theme maps these variables to utility classes like <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">bg-primary</code>,
-          <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">text-foreground</code>, etc.
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().howItWorks }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().howItWorksDesc"></p>
         <docs-code-block [code]="variablesCode" language="css" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Available tokens</h2>
+        <h2 class="text-xl font-semibold">{{ t().availableTokens }}</h2>
         <div class="grid grid-cols-2 sm:grid-cols-3 gap-3">
           @for (token of tokens; track token) {
             <div class="flex items-center gap-2 rounded-sm border border-border p-2">
@@ -37,16 +34,17 @@ import { CodeBlockComponent } from '../../shared/code-block';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">ThemeService</h2>
-        <p class="text-sm text-muted-foreground">
-          Use the <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">ThemeService</code> to switch themes programmatically:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().themeService }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().themeServiceDesc"></p>
         <docs-code-block [code]="serviceCode" language="typescript" />
       </section>
     </div>
   `,
 })
 export class ThemingOverviewComponent {
+  private readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? THEMING_OVERVIEW_ES : THEMING_OVERVIEW_EN);
+
   tokens = [
     'background', 'foreground', 'primary', 'primary-foreground',
     'secondary', 'secondary-foreground', 'muted', 'muted-foreground',

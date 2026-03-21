@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
 import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { BUTTON_DOC_EN } from '../../i18n/en/pages/button-doc';
+import { BUTTON_DOC_ES } from '../../i18n/es/pages/button-doc';
 
 @Component({
   selector: 'docs-button-doc',
@@ -11,24 +14,24 @@ import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Button</h1>
-        <p class="text-muted-foreground mt-2">Displays a button or a component that looks like a button.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <button snyBtn>Click me</button>
         </docs-component-preview>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Variants</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.variants }}</h2>
         <docs-component-preview [code]="variantsCode">
           @for (v of variants; track v) {
             <button snyBtn [variant]="v">{{ v }}</button>
@@ -37,7 +40,7 @@ import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Sizes</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.sizes }}</h2>
         <docs-component-preview [code]="sizesCode">
           @for (s of sizes; track s) {
             <button snyBtn [size]="s">{{ s }}</button>
@@ -46,7 +49,7 @@ import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">States</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.states }}</h2>
         <docs-component-preview [code]="statesCode">
           <button snyBtn [disabled]="true">Disabled</button>
           <button snyBtn [loading]="true">Loading</button>
@@ -54,7 +57,7 @@ import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">As Link</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.asLink }}</h2>
         <docs-component-preview [code]="linkCode">
           <a snyBtn variant="link" href="#">Link Button</a>
           <a snyBtn variant="outline" href="#">Outline Link</a>
@@ -62,10 +65,10 @@ import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <p class="text-sm text-muted-foreground">Real-world usage patterns with state management.</p>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().examplesDesc }}</p>
 
-        <h3 class="text-lg font-medium">Async Submit Button</h3>
+        <h3 class="text-lg font-medium">{{ t().asyncSubmitButton }}</h3>
         <docs-component-preview [code]="asyncButtonCode" language="typescript">
           <div class="flex items-center gap-4">
             <button snyBtn [loading]="saving()" [disabled]="saving()" (click)="handleSave()">
@@ -77,22 +80,25 @@ import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <docs-props-table [props]="buttonProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <docs-props-table [props]="buttonProps()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Accessibility</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Sets <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-disabled</code> when disabled or loading</li>
-          <li>Sets <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">tabindex="-1"</code> when disabled or loading</li>
-          <li>Works with both <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">&lt;button&gt;</code> and <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">&lt;a&gt;</code> elements</li>
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class ButtonDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? BUTTON_DOC_ES : BUTTON_DOC_EN);
+
   variants: ButtonVariant[] = ['default', 'destructive', 'outline', 'secondary', 'ghost', 'link'];
   sizes: ButtonSize[] = ['sm', 'md', 'lg', 'icon'];
 
@@ -154,11 +160,11 @@ export class SaveButtonExample {
   }
 }`;
 
-  buttonProps: PropDef[] = [
-    { name: 'variant', type: "'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'", default: "'default'", description: 'The visual style of the button.' },
-    { name: 'size', type: "'sm' | 'md' | 'lg' | 'icon'", default: "'md'", description: 'The size of the button.' },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Whether the button is disabled.' },
-    { name: 'loading', type: 'boolean', default: 'false', description: 'Whether the button is in a loading state.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly buttonProps = computed<PropDef[]>(() => [
+    { name: 'variant', type: "'default' | 'destructive' | 'outline' | 'secondary' | 'ghost' | 'link'", default: "'default'", description: this.t().propDescriptions.variant },
+    { name: 'size', type: "'sm' | 'md' | 'lg' | 'icon'", default: "'md'", description: this.t().propDescriptions.size },
+    { name: 'disabled', type: 'boolean', default: 'false', description: this.t().propDescriptions.disabled },
+    { name: 'loading', type: 'boolean', default: 'false', description: this.t().propDescriptions.loading },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }

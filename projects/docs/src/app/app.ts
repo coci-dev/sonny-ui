@@ -26,9 +26,9 @@ export class App {
   readonly isHome = toSignal(
     this.router.events.pipe(
       filter((e): e is NavigationEnd => e instanceof NavigationEnd),
-      map((e) => e.urlAfterRedirects === '/')
+      map((e) => e.urlAfterRedirects === '/' || e.urlAfterRedirects === '/es')
     ),
-    { initialValue: this.router.url === '/' }
+    { initialValue: this.router.url === '/' || this.router.url === '/es' }
   );
   sidebarOpen = false;
 }

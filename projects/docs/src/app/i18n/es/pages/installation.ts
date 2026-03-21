@@ -1,0 +1,22 @@
+export const INSTALLATION_ES = {
+  title: 'Instalación',
+  description: 'Configura SonnyUI en tu proyecto Angular.',
+  prerequisites: 'Requisitos Previos',
+  prerequisitesList: [
+    'Angular 21 o posterior',
+    'Node.js 22+',
+  ],
+  prerequisitesTailwind: 'Tailwind CSS v4',
+  prerequisitesTailwindLink: 'ver la guía oficial de instalación para Angular',
+  automaticSetup: 'Configuración Automática (Recomendada)',
+  automaticSetupDesc: 'Usa el esquemático <code class="text-primary font-mono text-xs bg-muted px-1.5 py-0.5 rounded">ng add</code> para configurar todo automáticamente:',
+  automaticSetupAfter: 'Esto instalará las dependencias, agregará la importación del tema CSS y configurará Tailwind para escanear las clases de SonnyUI.',
+  manualSetup: 'Configuración Manual',
+  step1: '1. Instalar el paquete',
+  step2: '2. Importar el CSS del tema',
+  step2Desc: 'Agrega el tema de SonnyUI a tu hoja de estilos global:',
+  step3: '3. Agregar la directiva source de Tailwind',
+  step3Desc: 'Indica a Tailwind que escanee las clases de los componentes de SonnyUI:',
+  step4: '4. Proveer SonnyUI',
+  step4Desc: 'Agrega el provider en la configuración de tu app:',
+};

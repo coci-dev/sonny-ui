@@ -1,5 +1,6 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
 import { CodeBlockComponent } from './code-block';
+import { I18nService } from '../i18n/i18n.service';
 
 @Component({
   selector: 'docs-component-preview',
@@ -18,7 +19,7 @@ import { CodeBlockComponent } from './code-block';
               : 'border-transparent text-muted-foreground hover:text-foreground')
           "
         >
-          Preview
+          {{ labels().preview }}
         </button>
         <button
           (click)="tab = 'code'"
@@ -29,7 +30,7 @@ import { CodeBlockComponent } from './code-block';
               : 'border-transparent text-muted-foreground hover:text-foreground')
           "
         >
-          Code
+          {{ labels().code }}
         </button>
       </div>
 
@@ -48,4 +49,6 @@ export class ComponentPreviewComponent {
   readonly code = input.required<string>();
   readonly language = input<string>('html');
   tab: 'preview' | 'code' = 'preview';
+  private readonly i18n = inject(I18nService);
+  readonly labels = computed(() => this.i18n.common().shared);
 }

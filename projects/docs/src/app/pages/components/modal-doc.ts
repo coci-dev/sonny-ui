@@ -1,9 +1,12 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
 import { ReactiveFormsModule, FormGroup, FormControl, Validators } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
+import { I18nService } from '../../i18n/i18n.service';
+import { MODAL_DOC_EN } from '../../i18n/en/pages/modal-doc';
+import { MODAL_DOC_ES } from '../../i18n/es/pages/modal-doc';
 import {
   SnyButtonDirective,
   SnyDialogService,
@@ -37,34 +40,34 @@ interface ProfileData {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Modal / Dialog</h1>
-        <p class="text-muted-foreground mt-2">A modal dialog that interrupts the user with important content.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Basic Dialog</h2>
+        <h2 class="text-xl font-semibold">{{ t().basicDialog }}</h2>
         <docs-component-preview [code]="basicCode">
           <button snyBtn (click)="openBasic()">Open Dialog</button>
         </docs-component-preview>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Confirmation Dialog</h2>
+        <h2 class="text-xl font-semibold">{{ t().confirmationDialog }}</h2>
         <docs-component-preview [code]="confirmCode">
           <button snyBtn variant="destructive" (click)="openConfirm()">Delete Item</button>
         </docs-component-preview>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <p class="text-sm text-muted-foreground">Real-world usage patterns with state management.</p>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().examplesDescription }}</p>
 
-        <h3 class="text-lg font-medium">Edit Form in Dialog</h3>
+        <h3 class="text-lg font-medium">{{ t().editFormInDialog }}</h3>
         <docs-component-preview [code]="editFormCode" language="typescript">
           <div class="space-y-3">
             <button snyBtn (click)="openEditProfile()">Edit Profile</button>
@@ -81,38 +84,37 @@ interface ProfileData {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">SnyDialogService</h3>
-        <docs-props-table [props]="serviceProps" />
-        <h3 class="text-lg font-medium mt-4">SnyDialogConfig</h3>
-        <docs-props-table [props]="configProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().snyDialogService }}</h3>
+        <docs-props-table [props]="serviceProps()" />
+        <h3 class="text-lg font-medium mt-4">{{ t().snyDialogConfig }}</h3>
+        <docs-props-table [props]="configProps()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Content directives</h2>
+        <h2 class="text-xl font-semibold">{{ t().contentDirectives }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogContent</code> — Main container with styling</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogHeader</code> — Header section</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogTitle</code> — Dialog title</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogDescription</code> — Description text</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogFooter</code> — Footer with actions</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogClose</code> — Close button</li>
+          @for (item of t().contentDirectivesList; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Accessibility</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Built on Angular CDK Dialog for robust focus management</li>
-          <li>Traps focus within the dialog when open</li>
-          <li>Closes on Escape key by default</li>
-          <li>Supports <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ariaLabelledBy</code> and <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ariaDescribedBy</code></li>
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class ModalDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? MODAL_DOC_ES : MODAL_DOC_EN);
+
   private readonly dialogService = inject(SnyDialogService);
   private readonly toastService = inject(SnyToastService);
 
@@ -140,20 +142,20 @@ ref.closed.subscribe(result => {
   }
 });`;
 
-  serviceProps: PropDef[] = [
-    { name: 'open(component, config?)', type: 'SnyDialogRef<R>', default: '-', description: 'Open a dialog with the given component.' },
-    { name: 'closeAll()', type: 'void', default: '-', description: 'Close all open dialogs.' },
-  ];
+  readonly serviceProps = computed<PropDef[]>(() => [
+    { name: 'open(component, config?)', type: 'SnyDialogRef<R>', default: '-', description: this.t().servicePropDescriptions.open },
+    { name: 'closeAll()', type: 'void', default: '-', description: this.t().servicePropDescriptions.closeAll },
+  ]);
 
-  configProps: PropDef[] = [
-    { name: 'width', type: 'string', default: "'28rem'", description: 'Dialog width.' },
-    { name: 'maxWidth', type: 'string', default: "'90vw'", description: 'Maximum dialog width.' },
-    { name: 'closeOnBackdrop', type: 'boolean', default: 'true', description: 'Close when clicking the backdrop.' },
-    { name: 'closeOnEsc', type: 'boolean', default: 'true', description: 'Close on Escape key.' },
-    { name: 'data', type: 'unknown', default: '-', description: 'Data to inject into the dialog component.' },
-    { name: 'ariaLabelledBy', type: 'string', default: '-', description: 'ID of the element labelling the dialog.' },
-    { name: 'ariaDescribedBy', type: 'string', default: '-', description: 'ID of the element describing the dialog.' },
-  ];
+  readonly configProps = computed<PropDef[]>(() => [
+    { name: 'width', type: 'string', default: "'28rem'", description: this.t().configPropDescriptions.width },
+    { name: 'maxWidth', type: 'string', default: "'90vw'", description: this.t().configPropDescriptions.maxWidth },
+    { name: 'closeOnBackdrop', type: 'boolean', default: 'true', description: this.t().configPropDescriptions.closeOnBackdrop },
+    { name: 'closeOnEsc', type: 'boolean', default: 'true', description: this.t().configPropDescriptions.closeOnEsc },
+    { name: 'data', type: 'unknown', default: '-', description: this.t().configPropDescriptions.data },
+    { name: 'ariaLabelledBy', type: 'string', default: '-', description: this.t().configPropDescriptions.ariaLabelledBy },
+    { name: 'ariaDescribedBy', type: 'string', default: '-', description: this.t().configPropDescriptions.ariaDescribedBy },
+  ]);
 
   // Examples state
   readonly profile = signal<ProfileData>({ name: 'Jane Doe', email: 'jane@example.com' });

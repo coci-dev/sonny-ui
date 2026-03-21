@@ -1,4 +1,4 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -11,6 +11,9 @@ import {
   SnyCardContentDirective,
   SnyCardFooterDirective,
 } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { CARD_DOC_EN } from '../../i18n/en/pages/card-doc';
+import { CARD_DOC_ES } from '../../i18n/es/pages/card-doc';
 
 @Component({
   selector: 'docs-card-doc',
@@ -30,17 +33,17 @@ import {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Card</h1>
-        <p class="text-muted-foreground mt-2">Displays a card with header, content, and footer.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <div snyCard class="w-[350px]">
             <div snyCardHeader>
@@ -59,7 +62,7 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Variants</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.variants }}</h2>
         <docs-component-preview [code]="variantsCode">
           @for (v of cardVariants; track v) {
             <div snyCard [variant]="v" class="w-[200px]">
@@ -73,10 +76,10 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <p class="text-sm text-muted-foreground">Real-world usage patterns with state management.</p>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().examplesDesc }}</p>
 
-        <h3 class="text-lg font-medium">Selectable Card List</h3>
+        <h3 class="text-lg font-medium">{{ t().selectableCardList }}</h3>
         <docs-component-preview [code]="selectableCardCode" language="typescript">
           <div class="grid gap-3 w-full max-w-md">
             @for (plan of plans; track plan.id) {
@@ -98,25 +101,26 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">SnyCardDirective</h3>
-        <docs-props-table [props]="cardProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().snyCardDirective }}</h3>
+        <docs-props-table [props]="cardProps()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Sub-directives</h2>
+        <h2 class="text-xl font-semibold">{{ t().subDirectivesTitle }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyCardHeader</code> — Flex column container with spacing</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyCardTitle</code> — Styled heading</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyCardDescription</code> — Muted description text</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyCardContent</code> — Padded content area</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyCardFooter</code> — Flex row footer</li>
+          @for (item of t().subDirectives; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class CardDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? CARD_DOC_ES : CARD_DOC_EN);
+
   cardVariants: ('default' | 'outline' | 'elevated' | 'ghost')[] = ['default', 'outline', 'elevated', 'ghost'];
 
   importCode = `import {
@@ -187,9 +191,9 @@ export class SelectableCardListExample {
   readonly selectedPlanName = computed(() => this.plans.find(p => p.id === this.selectedPlan())?.name ?? '');
 }`;
 
-  cardProps: PropDef[] = [
-    { name: 'variant', type: "'default' | 'outline' | 'elevated' | 'ghost'", default: "'default'", description: 'The visual style of the card.' },
-    { name: 'padding', type: "'none' | 'sm' | 'md' | 'lg'", default: "'none'", description: 'Padding applied to the card.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly cardProps = computed<PropDef[]>(() => [
+    { name: 'variant', type: "'default' | 'outline' | 'elevated' | 'ghost'", default: "'default'", description: this.t().propDescriptions.variant },
+    { name: 'padding', type: "'none' | 'sm' | 'md' | 'lg'", default: "'none'", description: this.t().propDescriptions.padding },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }

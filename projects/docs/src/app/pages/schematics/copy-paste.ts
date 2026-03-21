@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
+import { I18nService } from '../../i18n/i18n.service';
+import { COPY_PASTE_EN } from '../../i18n/en/pages/copy-paste';
+import { COPY_PASTE_ES } from '../../i18n/es/pages/copy-paste';
 
 @Component({
   selector: 'docs-copy-paste',
@@ -8,104 +11,79 @@ import { CodeBlockComponent } from '../../shared/code-block';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Copy & Paste</h1>
-        <p class="text-muted-foreground mt-2">Own the code. Copy components directly into your project.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Philosophy</h2>
-        <p class="text-sm text-muted-foreground">
-          SonnyUI follows the same philosophy as shadcn/ui: you can use it as an npm package,
-          or copy the source code directly into your project. This gives you full control to
-          customize components without fighting against library abstractions.
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().philosophy }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().philosophyDesc }}</p>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Automatic (recommended)</h2>
-        <p class="text-sm text-muted-foreground">
-          Use the schematic to copy a component automatically. It handles file copying, import rewrites, and the <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">cn()</code> utility for you:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().automatic }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().automaticDesc"></p>
         <docs-code-block [code]="generateCode" language="bash" />
-        <p class="text-sm text-muted-foreground">
-          Options:
-        </p>
+        <p class="text-sm text-muted-foreground">{{ t().automaticOptions }}</p>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">--path</code> — target directory (default: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">src/app/ui</code>)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">--prefix</code> — selector prefix (default: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">sny</code>)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">--skipTests</code> — don't copy test files</li>
+          @for (opt of t().automaticOptionsList; track opt) {
+            <li [innerHTML]="opt"></li>
+          }
         </ul>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Manual</h2>
+        <h2 class="text-xl font-semibold">{{ t().manual }}</h2>
         <ol class="list-decimal pl-6 space-y-2 text-sm text-muted-foreground">
-          <li>
-            <strong class="text-foreground">Copy the source files</strong> — Each component lives in its own folder
-            with a directive, variants, and index file.
-          </li>
-          <li>
-            <strong class="text-foreground">Copy shared utilities</strong> — You'll need the
-            <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">cn()</code> utility and the theme CSS.
-          </li>
-          <li>
-            <strong class="text-foreground">Update imports</strong> — Change import paths to point to your local copies.
-          </li>
+          @for (step of t().manualSteps; track step.strong) {
+            <li>
+              <strong class="text-foreground">{{ step.strong }}</strong>
+              <span [innerHTML]="step.text"></span>
+            </li>
+          }
         </ol>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Example: Button</h2>
-        <p class="text-sm text-muted-foreground">Copy these files into your project:</p>
+        <h2 class="text-xl font-semibold">{{ t().exampleButton }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().exampleButtonDesc }}</p>
         <docs-code-block [code]="structureCode" language="bash" />
 
-        <h3 class="text-lg font-medium">The cn() utility</h3>
+        <h3 class="text-lg font-medium">{{ t().cnUtility }}</h3>
         <docs-code-block [code]="cnCode" language="typescript" />
 
-        <h3 class="text-lg font-medium">Button variants</h3>
+        <h3 class="text-lg font-medium">{{ t().buttonVariants }}</h3>
         <docs-code-block [code]="variantsCode" language="typescript" />
 
-        <h3 class="text-lg font-medium">Button directive</h3>
+        <h3 class="text-lg font-medium">{{ t().buttonDirective }}</h3>
         <docs-code-block [code]="directiveCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
-        <p class="text-sm text-muted-foreground">
-          Once you've copied the component (automatically or manually), import it and use it in your templates:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().usageTitle }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().usageDesc }}</p>
 
-        <h3 class="text-lg font-medium">1. Import the directive</h3>
+        <h3 class="text-lg font-medium">{{ t().importDirective }}</h3>
         <docs-code-block [code]="importCode" language="typescript" />
 
-        <h3 class="text-lg font-medium">2. Use it in your template</h3>
+        <h3 class="text-lg font-medium">{{ t().useTemplate }}</h3>
         <docs-code-block [code]="usageCode" language="html" />
 
-        <p class="text-sm text-muted-foreground">
-          Available variants: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">default</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">destructive</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">outline</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">secondary</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ghost</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">link</code>.
-          Sizes: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">sm</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">md</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">lg</code>,
-          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">icon</code>.
-        </p>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().availableVariants"></p>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Dependencies</h2>
-        <p class="text-sm text-muted-foreground">
-          If copying components, you still need these packages:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().dependencies }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().dependenciesDesc }}</p>
         <docs-code-block [code]="depsCode" language="bash" />
       </section>
     </div>
   `,
 })
 export class CopyPasteComponent {
+  private readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? COPY_PASTE_ES : COPY_PASTE_EN);
+
   generateCode = `ng generate @sonny-ui/core:component button`;
 
   structureCode = `src/

@@ -10,7 +10,7 @@ import {
 import { Router } from '@angular/router';
 import { DialogRef } from '@angular/cdk/dialog';
 import { SnyInputDirective } from 'core';
-import { SIDEBAR_SECTIONS } from '../layout/sidebar-data';
+import { I18nService } from '../i18n/i18n.service';
 
 @Component({
   selector: 'docs-search-dialog',
@@ -36,7 +36,7 @@ import { SIDEBAR_SECTIONS } from '../layout/sidebar-data';
         #searchInput
         snyInput
         class="border-none shadow-none focus-visible:ring-0 focus-visible:ring-offset-0 h-8 px-0"
-        placeholder="Search docs..."
+        [placeholder]="i18n.common().search.placeholder"
         [value]="query()"
         (input)="onQueryChange(searchInput.value)"
       />
@@ -44,7 +44,7 @@ import { SIDEBAR_SECTIONS } from '../layout/sidebar-data';
 
     <div class="max-h-[300px] overflow-y-auto p-2">
       @if (flatResults().length === 0) {
-        <p class="py-6 text-center text-sm text-muted-foreground">No results found.</p>
+        <p class="py-6 text-center text-sm text-muted-foreground">{{ i18n.common().search.noResults }}</p>
       } @else {
         @for (section of filteredSections(); track section.title) {
           <div class="mb-2">
@@ -73,15 +73,15 @@ import { SIDEBAR_SECTIONS } from '../layout/sidebar-data';
       <div class="flex items-center gap-3 text-xs text-muted-foreground">
         <span class="flex items-center gap-1">
           <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">&uarr;&darr;</kbd>
-          Navigate
+          {{ i18n.common().search.navigate }}
         </span>
         <span class="flex items-center gap-1">
           <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">&crarr;</kbd>
-          Open
+          {{ i18n.common().search.open }}
         </span>
         <span class="flex items-center gap-1">
           <kbd class="rounded border border-border bg-muted px-1 py-0.5 font-mono text-[10px]">Esc</kbd>
-          Close
+          {{ i18n.common().search.close }}
         </span>
       </div>
     </div>
@@ -92,15 +92,19 @@ export class SearchDialogComponent {
   private readonly dialogRef = inject(DialogRef);
   private readonly searchInput =
     viewChild<ElementRef<HTMLInputElement>>('searchInput');
+  readonly i18n = inject(I18nService);
 
   readonly query = signal('');
   readonly activeIndex = signal(0);
 
+  private readonly sidebarSections = computed(() => this.i18n.common().sidebar);
+
   readonly filteredSections = computed(() => {
     const q = this.query().toLowerCase().trim();
-    if (!q) return SIDEBAR_SECTIONS;
+    const sections = this.sidebarSections();
+    if (!q) return sections;
 
-    return SIDEBAR_SECTIONS.map((section) => ({
+    return sections.map((section) => ({
       ...section,
       items: section.items.filter(
         (item) =>

@@ -1,0 +1,30 @@
+export const TABLE_DOC_EN = {
+  title: 'Table',
+  description: 'A highly customizable table with variants, density, and interactive features.',
+  interactiveExample: 'Interactive Example',
+  interactiveExampleDesc: 'Toggle table features interactively.',
+  directives: 'Directives',
+  tableRoot: 'Table (root)',
+  directivesList: [
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTable</code> — Root table element',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableHeader</code> — Table header (thead)',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableBody</code> — Table body (tbody)',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableRow</code> — Table row (tr)',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableHead</code> — Header cell (th)',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableCell</code> — Data cell (td)',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableFooter</code> — Table footer (tfoot)',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableCaption</code> — Table caption',
+  ],
+  accessibility: [
+    'Uses native <code>&lt;table&gt;</code> semantics for full screen reader support.',
+    'Header cells use <code>&lt;th&gt;</code> for proper column association.',
+    'Sticky header maintains accessibility tree structure.',
+  ],
+  propDescriptions: {
+    variant: 'Visual variant of the table.',
+    density: 'Cell padding density.',
+    hoverable: 'Enable row hover effect.',
+    stickyHeader: 'Make the header sticky on scroll.',
+    class: 'Additional CSS classes to apply.',
+  },
+};

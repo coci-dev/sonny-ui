@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -15,6 +15,9 @@ import {
   type TableVariant,
   type TableDensity,
 } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { TABLE_DOC_EN } from '../../i18n/en/pages/table-doc';
+import { TABLE_DOC_ES } from '../../i18n/es/pages/table-doc';
 
 @Component({
   selector: 'docs-table-doc',
@@ -29,17 +32,17 @@ import {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Table</h1>
-        <p class="text-muted-foreground mt-2">A highly customizable table with variants, density, and interactive features.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode" language="markup">
           <div class="w-full overflow-auto">
             <table snyTable>
@@ -75,8 +78,8 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Interactive Example</h2>
-        <p class="text-sm text-muted-foreground">Toggle table features interactively.</p>
+        <h2 class="text-xl font-semibold">{{ t().interactiveExample }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().interactiveExampleDesc }}</p>
         <docs-component-preview [code]="interactiveCode" language="typescript">
           <div class="w-full space-y-4">
             <div class="flex flex-wrap gap-2">
@@ -120,28 +123,35 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">Table (root)</h3>
-        <docs-props-table [props]="tableProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().tableRoot }}</h3>
+        <docs-props-table [props]="tableProps()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Directives</h2>
+        <h2 class="text-xl font-semibold">{{ t().directives }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTable</code> — Root table element</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableHeader</code> — Table header (thead)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableBody</code> — Table body (tbody)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableRow</code> — Table row (tr)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableHead</code> — Header cell (th)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableCell</code> — Data cell (td)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableFooter</code> — Table footer (tfoot)</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyTableCaption</code> — Table caption</li>
+          @for (item of t().directivesList; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class TableDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? TABLE_DOC_ES : TABLE_DOC_EN);
+
   readonly variant = signal<TableVariant>('default');
   readonly density = signal<TableDensity>('normal');
   readonly hoverable = signal(true);
@@ -207,11 +217,11 @@ readonly stickyHeader = signal(false);
   ...
 </table>`;
 
-  tableProps: PropDef[] = [
-    { name: 'variant', type: "'default' | 'striped' | 'bordered'", default: "'default'", description: 'Visual variant of the table.' },
-    { name: 'density', type: "'compact' | 'normal' | 'comfortable'", default: "'normal'", description: 'Cell padding density.' },
-    { name: 'hoverable', type: 'boolean', default: 'false', description: 'Enable row hover effect.' },
-    { name: 'stickyHeader', type: 'boolean', default: 'false', description: 'Make the header sticky on scroll.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly tableProps = computed<PropDef[]>(() => [
+    { name: 'variant', type: "'default' | 'striped' | 'bordered'", default: "'default'", description: this.t().propDescriptions.variant },
+    { name: 'density', type: "'compact' | 'normal' | 'comfortable'", default: "'normal'", description: this.t().propDescriptions.density },
+    { name: 'hoverable', type: 'boolean', default: 'false', description: this.t().propDescriptions.hoverable },
+    { name: 'stickyHeader', type: 'boolean', default: 'false', description: this.t().propDescriptions.stickyHeader },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }
