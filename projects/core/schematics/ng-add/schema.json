@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/schema",
-  "id": "SonnyUIAddSchema",
+  "$id": "SonnyUIAddSchema",
   "title": "SonnyUI ng-add schematic",
   "type": "object",
   "properties": {
