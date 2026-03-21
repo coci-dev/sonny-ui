@@ -1,4 +1,5 @@
-import { Component, input } from '@angular/core';
+import { Component, computed, inject, input } from '@angular/core';
+import { I18nService } from '../i18n/i18n.service';
 
 export interface PropDef {
   name: string;
@@ -15,10 +16,10 @@ export interface PropDef {
       <table class="w-full text-sm">
         <thead class="bg-muted/50">
           <tr>
-            <th class="px-4 py-3 text-left font-medium">Prop</th>
-            <th class="px-4 py-3 text-left font-medium">Type</th>
-            <th class="px-4 py-3 text-left font-medium">Default</th>
-            <th class="px-4 py-3 text-left font-medium">Description</th>
+            <th class="px-4 py-3 text-left font-medium">{{ headers().prop }}</th>
+            <th class="px-4 py-3 text-left font-medium">{{ headers().type }}</th>
+            <th class="px-4 py-3 text-left font-medium">{{ headers().default }}</th>
+            <th class="px-4 py-3 text-left font-medium">{{ headers().description }}</th>
           </tr>
         </thead>
         <tbody>
@@ -37,4 +38,6 @@ export interface PropDef {
 })
 export class PropsTableComponent {
   readonly props = input.required<PropDef[]>();
+  private readonly i18n = inject(I18nService);
+  readonly headers = computed(() => this.i18n.common().propsTable);
 }

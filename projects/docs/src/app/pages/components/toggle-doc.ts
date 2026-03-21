@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
 import { SnyToggleDirective } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { TOGGLE_DOC_EN } from '../../i18n/en/pages/toggle-doc';
+import { TOGGLE_DOC_ES } from '../../i18n/es/pages/toggle-doc';
 
 @Component({
   selector: 'docs-toggle-doc',
@@ -11,17 +14,17 @@ import { SnyToggleDirective } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Toggle</h1>
-        <p class="text-muted-foreground mt-2">A two-state button that can be either on or off.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <button snyToggle [(pressed)]="bold">
             <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14 12a4 4 0 0 0 0-8H6v8"/><path d="M15 20a4 4 0 0 0 0-8H6v8"/></svg>
@@ -30,7 +33,7 @@ import { SnyToggleDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Variants</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.variants }}</h2>
         <docs-component-preview [code]="variantsCode">
           <div class="flex items-center gap-2">
             <button snyToggle variant="default">Default</button>
@@ -40,8 +43,8 @@ import { SnyToggleDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">Text Formatting</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().textFormatting }}</h3>
         <docs-component-preview [code]="exampleCode" language="typescript">
           <div class="flex items-center gap-1">
             <button snyToggle [(pressed)]="bold" size="sm">
@@ -61,13 +64,25 @@ import { SnyToggleDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <docs-props-table [props]="props" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <docs-props-table [props]="props()" />
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
       </section>
     </div>
   `,
 })
 export class ToggleDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? TOGGLE_DOC_ES : TOGGLE_DOC_EN);
+
   readonly bold = signal(false);
   readonly italic = signal(false);
   readonly underline = signal(false);
@@ -82,10 +97,10 @@ readonly italic = signal(false);
 <button snyToggle [(pressed)]="bold" size="sm">B</button>
 <button snyToggle [(pressed)]="italic" size="sm">I</button>`;
 
-  props: PropDef[] = [
-    { name: 'variant', type: "'default' | 'outline'", default: "'default'", description: 'The visual style of the toggle.' },
-    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'The size of the toggle.' },
-    { name: 'pressed', type: 'boolean', default: 'false', description: 'Whether the toggle is pressed. Supports two-way binding.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly props = computed<PropDef[]>(() => [
+    { name: 'variant', type: "'default' | 'outline'", default: "'default'", description: this.t().propDescriptions.variant },
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: this.t().propDescriptions.size },
+    { name: 'pressed', type: 'boolean', default: 'false', description: this.t().propDescriptions.pressed },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }

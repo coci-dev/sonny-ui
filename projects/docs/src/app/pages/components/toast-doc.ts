@@ -1,8 +1,11 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
 import { SnyButtonDirective, SnyToastService, SnyToasterComponent } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { TOAST_DOC_EN } from '../../i18n/en/pages/toast-doc';
+import { TOAST_DOC_ES } from '../../i18n/es/pages/toast-doc';
 
 @Component({
   selector: 'docs-toast-doc',
@@ -11,25 +14,23 @@ import { SnyButtonDirective, SnyToastService, SnyToasterComponent } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Toast</h1>
-        <p class="text-muted-foreground mt-2">A succinct message that is displayed temporarily.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Setup</h2>
-        <p class="text-sm text-muted-foreground">
-          Add the <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">&lt;sny-toaster&gt;</code> component to your root template:
-        </p>
+        <h2 class="text-xl font-semibold">{{ t().setup }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().setupDesc"></p>
         <docs-code-block [code]="setupCode" language="html" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Variants</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.variants }}</h2>
         <docs-component-preview [code]="variantsCode">
           <button snyBtn (click)="showDefault()">Default</button>
           <button snyBtn variant="secondary" (click)="showSuccess()">Success</button>
@@ -39,17 +40,17 @@ import { SnyButtonDirective, SnyToastService, SnyToasterComponent } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">With Action</h2>
+        <h2 class="text-xl font-semibold">{{ t().withAction }}</h2>
         <docs-component-preview [code]="actionCode">
           <button snyBtn variant="outline" (click)="showWithAction()">Show with Action</button>
         </docs-component-preview>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <p class="text-sm text-muted-foreground">Real-world usage patterns with state management.</p>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().examplesDesc }}</p>
 
-        <h3 class="text-lg font-medium">Async Operation Feedback</h3>
+        <h3 class="text-lg font-medium">{{ t().asyncOperationFeedback }}</h3>
         <docs-component-preview [code]="asyncFeedbackCode" language="typescript">
           <div class="flex flex-col gap-4 items-start">
             <div class="flex gap-3">
@@ -66,13 +67,22 @@ import { SnyButtonDirective, SnyToastService, SnyToasterComponent } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">SnyToastService</h3>
-        <docs-props-table [props]="serviceProps" />
-        <h3 class="text-lg font-medium mt-4">SnyToasterComponent</h3>
-        <docs-props-table [props]="toasterProps" />
-        <h3 class="text-lg font-medium mt-4">ToastConfig</h3>
-        <docs-props-table [props]="configProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().serviceLabel }}</h3>
+        <docs-props-table [props]="serviceProps()" />
+        <h3 class="text-lg font-medium mt-4">{{ t().toasterLabel }}</h3>
+        <docs-props-table [props]="toasterProps()" />
+        <h3 class="text-lg font-medium mt-4">{{ t().configLabel }}</h3>
+        <docs-props-table [props]="configProps()" />
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
       </section>
 
       <sny-toaster position="bottom-right" />
@@ -80,6 +90,9 @@ import { SnyButtonDirective, SnyToastService, SnyToasterComponent } from 'core';
   `,
 })
 export class ToastDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? TOAST_DOC_ES : TOAST_DOC_EN);
+
   private readonly toastService = inject(SnyToastService);
 
   importCode = `import { SnyToastService, SnyToasterComponent } from '@sonny-ui/core';`;
@@ -101,27 +114,27 @@ toastService.error('Error', 'Something went wrong.');`;
   },
 });`;
 
-  serviceProps: PropDef[] = [
-    { name: 'show(config)', type: 'ToastConfig => string', default: '-', description: 'Show a toast and return its ID.' },
-    { name: 'success(title, desc?)', type: 'string', default: '-', description: 'Show a success toast.' },
-    { name: 'error(title, desc?)', type: 'string', default: '-', description: 'Show an error/destructive toast.' },
-    { name: 'warning(title, desc?)', type: 'string', default: '-', description: 'Show a warning toast.' },
-    { name: 'dismiss(id)', type: 'void', default: '-', description: 'Dismiss a specific toast.' },
-    { name: 'dismissAll()', type: 'void', default: '-', description: 'Dismiss all toasts.' },
-  ];
+  readonly serviceProps = computed<PropDef[]>(() => [
+    { name: 'show(config)', type: 'ToastConfig => string', default: '-', description: this.t().propDescriptions.show },
+    { name: 'success(title, desc?)', type: 'string', default: '-', description: this.t().propDescriptions.success },
+    { name: 'error(title, desc?)', type: 'string', default: '-', description: this.t().propDescriptions.error },
+    { name: 'warning(title, desc?)', type: 'string', default: '-', description: this.t().propDescriptions.warning },
+    { name: 'dismiss(id)', type: 'void', default: '-', description: this.t().propDescriptions.dismiss },
+    { name: 'dismissAll()', type: 'void', default: '-', description: this.t().propDescriptions.dismissAll },
+  ]);
 
-  toasterProps: PropDef[] = [
-    { name: 'position', type: "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center'", default: "'bottom-right'", description: 'Where toasts appear on screen.' },
-    { name: 'maxToasts', type: 'number', default: '5', description: 'Maximum visible toasts at once.' },
-  ];
+  readonly toasterProps = computed<PropDef[]>(() => [
+    { name: 'position', type: "'top-right' | 'top-left' | 'bottom-right' | 'bottom-left' | 'top-center' | 'bottom-center'", default: "'bottom-right'", description: this.t().propDescriptions.position },
+    { name: 'maxToasts', type: 'number', default: '5', description: this.t().propDescriptions.maxToasts },
+  ]);
 
-  configProps: PropDef[] = [
-    { name: 'title', type: 'string', default: '-', description: 'The toast title (required).' },
-    { name: 'description', type: 'string', default: '-', description: 'Optional description text.' },
-    { name: 'variant', type: "'default' | 'destructive' | 'success' | 'warning'", default: "'default'", description: 'The visual style.' },
-    { name: 'duration', type: 'number', default: '5000', description: 'Auto-dismiss time in ms. 0 to disable.' },
-    { name: 'action', type: '{ label: string; onClick: () => void }', default: '-', description: 'Optional action button.' },
-  ];
+  readonly configProps = computed<PropDef[]>(() => [
+    { name: 'title', type: 'string', default: '-', description: this.t().propDescriptions.configTitle },
+    { name: 'description', type: 'string', default: '-', description: this.t().propDescriptions.configDescription },
+    { name: 'variant', type: "'default' | 'destructive' | 'success' | 'warning'", default: "'default'", description: this.t().propDescriptions.configVariant },
+    { name: 'duration', type: 'number', default: '5000', description: this.t().propDescriptions.configDuration },
+    { name: 'action', type: '{ label: string; onClick: () => void }', default: '-', description: this.t().propDescriptions.configAction },
+  ]);
 
   // Examples state
   readonly saving = signal(false);

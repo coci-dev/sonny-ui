@@ -1,4 +1,4 @@
-import { Component, inject, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { DialogRef } from '@angular/cdk/dialog';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
@@ -13,6 +13,9 @@ import {
   SnySheetContentDirective,
   SnySheetCloseDirective,
 } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { SHEET_DOC_EN } from '../../i18n/en/pages/sheet-doc';
+import { SHEET_DOC_ES } from '../../i18n/es/pages/sheet-doc';
 
 interface CartItem {
   name: string;
@@ -27,17 +30,17 @@ interface CartItem {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Sheet</h1>
-        <p class="text-muted-foreground mt-2">A panel that slides out from the edge of the screen.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <div class="flex gap-2 flex-wrap">
             <button snyBtn (click)="openSheet('right')">Open Right</button>
@@ -49,8 +52,8 @@ interface CartItem {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">Cart Sheet</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().cartSheet }}</h3>
         <docs-component-preview [code]="cartCode" language="typescript">
           <button snyBtn (click)="openCart()">
             View Cart ({{ cartItems.length }})
@@ -59,27 +62,37 @@ interface CartItem {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">SnySheetService</h3>
-        <docs-props-table [props]="serviceProps" />
-        <h3 class="text-lg font-medium mt-4">SnySheetConfig</h3>
-        <docs-props-table [props]="configProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().snySheetService }}</h3>
+        <docs-props-table [props]="serviceProps()" />
+        <h3 class="text-lg font-medium mt-4">{{ t().snySheetConfig }}</h3>
+        <docs-props-table [props]="configProps()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Content directives</h2>
+        <h2 class="text-xl font-semibold">{{ t().contentDirectives }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snySheetHeader</code> — Header section</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snySheetTitle</code> — Sheet title</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snySheetDescription</code> — Description text</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snySheetContent</code> — Content area</li>
-          <li><code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snySheetClose</code> — Close button</li>
+          @for (item of t().contentDirectivesList; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class SheetDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? SHEET_DOC_ES : SHEET_DOC_EN);
+
   private readonly sheetService = inject(SnySheetService);
 
   cartItems: CartItem[] = [
@@ -108,17 +121,17 @@ sheetService.open(MySheetComponent, { side: 'right' });`;
   });
 }`;
 
-  serviceProps: PropDef[] = [
-    { name: 'open(component, config?)', type: 'SnySheetRef<R>', default: '-', description: 'Open a sheet with the given component.' },
-    { name: 'closeAll()', type: 'void', default: '-', description: 'Close all open sheets.' },
-  ];
+  readonly serviceProps = computed<PropDef[]>(() => [
+    { name: 'open(component, config?)', type: 'SnySheetRef<R>', default: '-', description: this.t().servicePropDescriptions.open },
+    { name: 'closeAll()', type: 'void', default: '-', description: this.t().servicePropDescriptions.closeAll },
+  ]);
 
-  configProps: PropDef[] = [
-    { name: 'side', type: "'left' | 'right' | 'top' | 'bottom'", default: "'right'", description: 'Edge to slide from.' },
-    { name: 'closeOnBackdrop', type: 'boolean', default: 'true', description: 'Close when clicking the backdrop.' },
-    { name: 'closeOnEsc', type: 'boolean', default: 'true', description: 'Close on Escape key.' },
-    { name: 'data', type: 'unknown', default: '-', description: 'Data to inject into the sheet component.' },
-  ];
+  readonly configProps = computed<PropDef[]>(() => [
+    { name: 'side', type: "'left' | 'right' | 'top' | 'bottom'", default: "'right'", description: this.t().configPropDescriptions.side },
+    { name: 'closeOnBackdrop', type: 'boolean', default: 'true', description: this.t().configPropDescriptions.closeOnBackdrop },
+    { name: 'closeOnEsc', type: 'boolean', default: 'true', description: this.t().configPropDescriptions.closeOnEsc },
+    { name: 'data', type: 'unknown', default: '-', description: this.t().configPropDescriptions.data },
+  ]);
 
   openSheet(side: 'left' | 'right' | 'top' | 'bottom') {
     this.sheetService.open(DemoSheetComponent, { side, data: { side } });

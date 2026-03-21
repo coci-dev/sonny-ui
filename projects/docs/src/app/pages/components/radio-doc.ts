@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
 import { SnyRadioDirective, SnyLabelDirective } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { RADIO_DOC_EN } from '../../i18n/en/pages/radio-doc';
+import { RADIO_DOC_ES } from '../../i18n/es/pages/radio-doc';
 
 @Component({
   selector: 'docs-radio-doc',
@@ -11,17 +14,17 @@ import { SnyRadioDirective, SnyLabelDirective } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Radio</h1>
-        <p class="text-muted-foreground mt-2">A control that allows the user to select one option from a set.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <div class="space-y-3">
             @for (opt of paymentOptions; track opt.value) {
@@ -44,7 +47,7 @@ import { SnyRadioDirective, SnyLabelDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Sizes</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.sizes }}</h2>
         <docs-component-preview [code]="sizesCode">
           <div class="flex items-center gap-6">
             <div class="flex items-center gap-2">
@@ -64,13 +67,25 @@ import { SnyRadioDirective, SnyLabelDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <docs-props-table [props]="props" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <docs-props-table [props]="props()" />
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
       </section>
     </div>
   `,
 })
 export class RadioDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? RADIO_DOC_ES : RADIO_DOC_EN);
+
   readonly selectedPayment = signal('card');
 
   paymentOptions = [
@@ -87,8 +102,8 @@ export class RadioDocComponent {
 <input type="radio" snyRadio size="md" />
 <input type="radio" snyRadio size="lg" />`;
 
-  props: PropDef[] = [
-    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'The size of the radio button.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly props = computed<PropDef[]>(() => [
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: this.t().propDescriptions.size },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }

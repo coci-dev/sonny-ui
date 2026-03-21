@@ -1,5 +1,8 @@
-import { Component } from '@angular/core';
+import { Component, computed, inject } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
+import { I18nService } from '../../i18n/i18n.service';
+import { DEVELOPMENT_EN } from '../../i18n/en/pages/development';
+import { DEVELOPMENT_ES } from '../../i18n/es/pages/development';
 
 @Component({
   selector: 'docs-development',
@@ -8,97 +11,92 @@ import { CodeBlockComponent } from '../../shared/code-block';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Contributing</h1>
-        <p class="text-muted-foreground mt-2">Thanks for your interest in contributing to SonnyUI! Here's how to get started.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Prerequisites</h2>
+        <h2 class="text-xl font-semibold">{{ t().prerequisites }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Node.js 22+</li>
-          <li>npm 11+</li>
-          <li>Git</li>
+          @for (item of t().prerequisitesList; track item) {
+            <li>{{ item }}</li>
+          }
         </ul>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Getting Started</h2>
+        <h2 class="text-xl font-semibold">{{ t().gettingStarted }}</h2>
         <docs-code-block [code]="setupCode" language="bash" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Development Workflow</h2>
+        <h2 class="text-xl font-semibold">{{ t().devWorkflow }}</h2>
         <ol class="list-decimal pl-6 space-y-2 text-sm text-muted-foreground">
-          <li>Create a new branch from <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">main</code>:
+          <li>
+            <span [innerHTML]="t().devWorkflowSteps[0].text"></span>
             <docs-code-block [code]="branchCode" language="bash" />
           </li>
-          <li>Make your changes</li>
-          <li>Run tests: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">npm test</code></li>
-          <li>Commit following the <span class="text-foreground font-medium">commit conventions</span> below</li>
-          <li>Push to your fork and open a Pull Request</li>
+          <li>{{ t().devWorkflowSteps[1].text }}</li>
+          <li [innerHTML]="t().devWorkflowSteps[2].text"></li>
+          <li [innerHTML]="t().devWorkflowSteps[3].text"></li>
+          <li>{{ t().devWorkflowSteps[4].text }}</li>
         </ol>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Commit Conventions</h2>
-        <p class="text-sm text-muted-foreground">We use <a href="https://www.conventionalcommits.org/" target="_blank" rel="noopener" class="text-primary underline">Conventional Commits</a>:</p>
+        <h2 class="text-xl font-semibold">{{ t().commitConventions }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().commitConventionsDesc"></p>
         <docs-code-block [code]="commitCode" language="bash" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Project Structure</h2>
+        <h2 class="text-xl font-semibold">{{ t().projectStructure }}</h2>
         <docs-code-block [code]="structureCode" language="bash" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Common Commands</h2>
+        <h2 class="text-xl font-semibold">{{ t().commonCommands }}</h2>
         <docs-code-block [code]="commandsCode" language="bash" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Adding a New Component</h2>
+        <h2 class="text-xl font-semibold">{{ t().addingComponent }}</h2>
         <ol class="list-decimal pl-6 space-y-2 text-sm text-muted-foreground">
-          <li>Create a new folder under <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">projects/core/src/lib/</code></li>
-          <li>Create the variants file with <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">cva()</code></li>
-          <li>Create the directive using Angular signals</li>
-          <li>Create an <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">index.ts</code> barrel file</li>
-          <li>Export from <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">public-api.ts</code></li>
-          <li>Add a documentation page in <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">projects/docs/</code></li>
-          <li>Write tests</li>
+          @for (step of t().addingComponentSteps; track step) {
+            <li [innerHTML]="step"></li>
+          }
         </ol>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Pull Request Guidelines</h2>
+        <h2 class="text-xl font-semibold">{{ t().prGuidelines }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Keep PRs focused on a single change</li>
-          <li>Update documentation if needed</li>
-          <li>Add tests for new features</li>
-          <li>Make sure all status checks pass</li>
-          <li>Fill out the PR template</li>
+          @for (item of t().prGuidelinesList; track item) {
+            <li>{{ item }}</li>
+          }
         </ul>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Code Style</h2>
+        <h2 class="text-xl font-semibold">{{ t().codeStyle }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Use Angular signal inputs (<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">input()</code>) instead of decorators</li>
-          <li>Use <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">computed()</code> for derived state</li>
-          <li>Prefer directives over components when possible</li>
-          <li>Use <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">class-variance-authority</code> for variant definitions</li>
-          <li>All components must be standalone</li>
-          <li>No zone.js dependency</li>
+          @for (item of t().codeStyleList; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Questions?</h2>
-        <p class="text-sm text-muted-foreground">Open an <a href="https://github.com/coci-dev/sonny-ui/issues" target="_blank" rel="noopener" class="text-primary underline">issue</a> and we'll help you out.</p>
+        <h2 class="text-xl font-semibold">{{ t().questions }}</h2>
+        <p class="text-sm text-muted-foreground" [innerHTML]="t().questionsDesc"></p>
       </section>
     </div>
   `,
 })
 export class DevelopmentComponent {
+  private readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? DEVELOPMENT_ES : DEVELOPMENT_EN);
+
   setupCode = `# Fork the repo on GitHub, then:
 git clone https://github.com/YOUR_USERNAME/sonny-ui.git
 cd sonny-ui

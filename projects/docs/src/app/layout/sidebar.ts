@@ -1,6 +1,6 @@
-import { Component, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { RouterLink, RouterLinkActive } from '@angular/router';
-import { SIDEBAR_SECTIONS } from './sidebar-data';
+import { I18nService } from '../i18n/i18n.service';
 
 @Component({
   selector: 'docs-sidebar',
@@ -22,7 +22,7 @@ import { SIDEBAR_SECTIONS } from './sidebar-data';
         (open() ? 'translate-x-0' : '-translate-x-full')
       "
     >
-      @for (section of sections; track section.title) {
+      @for (section of sections(); track section.title) {
         <div class="mb-4">
           <h4 class="mb-1 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
             {{ section.title }}
@@ -47,5 +47,6 @@ import { SIDEBAR_SECTIONS } from './sidebar-data';
 export class SidebarComponent {
   readonly open = input(false);
   readonly close = output();
-  readonly sections = SIDEBAR_SECTIONS;
+  private readonly i18n = inject(I18nService);
+  readonly sections = computed(() => this.i18n.common().sidebar);
 }

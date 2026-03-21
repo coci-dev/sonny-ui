@@ -1,7 +1,10 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
+import { I18nService } from '../../i18n/i18n.service';
+import { COMBOBOX_DOC_EN } from '../../i18n/en/pages/combobox-doc';
+import { COMBOBOX_DOC_ES } from '../../i18n/es/pages/combobox-doc';
 import { SnyComboboxComponent, type ComboboxOption } from 'core';
 
 @Component({
@@ -11,17 +14,17 @@ import { SnyComboboxComponent, type ComboboxOption } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Combobox</h1>
-        <p class="text-muted-foreground mt-2">A select-like component with a searchable dropdown list.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <div class="w-56">
             <sny-combobox
@@ -34,8 +37,8 @@ import { SnyComboboxComponent, type ComboboxOption } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">Country Selector</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().countrySelector }}</h3>
         <docs-component-preview [code]="exampleCode" language="typescript">
           <div class="space-y-4 w-56">
             <sny-combobox
@@ -52,23 +55,25 @@ import { SnyComboboxComponent, type ComboboxOption } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <docs-props-table [props]="props" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <docs-props-table [props]="props()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Accessibility</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Trigger button uses <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">role="combobox"</code> with <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-expanded</code></li>
-          <li>Dropdown uses <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">role="listbox"</code> with <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">role="option"</code></li>
-          <li>Selected option indicated with a checkmark icon</li>
-          <li>Keyboard navigation: Arrow keys, Enter to select, Escape to close</li>
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class ComboboxDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? COMBOBOX_DOC_ES : COMBOBOX_DOC_EN);
+
   readonly selectedCountry = signal('');
 
   frameworks: ComboboxOption[] = [
@@ -117,12 +122,12 @@ countries: ComboboxOption[] = [
 />
 <p>Selected: {{ selectedCountry() }}</p>`;
 
-  props: PropDef[] = [
-    { name: 'options', type: 'ComboboxOption[]', default: '[]', description: 'Array of { value, label } objects.' },
-    { name: 'value', type: 'string', default: "''", description: 'Two-way bound selected value.' },
-    { name: 'placeholder', type: 'string', default: "'Select...'", description: 'Placeholder text for the trigger button.' },
-    { name: 'searchPlaceholder', type: 'string', default: "'Search...'", description: 'Placeholder text for the search input inside the dropdown.' },
-    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'The size of the trigger button.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply to the trigger.' },
-  ];
+  readonly props = computed<PropDef[]>(() => [
+    { name: 'options', type: 'ComboboxOption[]', default: '[]', description: this.t().propDescriptions.options },
+    { name: 'value', type: 'string', default: "''", description: this.t().propDescriptions.value },
+    { name: 'placeholder', type: 'string', default: "'Select...'", description: this.t().propDescriptions.placeholder },
+    { name: 'searchPlaceholder', type: 'string', default: "'Search...'", description: this.t().propDescriptions.searchPlaceholder },
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: this.t().propDescriptions.size },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 }

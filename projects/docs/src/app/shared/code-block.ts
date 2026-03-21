@@ -1,9 +1,10 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { Component, computed, inject, input, signal } from '@angular/core';
 import Prism from 'prismjs';
 import 'prismjs/components/prism-typescript';
 import 'prismjs/components/prism-markup';
 import 'prismjs/components/prism-css';
 import 'prismjs/components/prism-bash';
+import { I18nService } from '../i18n/i18n.service';
 
 @Component({
   selector: 'docs-code-block',
@@ -16,7 +17,7 @@ import 'prismjs/components/prism-bash';
           (click)="copy()"
           class="text-xs text-muted-foreground hover:text-foreground transition-colors px-2 py-1 rounded-sm hover:bg-accent"
         >
-          {{ copied() ? 'Copied!' : 'Copy' }}
+          {{ copied() ? labels().copied : labels().copy }}
         </button>
       </div>
       <pre class="p-4 overflow-x-auto text-sm m-0"><code [innerHTML]="highlighted()"></code></pre>
@@ -28,6 +29,8 @@ export class CodeBlockComponent {
   readonly language = input<string>('typescript');
 
   readonly copied = signal(false);
+  private readonly i18n = inject(I18nService);
+  readonly labels = computed(() => this.i18n.common().shared);
 
   readonly highlighted = computed(() => {
     const lang = this.language();

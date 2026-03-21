@@ -1,10 +1,13 @@
-import { Component, signal, computed } from '@angular/core';
+import { Component, signal, computed, inject } from '@angular/core';
 import { toSignal } from '@angular/core/rxjs-interop';
 import { ReactiveFormsModule, FormControl, Validators } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
 import { SnyInputDirective, SnyLabelDirective, SnyButtonDirective } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { INPUT_DOC_EN } from '../../i18n/en/pages/input-doc';
+import { INPUT_DOC_ES } from '../../i18n/es/pages/input-doc';
 
 @Component({
   selector: 'docs-input-doc',
@@ -13,24 +16,24 @@ import { SnyInputDirective, SnyLabelDirective, SnyButtonDirective } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Input</h1>
-        <p class="text-muted-foreground mt-2">Displays a form input field.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <input snyInput placeholder="Enter your email" class="max-w-sm" />
         </docs-component-preview>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">With Label</h2>
+        <h2 class="text-xl font-semibold">{{ t().withLabel }}</h2>
         <docs-component-preview [code]="labelCode">
           <div class="space-y-2 w-full max-w-sm">
             <label snyLabel>Email</label>
@@ -40,7 +43,7 @@ import { SnyInputDirective, SnyLabelDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Variants</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.variants }}</h2>
         <docs-component-preview [code]="variantsCode">
           <div class="space-y-3 w-full max-w-sm">
             <input snyInput placeholder="Default" />
@@ -51,7 +54,7 @@ import { SnyInputDirective, SnyLabelDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Sizes</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.sizes }}</h2>
         <docs-component-preview [code]="sizesCode">
           <div class="space-y-3 w-full max-w-sm">
             <input snyInput inputSize="sm" placeholder="Small" />
@@ -62,17 +65,17 @@ import { SnyInputDirective, SnyLabelDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Disabled</h2>
+        <h2 class="text-xl font-semibold">{{ t().disabled }}</h2>
         <docs-component-preview [code]="disabledCode">
           <input snyInput disabled placeholder="Disabled input" class="max-w-sm" />
         </docs-component-preview>
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <p class="text-sm text-muted-foreground">Real-world usage patterns with state management.</p>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <p class="text-sm text-muted-foreground">{{ t().examplesDesc }}</p>
 
-        <h3 class="text-lg font-medium">Form with Reactive Validation</h3>
+        <h3 class="text-lg font-medium">{{ t().formWithReactiveValidation }}</h3>
         <docs-component-preview [code]="validationFormCode" language="typescript">
           <form class="space-y-4 w-full max-w-sm" (ngSubmit)="onSubmit()">
             <div class="space-y-2">
@@ -110,25 +113,28 @@ import { SnyInputDirective, SnyLabelDirective, SnyButtonDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <h3 class="text-lg font-medium">SnyInputDirective</h3>
-        <docs-props-table [props]="inputProps" />
-        <h3 class="text-lg font-medium mt-4">SnyLabelDirective</h3>
-        <docs-props-table [props]="labelProps" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <h3 class="text-lg font-medium">{{ t().snyInputDirective }}</h3>
+        <docs-props-table [props]="inputProps()" />
+        <h3 class="text-lg font-medium mt-4">{{ t().snyLabelDirective }}</h3>
+        <docs-props-table [props]="labelProps()" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Accessibility</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Sets <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-invalid</code> when variant is "error"</li>
-          <li>Supports <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-describedby</code> for error messages</li>
-          <li>Works with <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">&lt;input&gt;</code> and <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">&lt;textarea&gt;</code></li>
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class InputDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? INPUT_DOC_ES : INPUT_DOC_EN);
+
   importCode = `import { SnyInputDirective, SnyLabelDirective } from '@sonny-ui/core';`;
 
   basicCode = `<input snyInput placeholder="Enter your email" />`;
@@ -232,15 +238,15 @@ export class ContactFormExample {
   }
 }`;
 
-  inputProps: PropDef[] = [
-    { name: 'variant', type: "'default' | 'error' | 'success'", default: "'default'", description: 'The visual state of the input.' },
-    { name: 'inputSize', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'The size of the input.' },
-    { name: 'ariaDescribedBy', type: 'string', default: "''", description: 'ID of the element describing the input.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly inputProps = computed<PropDef[]>(() => [
+    { name: 'variant', type: "'default' | 'error' | 'success'", default: "'default'", description: this.t().propDescriptions.variant },
+    { name: 'inputSize', type: "'sm' | 'md' | 'lg'", default: "'md'", description: this.t().propDescriptions.inputSize },
+    { name: 'ariaDescribedBy', type: 'string', default: "''", description: this.t().propDescriptions.ariaDescribedBy },
+    { name: 'class', type: 'string', default: "''", description: this.t().propDescriptions.class },
+  ]);
 
-  labelProps: PropDef[] = [
-    { name: 'variant', type: "'default' | 'error' | 'success'", default: "'default'", description: 'Matches the input variant for consistent styling.' },
-    { name: 'class', type: 'string', default: "''", description: 'Additional CSS classes to apply.' },
-  ];
+  readonly labelProps = computed<PropDef[]>(() => [
+    { name: 'variant', type: "'default' | 'error' | 'success'", default: "'default'", description: this.t().labelPropDescriptions.variant },
+    { name: 'class', type: 'string', default: "''", description: this.t().labelPropDescriptions.class },
+  ]);
 }

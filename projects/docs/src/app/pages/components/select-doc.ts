@@ -1,8 +1,11 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
 import { SnySelectComponent, SnyLabelDirective } from 'core';
+import { I18nService } from '../../i18n/i18n.service';
+import { SELECT_DOC_EN } from '../../i18n/en/pages/select-doc';
+import { SELECT_DOC_ES } from '../../i18n/es/pages/select-doc';
 
 @Component({
   selector: 'docs-select-doc',
@@ -11,17 +14,17 @@ import { SnySelectComponent, SnyLabelDirective } from 'core';
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Select</h1>
-        <p class="text-muted-foreground mt-2">Displays a list of options for the user to pick from.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
           <div class="w-full max-w-xs space-y-2">
             <label snyLabel>Timezone</label>
@@ -32,8 +35,8 @@ import { SnySelectComponent, SnyLabelDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">User Profile Form</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().userProfileForm }}</h3>
         <docs-component-preview [code]="exampleCode" language="typescript">
           <div class="w-full max-w-xs space-y-4">
             <div class="space-y-2">
@@ -49,13 +52,25 @@ import { SnySelectComponent, SnyLabelDirective } from 'core';
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">API Reference</h2>
-        <docs-props-table [props]="props" />
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
+        <docs-props-table [props]="props()" />
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
       </section>
     </div>
   `,
 })
 export class SelectDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? SELECT_DOC_ES : SELECT_DOC_EN);
+
   readonly selectedTimezone = signal('');
   readonly selectedLanguage = signal('');
   readonly selectedTheme = signal('');
@@ -96,11 +111,11 @@ languages = [
 
 <sny-select [options]="languages" [(value)]="selectedLanguage" />`;
 
-  props: PropDef[] = [
-    { name: 'options', type: 'SelectOption[]', default: '[]', description: 'Array of { value, label } objects.' },
-    { name: 'value', type: 'string', default: "''", description: 'Selected value. Supports two-way binding.' },
-    { name: 'placeholder', type: 'string', default: "'Select...'", description: 'Placeholder text.' },
-    { name: 'disabled', type: 'boolean', default: 'false', description: 'Whether the select is disabled.' },
-    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: 'The size of the select trigger.' },
-  ];
+  readonly props = computed<PropDef[]>(() => [
+    { name: 'options', type: 'SelectOption[]', default: '[]', description: this.t().propDescriptions.options },
+    { name: 'value', type: 'string', default: "''", description: this.t().propDescriptions.value },
+    { name: 'placeholder', type: 'string', default: "'Select...'", description: this.t().propDescriptions.placeholder },
+    { name: 'disabled', type: 'boolean', default: 'false', description: this.t().propDescriptions.disabled },
+    { name: 'size', type: "'sm' | 'md' | 'lg'", default: "'md'", description: this.t().propDescriptions.size },
+  ]);
 }

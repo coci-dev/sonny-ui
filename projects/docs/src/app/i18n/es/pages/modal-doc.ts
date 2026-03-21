@@ -1,0 +1,38 @@
+export const MODAL_DOC_ES = {
+  title: 'Modal / Diálogo',
+  description: 'Un diálogo modal que interrumpe al usuario con contenido importante.',
+  basicDialog: 'Diálogo Básico',
+  confirmationDialog: 'Diálogo de Confirmación',
+  examplesDescription: 'Patrones de uso del mundo real con gestión de estado.',
+  editFormInDialog: 'Formulario de Edición en Diálogo',
+  snyDialogService: 'SnyDialogService',
+  snyDialogConfig: 'SnyDialogConfig',
+  contentDirectives: 'Directivas de contenido',
+  contentDirectivesList: [
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogContent</code> — Contenedor principal con estilos',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogHeader</code> — Sección de encabezado',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogTitle</code> — Título del diálogo',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogDescription</code> — Texto de descripción',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogFooter</code> — Pie de página con acciones',
+    '<code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">snyDialogClose</code> — Botón de cerrar',
+  ],
+  accessibility: [
+    'Construido sobre Angular CDK Dialog para una gestión de foco robusta',
+    'Atrapa el foco dentro del diálogo cuando está abierto',
+    'Se cierra con la tecla Escape por defecto',
+    'Soporta <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ariaLabelledBy</code> y <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ariaDescribedBy</code>',
+  ],
+  servicePropDescriptions: {
+    open: 'Abre un diálogo con el componente dado.',
+    closeAll: 'Cierra todos los diálogos abiertos.',
+  },
+  configPropDescriptions: {
+    width: 'Ancho del diálogo.',
+    maxWidth: 'Ancho máximo del diálogo.',
+    closeOnBackdrop: 'Cerrar al hacer clic en el fondo.',
+    closeOnEsc: 'Cerrar con la tecla Escape.',
+    data: 'Datos para inyectar en el componente del diálogo.',
+    ariaLabelledBy: 'ID del elemento que etiqueta el diálogo.',
+    ariaDescribedBy: 'ID del elemento que describe el diálogo.',
+  },
+};

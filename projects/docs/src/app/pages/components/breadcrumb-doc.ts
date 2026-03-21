@@ -1,6 +1,9 @@
-import { Component, signal } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
+import { I18nService } from '../../i18n/i18n.service';
+import { BREADCRUMB_DOC_EN } from '../../i18n/en/pages/breadcrumb-doc';
+import { BREADCRUMB_DOC_ES } from '../../i18n/es/pages/breadcrumb-doc';
 import {
   SnyBreadcrumbDirective,
   SnyBreadcrumbListDirective,
@@ -26,17 +29,17 @@ import {
   template: `
     <div class="space-y-8">
       <div>
-        <h1 class="text-3xl font-bold tracking-tight">Breadcrumb</h1>
-        <p class="text-muted-foreground mt-2">Displays the path to the current resource using a hierarchy of links.</p>
+        <h1 class="text-3xl font-bold tracking-tight">{{ t().title }}</h1>
+        <p class="text-muted-foreground mt-2">{{ t().description }}</p>
       </div>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Import</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.import }}</h2>
         <docs-code-block [code]="importCode" language="typescript" />
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Usage</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode" language="markup">
           <nav snyBreadcrumb>
             <ol snyBreadcrumbList>
@@ -57,8 +60,8 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Examples</h2>
-        <h3 class="text-lg font-medium">Dynamic Breadcrumb</h3>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">{{ t().dynamicBreadcrumb }}</h3>
         <docs-component-preview [code]="exampleCode" language="typescript">
           <div class="space-y-4">
             <nav snyBreadcrumb>
@@ -96,17 +99,20 @@ import {
       </section>
 
       <section class="space-y-4">
-        <h2 class="text-xl font-semibold">Accessibility</h2>
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
         <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
-          <li>Uses <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">nav</code> with <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-label="Breadcrumb"</code></li>
-          <li>Current page has <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-current="page"</code></li>
-          <li>Separators are hidden from assistive tech with <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">aria-hidden</code></li>
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
         </ul>
       </section>
     </div>
   `,
 })
 export class BreadcrumbDocComponent {
+  readonly i18n = inject(I18nService);
+  readonly t = computed(() => this.i18n.locale() === 'es' ? BREADCRUMB_DOC_ES : BREADCRUMB_DOC_EN);
+
   private counter = 0;
   readonly segments = signal([
     { label: 'Home', href: '/' },

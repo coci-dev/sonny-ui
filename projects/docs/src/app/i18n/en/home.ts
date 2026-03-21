@@ -1,0 +1,63 @@
+export const HOME_EN = {
+  hero: {
+    title: 'SonnyUI',
+    description: 'Beautiful, accessible Angular components built with Tailwind CSS v4 and Signals. Copy-paste or install — you own the code.',
+    getStarted: 'Get Started',
+    viewComponents: 'View Components',
+  },
+  badges: {
+    angular: 'Angular 21+',
+    tailwind: 'Tailwind v4',
+    zoneless: 'Zoneless',
+    signals: 'Signals',
+    alpha: 'Alpha',
+  },
+  whatItSolves: {
+    title: 'What It Solves',
+    subtitle: 'Common problems, elegant solutions.',
+  },
+  problems: [
+    { problem: 'Boilerplate Components', solution: 'Copy & paste or ng add, own your code' },
+    { problem: 'Zone.js Overhead', solution: '100% zoneless, signal-first architecture' },
+    { problem: 'Theme Inconsistency', solution: '3 built-in themes + CSS variables for custom themes' },
+  ],
+  whySonnyUI: {
+    title: 'Why SonnyUI?',
+    subtitle: 'Everything you need to build modern Angular apps.',
+  },
+  features: [
+    { icon: '⚡', title: 'Signal-First API', description: 'Every component uses Angular Signals for reactive, fine-grained updates with zero overhead.' },
+    { icon: '🎨', title: 'Three Themes', description: 'Light, dark, and corporate themes out of the box. Create custom themes with CSS variables.' },
+    { icon: '📋', title: 'Copy & Paste', description: 'Own the code. Copy components directly into your project or install via npm.' },
+    { icon: '♿', title: 'Accessible', description: 'Built with ARIA attributes, keyboard navigation, and screen reader support.' },
+    { icon: '🌊', title: 'Tailwind CSS v4', description: 'Styled with Tailwind v4 utility classes and CSS-first configuration.' },
+    { icon: '🚀', title: 'Zoneless Performance', description: 'Designed for zoneless Angular. No zone.js dependency, maximum performance.' },
+  ],
+  showcase: {
+    title: 'Component Showcase',
+    subtitle: 'Real components, live in the browser.',
+    buttons: 'Buttons',
+    card: 'Card',
+    nestedCard: 'Nested Card',
+    nestedCardDesc: 'With header and content.',
+    composableCardDirectives: 'Composable card directives.',
+    input: 'Input',
+    defaultInput: 'Default input',
+    errorState: 'Error state',
+    seeAll: 'See all components →',
+  },
+  quickStart: {
+    title: 'Quick Start',
+    subtitle: 'Get up and running in 3 steps.',
+    step1: '1. Install',
+    step2: '2. Import',
+    step3: '3. Use',
+  },
+  footer: {
+    title: 'Ready to build?',
+    subtitle: 'Start building beautiful Angular apps with SonnyUI today.',
+    readDocs: 'Read the Docs',
+    github: 'GitHub',
+    version: 'v0.1.0-alpha.1 · MIT License · This is an alpha release — APIs may change.',
+  },
+};

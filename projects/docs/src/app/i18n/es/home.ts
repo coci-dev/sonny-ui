@@ -1,0 +1,63 @@
+export const HOME_ES = {
+  hero: {
+    title: 'SonnyUI',
+    description: 'Componentes Angular hermosos y accesibles, construidos con Tailwind CSS v4 y Signals. Copia y pega o instala — el código es tuyo.',
+    getStarted: 'Comenzar',
+    viewComponents: 'Ver Componentes',
+  },
+  badges: {
+    angular: 'Angular 21+',
+    tailwind: 'Tailwind v4',
+    zoneless: 'Zoneless',
+    signals: 'Signals',
+    alpha: 'Alpha',
+  },
+  whatItSolves: {
+    title: 'Qué Resuelve',
+    subtitle: 'Problemas comunes, soluciones elegantes.',
+  },
+  problems: [
+    { problem: 'Componentes repetitivos', solution: 'Copia y pega o ng add, el código es tuyo' },
+    { problem: 'Sobrecarga de Zone.js', solution: '100% zoneless, arquitectura signal-first' },
+    { problem: 'Inconsistencia de temas', solution: '3 temas incluidos + variables CSS para temas personalizados' },
+  ],
+  whySonnyUI: {
+    title: '¿Por Qué SonnyUI?',
+    subtitle: 'Todo lo que necesitas para construir apps Angular modernas.',
+  },
+  features: [
+    { icon: '⚡', title: 'API Signal-First', description: 'Cada componente usa Angular Signals para actualizaciones reactivas y detalladas sin sobrecarga.' },
+    { icon: '🎨', title: 'Tres Temas', description: 'Temas claro, oscuro y corporativo incluidos. Crea temas personalizados con variables CSS.' },
+    { icon: '📋', title: 'Copiar y Pegar', description: 'El código es tuyo. Copia componentes directamente a tu proyecto o instala vía npm.' },
+    { icon: '♿', title: 'Accesible', description: 'Construido con atributos ARIA, navegación por teclado y soporte para lectores de pantalla.' },
+    { icon: '🌊', title: 'Tailwind CSS v4', description: 'Estilizado con clases utilitarias de Tailwind v4 y configuración CSS-first.' },
+    { icon: '🚀', title: 'Rendimiento Zoneless', description: 'Diseñado para Angular zoneless. Sin dependencia de zone.js, máximo rendimiento.' },
+  ],
+  showcase: {
+    title: 'Demostración de Componentes',
+    subtitle: 'Componentes reales, en vivo en el navegador.',
+    buttons: 'Botones',
+    card: 'Tarjeta',
+    nestedCard: 'Tarjeta Anidada',
+    nestedCardDesc: 'Con encabezado y contenido.',
+    composableCardDirectives: 'Directivas de tarjeta componibles.',
+    input: 'Campo de Texto',
+    defaultInput: 'Campo por defecto',
+    errorState: 'Estado de error',
+    seeAll: 'Ver todos los componentes →',
+  },
+  quickStart: {
+    title: 'Inicio Rápido',
+    subtitle: 'Empieza a funcionar en 3 pasos.',
+    step1: '1. Instalar',
+    step2: '2. Importar',
+    step3: '3. Usar',
+  },
+  footer: {
+    title: '¿Listo para construir?',
+    subtitle: 'Comienza a construir hermosas apps Angular con SonnyUI hoy.',
+    readDocs: 'Leer la Documentación',
+    github: 'GitHub',
+    version: 'v0.1.0-alpha.1 · Licencia MIT · Esta es una versión alpha — las APIs pueden cambiar.',
+  },
+};
