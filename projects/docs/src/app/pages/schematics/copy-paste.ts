@@ -70,6 +70,32 @@ import { CodeBlockComponent } from '../../shared/code-block';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">Usage</h2>
+        <p class="text-sm text-muted-foreground">
+          Once you've copied the component (automatically or manually), import it and use it in your templates:
+        </p>
+
+        <h3 class="text-lg font-medium">1. Import the directive</h3>
+        <docs-code-block [code]="importCode" language="typescript" />
+
+        <h3 class="text-lg font-medium">2. Use it in your template</h3>
+        <docs-code-block [code]="usageCode" language="html" />
+
+        <p class="text-sm text-muted-foreground">
+          Available variants: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">default</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">destructive</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">outline</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">secondary</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">ghost</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">link</code>.
+          Sizes: <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">sm</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">md</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">lg</code>,
+          <code class="font-mono text-xs bg-muted px-1 py-0.5 rounded">icon</code>.
+        </p>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">Dependencies</h2>
         <p class="text-sm text-muted-foreground">
           If copying components, you still need these packages:
@@ -132,6 +158,41 @@ export class SnyButtonDirective {
   readonly size = input<string>('md');
   // ...
 }`;
+
+  importCode = `import { Component } from '@angular/core';
+import { SnyButtonDirective } from './ui/button';
+
+@Component({
+  selector: 'app-example',
+  standalone: true,
+  imports: [SnyButtonDirective],
+  template: \`
+    <button snyBtn>Default</button>
+    <button snyBtn variant="outline">Outline</button>
+    <button snyBtn variant="destructive" size="sm">Delete</button>
+  \`,
+})
+export class ExampleComponent {}`;
+
+  usageCode = `<!-- Variants -->
+<button snyBtn>Default</button>
+<button snyBtn variant="destructive">Delete</button>
+<button snyBtn variant="outline">Outline</button>
+<button snyBtn variant="secondary">Secondary</button>
+<button snyBtn variant="ghost">Ghost</button>
+<button snyBtn variant="link">Link</button>
+
+<!-- Sizes -->
+<button snyBtn size="sm">Small</button>
+<button snyBtn size="md">Medium</button>
+<button snyBtn size="lg">Large</button>
+
+<!-- States -->
+<button snyBtn [disabled]="true">Disabled</button>
+<button snyBtn [loading]="true">Loading...</button>
+
+<!-- As link -->
+<a snyBtn variant="outline" href="/about">About</a>`;
 
   depsCode = `npm install clsx tailwind-merge class-variance-authority`;
 }
