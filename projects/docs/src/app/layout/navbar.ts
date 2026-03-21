@@ -33,7 +33,7 @@ import { SearchDialogComponent } from '../shared/search-dialog';
         <nav class="hidden md:flex items-center gap-6 text-sm">
           <a routerLink="/docs" class="text-muted-foreground hover:text-foreground transition-colors">Docs</a>
           <a routerLink="/docs/components/button" class="text-muted-foreground hover:text-foreground transition-colors">Components</a>
-          <a href="https://github.com/poseimus/sonny-ui" target="_blank" rel="noopener" class="text-muted-foreground hover:text-foreground transition-colors">GitHub</a>
+          <a href="https://github.com/coci-dev/sonny-ui" target="_blank" rel="noopener" class="text-muted-foreground hover:text-foreground transition-colors">GitHub</a>
         </nav>
 
         <!-- Right: search + theme toggle -->

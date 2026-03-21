@@ -181,7 +181,7 @@ import { CodeBlockComponent } from '../shared/code-block';
         </p>
         <div class="mt-8 flex items-center justify-center gap-4">
           <a snyBtn size="lg" routerLink="/docs/getting-started/installation">Read the Docs</a>
-          <a snyBtn variant="outline" size="lg" href="https://github.com/poseimus/sonny-ui" target="_blank" rel="noopener">
+          <a snyBtn variant="outline" size="lg" href="https://github.com/coci-dev/sonny-ui" target="_blank" rel="noopener">
             GitHub
           </a>
         </div>
