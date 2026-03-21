@@ -36,7 +36,7 @@ jobs:
         run: npm run build
 
       - name: Build docs
-        run: npm run docs:build
+        run: npx ng build docs --configuration production --base-href /sonny-ui/
 
       - name: Upload artifact
         uses: actions/upload-pages-artifact@v3
