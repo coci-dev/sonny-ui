@@ -34,10 +34,7 @@
     {
       "path": "./projects/core/tsconfig.spec.json"
     },
-    {
-      "path": "./projects/demo/tsconfig.app.json"
-    },
-    {
+{
       "path": "./projects/docs/tsconfig.app.json"
     }
   ]
