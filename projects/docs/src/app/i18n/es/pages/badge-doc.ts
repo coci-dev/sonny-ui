@@ -1,5 +1,5 @@
 export const BADGE_DOC_ES = {
-  title: 'Insignia',
+  title: 'Badge',
   description: 'Muestra una insignia o un componente con apariencia de insignia.',
   statusDashboard: 'Panel de Estado',
   propDescriptions: {

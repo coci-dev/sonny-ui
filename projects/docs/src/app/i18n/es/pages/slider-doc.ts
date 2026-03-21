@@ -1,5 +1,5 @@
 export const SLIDER_DOC_ES = {
-  title: 'Deslizador',
+  title: 'Slider',
   description: 'Una entrada donde el usuario selecciona un valor dentro de un rango dado.',
   volumeControl: 'Control de Volumen',
   accessibility: [

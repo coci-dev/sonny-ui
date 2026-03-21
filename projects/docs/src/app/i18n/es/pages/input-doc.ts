@@ -1,5 +1,5 @@
 export const INPUT_DOC_ES = {
-  title: 'Campo de Entrada',
+  title: 'Input',
   description: 'Muestra un campo de entrada de formulario.',
   withLabel: 'Con Etiqueta',
   disabled: 'Deshabilitado',

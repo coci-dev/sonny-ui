@@ -1,5 +1,5 @@
 export const CARD_DOC_ES = {
-  title: 'Tarjeta',
+  title: 'Card',
   description: 'Muestra una tarjeta con encabezado, contenido y pie de página.',
   examplesDesc: 'Patrones de uso del mundo real con gestión de estado.',
   selectableCardList: 'Lista de Tarjetas Seleccionables',

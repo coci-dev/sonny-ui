@@ -1,5 +1,5 @@
 export const SELECT_DOC_ES = {
-  title: 'Selector',
+  title: 'Select',
   description: 'Muestra una lista de opciones para que el usuario elija.',
   userProfileForm: 'Formulario de Perfil de Usuario',
   accessibility: [

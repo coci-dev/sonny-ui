@@ -1,5 +1,5 @@
 export const LOADER_DOC_ES = {
-  title: 'Cargador',
+  title: 'Loader',
   description: 'Indicadores visuales para estados de carga.',
   loadingStates: 'Estados de Carga',
   propDescriptions: {

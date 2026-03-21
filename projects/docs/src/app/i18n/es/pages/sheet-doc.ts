@@ -1,5 +1,5 @@
 export const SHEET_DOC_ES = {
-  title: 'Panel Lateral',
+  title: 'Sheet',
   description: 'Un panel que se desliza desde el borde de la pantalla.',
   cartSheet: 'Panel de Carrito',
   snySheetService: 'SnySheetService',

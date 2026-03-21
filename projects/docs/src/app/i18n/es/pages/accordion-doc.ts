@@ -1,5 +1,5 @@
 export const ACCORDION_DOC_ES = {
-  title: 'Acordeón',
+  title: 'Accordion',
   description: 'Un conjunto de encabezados interactivos apilados verticalmente que revelan contenido.',
   faqWithMultiMode: 'FAQ con Modo Múltiple',
   accordion: 'Accordion',
