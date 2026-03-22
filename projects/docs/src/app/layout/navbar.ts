@@ -3,6 +3,7 @@ import { Router, RouterLink } from '@angular/router';
 import { ThemeService, type Theme, SnyDialogService } from 'core';
 import { SearchDialogComponent } from '../shared/search-dialog';
 import { I18nService } from '../i18n/i18n.service';
+import { LIB_VERSION, NPM_URL } from '../shared/version';
 
 @Component({
   selector: 'docs-navbar',
@@ -26,8 +27,8 @@ import { I18nService } from '../i18n/i18n.service';
           <a [routerLink]="i18n.localizeLink('/')" class="flex items-center gap-2 text-lg font-bold tracking-tight">
             <img src="logo.png" alt="SonnyUI" class="h-8 w-auto" />
             SonnyUI
-            <span class="text-[10px] font-medium uppercase tracking-wider rounded-sm bg-yellow-500/10 text-yellow-600 border border-yellow-500/20 px-1.5 py-0.5">{{ i18n.common().nav.alpha }}</span>
           </a>
+          <a [href]="npmUrl" target="_blank" rel="noopener" class="text-[10px] font-medium tracking-wider rounded-sm bg-yellow-500/10 text-yellow-600 border border-yellow-500/20 px-1.5 py-0.5 hover:bg-yellow-500/20 transition-colors no-underline">v{{ version }}</a>
         </div>
 
         <!-- Center links (desktop) -->
@@ -81,6 +82,8 @@ export class NavbarComponent {
   readonly themeService = inject(ThemeService);
   readonly i18n = inject(I18nService);
   readonly themes: Theme[] = ['light', 'dark', 'corporate'];
+  readonly version = LIB_VERSION;
+  readonly npmUrl = NPM_URL;
 
   private readonly router = inject(Router);
   private readonly dialogService = inject(SnyDialogService);

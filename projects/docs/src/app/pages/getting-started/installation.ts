@@ -57,8 +57,8 @@ export class InstallationComponent {
   private readonly i18n = inject(I18nService);
   readonly t = computed(() => this.i18n.locale() === 'es' ? INSTALLATION_ES : INSTALLATION_EN);
 
-  ngAddCode = `ng add @sonny-ui/core`;
-  installCode = `npm install @sonny-ui/core`;
+  ngAddCode = `ng add @sonny-ui/core@latest`;
+  installCode = `npm install @sonny-ui/core@latest`;
   cssImportCode = `@import "tailwindcss";
 @import "@sonny-ui/core/styles/sonny-theme.css";`;
   tailwindSourceCode = `@source "../node_modules/@sonny-ui/core";`;

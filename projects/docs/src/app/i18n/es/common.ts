@@ -6,7 +6,6 @@ export const COMMON_ES: CommonTranslations = {
     components: 'Componentes',
     github: 'GitHub',
     searchPlaceholder: 'Buscar docs...',
-    alpha: 'alpha',
     toggleSidebar: 'Alternar barra lateral',
   },
   search: {
