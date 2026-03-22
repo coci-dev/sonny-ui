@@ -52,4 +52,12 @@ describe('SnySkeletonDirective', () => {
     fixture.detectChanges();
     expect(el.className).toContain('h-12');
   });
+
+  it('should have aria-busy="true"', () => {
+    expect(el.getAttribute('aria-busy')).toBe('true');
+  });
+
+  it('should have aria-hidden="true"', () => {
+    expect(el.getAttribute('aria-hidden')).toBe('true');
+  });
 });

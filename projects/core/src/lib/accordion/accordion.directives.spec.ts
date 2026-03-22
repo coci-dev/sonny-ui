@@ -1,4 +1,4 @@
-import { Component, signal } from '@angular/core';
+import { Component, signal, viewChild } from '@angular/core';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import {
   SnyAccordionDirective,
@@ -91,5 +91,83 @@ describe('Accordion Directives', () => {
     fixture.detectChanges();
 
     expect(content.className).toContain('grid-rows-[1fr]');
+  });
+
+  it('should move focus with ArrowDown', () => {
+    const triggers = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    (triggers[0] as HTMLElement).focus();
+    triggers[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowDown', bubbles: true }));
+    fixture.detectChanges();
+    const updated = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    expect(document.activeElement).toBe(updated[1]);
+  });
+
+  it('should move focus with ArrowUp', () => {
+    const triggers = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    (triggers[1] as HTMLElement).focus();
+    triggers[1].dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowUp', bubbles: true }));
+    fixture.detectChanges();
+    const updated = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    expect(document.activeElement).toBe(updated[0]);
+  });
+
+  it('should move focus to first with Home', () => {
+    const triggers = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    (triggers[1] as HTMLElement).focus();
+    triggers[1].dispatchEvent(new KeyboardEvent('keydown', { key: 'Home', bubbles: true }));
+    fixture.detectChanges();
+    const updated = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    expect(document.activeElement).toBe(updated[0]);
+  });
+
+  it('should move focus to last with End', () => {
+    const triggers = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    (triggers[0] as HTMLElement).focus();
+    triggers[0].dispatchEvent(new KeyboardEvent('keydown', { key: 'End', bubbles: true }));
+    fixture.detectChanges();
+    const updated = fixture.nativeElement.querySelectorAll('[snyAccordionTrigger]');
+    expect(document.activeElement).toBe(updated[1]);
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [
+    SnyAccordionDirective,
+    SnyAccordionItemDirective,
+    SnyAccordionTriggerDirective,
+    SnyAccordionContentDirective,
+  ],
+  template: `
+    <div snyAccordion #a="snyAccordion">
+      <div snyAccordionItem #i="snyAccordionItem" value="item-1">
+        <button snyAccordionTrigger>Item 1</button>
+        <div snyAccordionContent><div>Content 1</div></div>
+      </div>
+    </div>
+  `,
+})
+class ExportAsHost {
+  accordion = viewChild<SnyAccordionDirective>('a');
+  item = viewChild<SnyAccordionItemDirective>('i');
+}
+
+describe('Accordion exportAs', () => {
+  it('should expose snyAccordion via template ref', async () => {
+    await TestBed.configureTestingModule({ imports: [ExportAsHost] }).compileComponents();
+    const fixture = TestBed.createComponent(ExportAsHost);
+    fixture.detectChanges();
+    const ref = fixture.componentInstance.accordion();
+    expect(ref).toBeTruthy();
+    expect(ref!.multi()).toBe(false);
+  });
+
+  it('should expose snyAccordionItem via template ref', async () => {
+    await TestBed.configureTestingModule({ imports: [ExportAsHost] }).compileComponents();
+    const fixture = TestBed.createComponent(ExportAsHost);
+    fixture.detectChanges();
+    const ref = fixture.componentInstance.item();
+    expect(ref).toBeTruthy();
+    expect(ref!.isOpen()).toBe(false);
   });
 });

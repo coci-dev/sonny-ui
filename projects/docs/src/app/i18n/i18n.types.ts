@@ -39,6 +39,7 @@ export interface DocSectionTranslations {
   apiReference: string;
   accessibility: string;
   asLink: string;
+  reactiveForms: string;
 }
 
 export interface PropsTableTranslations {

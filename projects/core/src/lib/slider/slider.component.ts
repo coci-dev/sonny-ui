@@ -1,14 +1,19 @@
-import { Component, computed, ElementRef, inject, input, model, OnDestroy, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, forwardRef, input, model, OnDestroy, signal, viewChild } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { sliderTrackVariants, sliderThumbSize, type SliderSize } from './slider.variants';
 
 @Component({
   selector: 'sny-slider',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block',
     '(keydown)': 'onKeydown($event)',
   },
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnySliderComponent), multi: true },
+  ],
   template: `
     <div
       #trackEl
@@ -23,15 +28,16 @@ import { sliderTrackVariants, sliderThumbSize, type SliderSize } from './slider.
         [attr.aria-valuemin]="min()"
         [attr.aria-valuemax]="max()"
         [attr.aria-valuenow]="value()"
-        [disabled]="disabled()"
+        [disabled]="isDisabled()"
         [class]="thumbClass()"
         [style.left.%]="percentage()"
         tabindex="0"
+        (blur)="onTouched()"
       ></button>
     </div>
   `,
 })
-export class SnySliderComponent implements OnDestroy {
+export class SnySliderComponent implements ControlValueAccessor, OnDestroy {
   readonly value = model(0);
   readonly min = input(0);
   readonly max = input(100);
@@ -40,9 +46,44 @@ export class SnySliderComponent implements OnDestroy {
   readonly size = input<SliderSize>('md');
   readonly class = input<string>('');
 
+  private readonly _disabledByCva = signal(false);
+  protected readonly isDisabled = computed(() => this.disabled() || this._disabledByCva());
+
   private readonly trackRef = viewChild<ElementRef<HTMLDivElement>>('trackEl');
   private moveHandler: ((e: MouseEvent | TouchEvent) => void) | null = null;
   private upHandler: (() => void) | null = null;
+
+  private _onChange: (value: number) => void = () => {};
+  protected onTouched: () => void = () => {};
+  private _writing = false;
+
+  constructor() {
+    effect(() => {
+      const val = this.value();
+      if (this._writing) {
+        this._writing = false;
+        return;
+      }
+      this._onChange(val);
+    });
+  }
+
+  writeValue(val: number): void {
+    this._writing = true;
+    this.value.set(val ?? 0);
+  }
+
+  registerOnChange(fn: (value: number) => void): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._disabledByCva.set(isDisabled);
+  }
 
   protected readonly percentage = computed(() => {
     const range = this.max() - this.min();
@@ -51,7 +92,7 @@ export class SnySliderComponent implements OnDestroy {
   });
 
   protected readonly trackClass = computed(() =>
-    cn(sliderTrackVariants({ size: this.size() }), this.disabled() && 'opacity-50 cursor-not-allowed', this.class())
+    cn(sliderTrackVariants({ size: this.size() }), this.isDisabled() && 'opacity-50 cursor-not-allowed', this.class())
   );
 
   protected readonly thumbClass = computed(() =>
@@ -62,7 +103,7 @@ export class SnySliderComponent implements OnDestroy {
   );
 
   private updateValueFromPosition(clientX: number): void {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
     const track = this.trackRef()?.nativeElement;
     if (!track) return;
     const rect = track.getBoundingClientRect();
@@ -73,32 +114,38 @@ export class SnySliderComponent implements OnDestroy {
   }
 
   onTrackMousedown(event: MouseEvent): void {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
     event.preventDefault();
     this.updateValueFromPosition(event.clientX);
     this.moveHandler = (e: MouseEvent | TouchEvent) => {
       const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
       this.updateValueFromPosition(clientX);
     };
-    this.upHandler = () => this.removeListeners();
+    this.upHandler = () => {
+      this.onTouched();
+      this.removeListeners();
+    };
     document.addEventListener('mousemove', this.moveHandler as EventListener);
     document.addEventListener('mouseup', this.upHandler);
   }
 
   onTrackTouchstart(event: TouchEvent): void {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
     this.updateValueFromPosition(event.touches[0].clientX);
     this.moveHandler = (e: MouseEvent | TouchEvent) => {
       const clientX = e instanceof MouseEvent ? e.clientX : e.touches[0].clientX;
       this.updateValueFromPosition(clientX);
     };
-    this.upHandler = () => this.removeListeners();
+    this.upHandler = () => {
+      this.onTouched();
+      this.removeListeners();
+    };
     document.addEventListener('touchmove', this.moveHandler as EventListener, { passive: true });
     document.addEventListener('touchend', this.upHandler);
   }
 
   onKeydown(event: KeyboardEvent): void {
-    if (this.disabled()) return;
+    if (this.isDisabled()) return;
     const step = this.step();
     switch (event.key) {
       case 'ArrowRight':

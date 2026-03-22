@@ -10,9 +10,78 @@ import { INPUT_DOC_EN } from '../../i18n/en/pages/input-doc';
 import { INPUT_DOC_ES } from '../../i18n/es/pages/input-doc';
 
 @Component({
+  selector: 'docs-input-form-example',
+  standalone: true,
+  imports: [ReactiveFormsModule, SnyInputDirective, SnyLabelDirective, SnyButtonDirective],
+  template: `
+    <div class="space-y-4 w-full max-w-sm">
+      <div class="space-y-2">
+        <label snyLabel [variant]="emailVariant()">Email</label>
+        <input
+          snyInput
+          type="email"
+          placeholder="you&#64;example.com"
+          [variant]="emailVariant()"
+          [formControl]="email"
+        />
+        @if (email.touched && email.invalid) {
+          <p class="text-xs text-destructive">Please enter a valid email address.</p>
+        }
+      </div>
+      <div class="space-y-2">
+        <label snyLabel [variant]="messageVariant()">Message</label>
+        <textarea
+          snyInput
+          placeholder="Your message..."
+          rows="3"
+          [variant]="messageVariant()"
+          [formControl]="message"
+        ></textarea>
+        <p class="text-xs text-muted-foreground">{{ message.value?.length || 0 }}/500 characters</p>
+      </div>
+      <button snyBtn type="button" [disabled]="!email.valid || !message.valid" (click)="onSubmit()">
+        Send Message
+      </button>
+      @if (submitted()) {
+        <p class="text-sm text-green-600">Message sent successfully!</p>
+      }
+    </div>
+  `,
+})
+export class InputFormExampleComponent {
+  readonly email = new FormControl('', [Validators.required, Validators.email]);
+  readonly message = new FormControl('', [Validators.required, Validators.maxLength(500)]);
+  readonly submitted = signal(false);
+
+  private readonly emailEvents = toSignal(this.email.events);
+  private readonly messageEvents = toSignal(this.message.events);
+
+  readonly emailVariant = computed((): 'default' | 'error' | 'success' => {
+    this.emailEvents();
+    if (!this.email.touched) return 'default';
+    return this.email.valid ? 'success' : 'error';
+  });
+
+  readonly messageVariant = computed((): 'default' | 'error' | 'success' => {
+    this.messageEvents();
+    if (!this.message.touched) return 'default';
+    return this.message.valid ? 'success' : 'error';
+  });
+
+  onSubmit() {
+    if (this.email.valid && this.message.valid) {
+      this.submitted.set(true);
+      setTimeout(() => this.submitted.set(false), 3000);
+      this.email.reset();
+      this.message.reset();
+    }
+  }
+}
+
+@Component({
   selector: 'docs-input-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyInputDirective, SnyLabelDirective, SnyButtonDirective, ReactiveFormsModule],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyInputDirective, SnyLabelDirective, InputFormExampleComponent],
   template: `
     <div class="space-y-8">
       <div>
@@ -77,38 +146,7 @@ import { INPUT_DOC_ES } from '../../i18n/es/pages/input-doc';
 
         <h3 class="text-lg font-medium">{{ t().formWithReactiveValidation }}</h3>
         <docs-component-preview [code]="validationFormCode" language="typescript">
-          <form class="space-y-4 w-full max-w-sm" (ngSubmit)="onSubmit()">
-            <div class="space-y-2">
-              <label snyLabel [variant]="emailVariant()">Email</label>
-              <input
-                snyInput
-                type="email"
-                placeholder="you&#64;example.com"
-                [variant]="emailVariant()"
-                [formControl]="email"
-              />
-              @if (email.touched && email.invalid) {
-                <p class="text-xs text-destructive">Please enter a valid email address.</p>
-              }
-            </div>
-            <div class="space-y-2">
-              <label snyLabel [variant]="messageVariant()">Message</label>
-              <textarea
-                snyInput
-                placeholder="Your message..."
-                rows="3"
-                [variant]="messageVariant()"
-                [formControl]="message"
-              ></textarea>
-              <p class="text-xs text-muted-foreground">{{ message.value?.length || 0 }}/500 characters</p>
-            </div>
-            <button snyBtn type="submit" [disabled]="!email.valid || !message.valid">
-              Send Message
-            </button>
-            @if (submitted()) {
-              <p class="text-sm text-green-600">Message sent successfully!</p>
-            }
-          </form>
+          <docs-input-form-example />
         </docs-component-preview>
       </section>
 
@@ -152,36 +190,6 @@ export class InputDocComponent {
 
   disabledCode = `<input snyInput disabled placeholder="Disabled input" />`;
 
-  // Examples state
-  readonly email = new FormControl('', [Validators.required, Validators.email]);
-  readonly message = new FormControl('', [Validators.required, Validators.maxLength(500)]);
-  readonly submitted = signal(false);
-
-  // toSignal(control.events) converts FormControl events to a signal so computed() re-evaluates
-  private readonly emailEvents = toSignal(this.email.events);
-  private readonly messageEvents = toSignal(this.message.events);
-
-  readonly emailVariant = computed((): 'default' | 'error' | 'success' => {
-    this.emailEvents(); // track form control changes
-    if (!this.email.touched) return 'default';
-    return this.email.valid ? 'success' : 'error';
-  });
-
-  readonly messageVariant = computed((): 'default' | 'error' | 'success' => {
-    this.messageEvents(); // track form control changes
-    if (!this.message.touched) return 'default';
-    return this.message.valid ? 'success' : 'error';
-  });
-
-  onSubmit() {
-    if (this.email.valid && this.message.valid) {
-      this.submitted.set(true);
-      setTimeout(() => this.submitted.set(false), 3000);
-      this.email.reset();
-      this.message.reset();
-    }
-  }
-
   validationFormCode = `@Component({
   imports: [ReactiveFormsModule, SnyInputDirective, SnyLabelDirective, SnyButtonDirective],
   template: \`
@@ -212,18 +220,17 @@ export class ContactFormExample {
   readonly message = new FormControl('', [Validators.required, Validators.maxLength(500)]);
   readonly submitted = signal(false);
 
-  // toSignal converts FormControl events into signals so computed() re-evaluates on form changes
   private readonly emailEvents = toSignal(this.email.events);
   private readonly messageEvents = toSignal(this.message.events);
 
   readonly emailVariant = computed((): 'default' | 'error' | 'success' => {
-    this.emailEvents(); // track form control changes
+    this.emailEvents();
     if (!this.email.touched) return 'default';
     return this.email.valid ? 'success' : 'error';
   });
 
   readonly messageVariant = computed((): 'default' | 'error' | 'success' => {
-    this.messageEvents(); // track form control changes
+    this.messageEvents();
     if (!this.message.touched) return 'default';
     return this.message.valid ? 'success' : 'error';
   });

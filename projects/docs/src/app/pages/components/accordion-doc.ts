@@ -109,6 +109,15 @@ import { ACCORDION_DOC_ES } from '../../i18n/es/pages/accordion-doc';
         <h3 class="text-lg font-medium mt-4">{{ t().accordionItem }}</h3>
         <docs-props-table [props]="itemProps()" />
       </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.accessibility }}</h2>
+        <ul class="list-disc pl-6 space-y-1 text-sm text-muted-foreground">
+          @for (item of t().accessibility; track item) {
+            <li [innerHTML]="item"></li>
+          }
+        </ul>
+      </section>
     </div>
   `,
 })

@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -10,7 +11,7 @@ import { SnyComboboxComponent, type ComboboxOption } from 'core';
 @Component({
   selector: 'docs-combobox-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyComboboxComponent],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyComboboxComponent, ReactiveFormsModule],
   template: `
     <div class="space-y-8">
       <div>
@@ -55,6 +56,16 @@ import { SnyComboboxComponent, type ComboboxOption } from 'core';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.reactiveForms }}</h2>
+        <docs-component-preview [code]="reactiveFormsCode" language="typescript">
+          <div class="w-56 space-y-2">
+            <sny-combobox [options]="frameworks" [formControl]="comboboxCtrl" placeholder="Select framework..." searchPlaceholder="Search..." />
+            <p class="text-sm text-muted-foreground">Value: {{ comboboxCtrl.value }}</p>
+          </div>
+        </docs-component-preview>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
         <docs-props-table [props]="props()" />
       </section>
@@ -74,6 +85,7 @@ export class ComboboxDocComponent {
   readonly i18n = inject(I18nService);
   readonly t = computed(() => this.i18n.locale() === 'es' ? COMBOBOX_DOC_ES : COMBOBOX_DOC_EN);
 
+  readonly comboboxCtrl = new FormControl('');
   readonly selectedCountry = signal('');
 
   frameworks: ComboboxOption[] = [
@@ -97,6 +109,10 @@ export class ComboboxDocComponent {
     { value: 'mx', label: 'Mexico' },
     { value: 'ar', label: 'Argentina' },
   ];
+
+  reactiveFormsCode = `readonly comboboxCtrl = new FormControl('');
+
+<sny-combobox [options]="frameworks" [formControl]="comboboxCtrl" />`;
 
   importCode = `import { SnyComboboxComponent, type ComboboxOption } from '@sonny-ui/core';`;
 

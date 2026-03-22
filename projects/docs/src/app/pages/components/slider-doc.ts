@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -10,7 +11,7 @@ import { SLIDER_DOC_ES } from '../../i18n/es/pages/slider-doc';
 @Component({
   selector: 'docs-slider-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnySliderComponent, SnyLabelDirective],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnySliderComponent, SnyLabelDirective, ReactiveFormsModule],
   template: `
     <div class="space-y-8">
       <div>
@@ -72,6 +73,16 @@ import { SLIDER_DOC_ES } from '../../i18n/es/pages/slider-doc';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.reactiveForms }}</h2>
+        <docs-component-preview [code]="reactiveFormsCode" language="typescript">
+          <div class="w-full max-w-sm space-y-2">
+            <sny-slider [formControl]="sliderCtrl" />
+            <p class="text-sm text-muted-foreground">Value: {{ sliderCtrl.value }}</p>
+          </div>
+        </docs-component-preview>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
         <docs-props-table [props]="props()" />
       </section>
@@ -91,7 +102,12 @@ export class SliderDocComponent {
   readonly i18n = inject(I18nService);
   readonly t = computed(() => this.i18n.locale() === 'es' ? SLIDER_DOC_ES : SLIDER_DOC_EN);
 
+  readonly sliderCtrl = new FormControl(50);
   readonly volume = signal(50);
+
+  reactiveFormsCode = `readonly sliderCtrl = new FormControl(50);
+
+<sny-slider [formControl]="sliderCtrl" />`;
 
   importCode = `import { SnySliderComponent } from '@sonny-ui/core';`;
   basicCode = `<sny-slider [(value)]="volume" />`;

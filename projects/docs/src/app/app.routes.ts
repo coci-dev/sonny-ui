@@ -41,11 +41,7 @@ const docsChildren: Routes = [
     loadComponent: () =>
       import('./pages/components/card-doc').then((m) => m.CardDocComponent),
   },
-  {
-    path: 'components/input',
-    loadComponent: () =>
-      import('./pages/components/input-doc').then((m) => m.InputDocComponent),
-  },
+  
   {
     path: 'components/toast',
     loadComponent: () =>
@@ -60,6 +56,11 @@ const docsChildren: Routes = [
     path: 'components/accordion',
     loadComponent: () =>
       import('./pages/components/accordion-doc').then((m) => m.AccordionDocComponent),
+  },
+  {
+    path: 'components/alert',
+    loadComponent: () =>
+      import('./pages/components/alert-doc').then((m) => m.AlertDocComponent),
   },
   {
     path: 'components/avatar',
@@ -92,6 +93,11 @@ const docsChildren: Routes = [
       import('./pages/components/combobox-doc').then((m) => m.ComboboxDocComponent),
   },
   {
+    path: 'components/dropdown',
+    loadComponent: () =>
+      import('./pages/components/dropdown-doc').then((m) => m.DropdownDocComponent),
+  },
+  {
     path: 'components/skeleton',
     loadComponent: () =>
       import('./pages/components/skeleton-doc').then((m) => m.SkeletonDocComponent),
@@ -112,6 +118,11 @@ const docsChildren: Routes = [
       import('./pages/components/toggle-doc').then((m) => m.ToggleDocComponent),
   },
   {
+    path: 'components/tooltip',
+    loadComponent: () =>
+      import('./pages/components/tooltip-doc').then((m) => m.TooltipDocComponent),
+  },
+  {
     path: 'components/slider',
     loadComponent: () =>
       import('./pages/components/slider-doc').then((m) => m.SliderDocComponent),
@@ -120,6 +131,11 @@ const docsChildren: Routes = [
     path: 'components/loader',
     loadComponent: () =>
       import('./pages/components/loader-doc').then((m) => m.LoaderDocComponent),
+  },
+  {
+    path: 'components/progress',
+    loadComponent: () =>
+      import('./pages/components/progress-doc').then((m) => m.ProgressDocComponent),
   },
   {
     path: 'components/tabs',
@@ -137,9 +153,129 @@ const docsChildren: Routes = [
       import('./pages/components/table-doc').then((m) => m.TableDocComponent),
   },
   {
+    path: 'components/textarea',
+    loadComponent: () =>
+      import('./pages/components/textarea-doc').then((m) => m.TextareaDocComponent),
+  },
+  {
     path: 'components/sheet',
     loadComponent: () =>
       import('./pages/components/sheet-doc').then((m) => m.SheetDocComponent),
+  },
+  {
+    path: 'components/fieldset',
+    loadComponent: () =>
+      import('./pages/components/fieldset-doc').then((m) => m.FieldsetDocComponent),
+  },
+  {
+    path: 'components/file-input',
+    loadComponent: () =>
+      import('./pages/components/file-input-doc').then((m) => m.FileInputDocComponent),
+  },
+  {
+    path: 'components/rating',
+    loadComponent: () =>
+      import('./pages/components/rating-doc').then((m) => m.RatingDocComponent),
+  },
+  {
+    path: 'components/navbar',
+    loadComponent: () =>
+      import('./pages/components/navbar-doc').then((m) => m.NavbarDocComponent),
+  },
+  {
+    path: 'components/drawer',
+    loadComponent: () =>
+      import('./pages/components/drawer-doc').then((m) => m.DrawerDocComponent),
+  },
+  {
+    path: 'components/pagination',
+    loadComponent: () =>
+      import('./pages/components/pagination-doc').then((m) => m.PaginationDocComponent),
+  },
+  {
+    path: 'components/divider',
+    loadComponent: () =>
+      import('./pages/components/divider-doc').then((m) => m.DividerDocComponent),
+  },
+  {
+    path: 'components/steps',
+    loadComponent: () =>
+      import('./pages/components/steps-doc').then((m) => m.StepsDocComponent),
+  },
+  {
+    path: 'components/stat',
+    loadComponent: () =>
+      import('./pages/components/stat-doc').then((m) => m.StatDocComponent),
+  },
+  {
+    path: 'components/timeline',
+    loadComponent: () =>
+      import('./pages/components/timeline-doc').then((m) => m.TimelineDocComponent),
+  },
+  {
+    path: 'components/kbd',
+    loadComponent: () =>
+      import('./pages/components/kbd-doc').then((m) => m.KbdDocComponent),
+  },
+  {
+    path: 'components/list',
+    loadComponent: () =>
+      import('./pages/components/list-doc').then((m) => m.ListDocComponent),
+  },
+  {
+    path: 'components/status',
+    loadComponent: () =>
+      import('./pages/components/status-doc').then((m) => m.StatusDocComponent),
+  },
+  {
+    path: 'components/indicator',
+    loadComponent: () =>
+      import('./pages/components/indicator-doc').then((m) => m.IndicatorDocComponent),
+  },
+  {
+    path: 'components/chat-bubble',
+    loadComponent: () =>
+      import('./pages/components/chat-bubble-doc').then((m) => m.ChatBubbleDocComponent),
+  },
+  {
+    path: 'components/carousel',
+    loadComponent: () =>
+      import('./pages/components/carousel-doc').then((m) => m.CarouselDocComponent),
+  },
+  {
+    path: 'components/dock',
+    loadComponent: () =>
+      import('./pages/components/dock-doc').then((m) => m.DockDocComponent),
+  },
+  {
+    path: 'components/fab',
+    loadComponent: () =>
+      import('./pages/components/fab-doc').then((m) => m.FabDocComponent),
+  },
+  {
+    path: 'components/radial-progress',
+    loadComponent: () =>
+      import('./pages/components/radial-progress-doc').then((m) => m.RadialProgressDocComponent),
+  },
+  {
+    path: 'components/diff',
+    loadComponent: () =>
+      import('./pages/components/diff-doc').then((m) => m.DiffDocComponent),
+  },
+  {
+    path: 'components/link',
+    loadComponent: () =>
+      import('./pages/components/link-doc').then((m) => m.LinkDocComponent),
+  },
+  {
+    path: 'components/calendar',
+    loadComponent: () =>
+      import('./pages/components/calendar-doc').then((m) => m.CalendarDocComponent),
+  },
+  {
+    path: 'components/validator',
+    loadComponent: () =>
+      import('./pages/components/validator-doc').then((m) => m.ValidatorDocComponent),
   },
   {
     path: 'schematics/ng-add',
@@ -155,6 +291,11 @@ const docsChildren: Routes = [
     path: 'contributing/development',
     loadComponent: () =>
       import('./pages/contributing/development').then((m) => m.DevelopmentComponent),
+  },
+  {
+    path: 'components/input',
+    loadComponent: () =>
+      import('./pages/components/input-doc').then((m) => m.InputDocComponent),
   },
 ];
 
