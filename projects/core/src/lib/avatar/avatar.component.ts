@@ -1,10 +1,11 @@
-import { Component, computed, input, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input, signal } from '@angular/core';
 import { cn } from '../core/utils/cn';
 import { avatarVariants, type AvatarSize, type AvatarVariant } from './avatar.variants';
 
 @Component({
   selector: 'sny-avatar',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class]': 'computedClass()' },
   template: `
     @if (src() && !error()) {

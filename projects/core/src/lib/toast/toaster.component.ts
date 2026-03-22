@@ -1,4 +1,4 @@
-import { Component, inject, input, computed } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject, input, computed } from '@angular/core';
 import { SnyToastService } from './toast.service';
 import { toastVariants, type ToastPosition, type ToastVariant } from './toast.variants';
 import { cn } from '../core/utils/cn';
@@ -6,6 +6,7 @@ import { cn } from '../core/utils/cn';
 @Component({
   selector: 'sny-toaster',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [class]="containerClass()" role="region" aria-label="Notifications" tabindex="-1">
       @for (toast of visibleToasts(); track toast.id) {
@@ -13,6 +14,7 @@ import { cn } from '../core/utils/cn';
           [class]="toastClasses[toast.variant ?? 'default']"
           role="alert"
           aria-live="polite"
+          aria-atomic="true"
         >
           <div class="grid gap-1">
             <div class="text-sm font-semibold">{{ toast.title }}</div>

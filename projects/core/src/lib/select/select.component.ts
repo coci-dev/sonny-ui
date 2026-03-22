@@ -1,7 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
+  forwardRef,
   HostListener,
   inject,
   input,
@@ -10,6 +13,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { selectTriggerVariants, type SelectSize } from './select.variants';
 
@@ -21,9 +25,13 @@ export interface SelectOption {
 @Component({
   selector: 'sny-select',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'relative inline-block w-full',
   },
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnySelectComponent), multi: true },
+  ],
   template: `
     <button
       #triggerEl
@@ -31,10 +39,11 @@ export interface SelectOption {
       role="combobox"
       [attr.aria-expanded]="open()"
       aria-haspopup="listbox"
-      [disabled]="disabled()"
+      [disabled]="isDisabled()"
       [class]="triggerClass()"
       (click)="toggle()"
       (keydown)="onTriggerKeydown($event)"
+      (blur)="onTouched()"
     >
       <span [class]="selectedLabel() ? '' : 'text-muted-foreground'">
         {{ selectedLabel() || placeholder() }}
@@ -69,7 +78,7 @@ export interface SelectOption {
     }
   `,
 })
-export class SnySelectComponent implements OnDestroy {
+export class SnySelectComponent implements ControlValueAccessor, OnDestroy {
   readonly options = input<SelectOption[]>([]);
   readonly placeholder = input('Select...');
   readonly size = input<SelectSize>('md');
@@ -80,12 +89,47 @@ export class SnySelectComponent implements OnDestroy {
   readonly open = signal(false);
   readonly activeIndex = signal(0);
 
+  private readonly _disabledByCva = signal(false);
+  protected readonly isDisabled = computed(() => this.disabled() || this._disabledByCva());
+
   private readonly triggerRef = viewChild<ElementRef<HTMLButtonElement>>('triggerEl');
   private readonly dropdownRef = viewChild<ElementRef<HTMLDivElement>>('dropdownEl');
   private readonly elRef = inject(ElementRef);
 
   private scrollHandler: (() => void) | null = null;
   private resizeHandler: (() => void) | null = null;
+
+  private _onChange: (value: string) => void = () => {};
+  protected onTouched: () => void = () => {};
+  private _writing = false;
+
+  constructor() {
+    effect(() => {
+      const val = this.value();
+      if (this._writing) {
+        this._writing = false;
+        return;
+      }
+      this._onChange(val);
+    });
+  }
+
+  writeValue(val: string): void {
+    this._writing = true;
+    this.value.set(val ?? '');
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(isDisabled: boolean): void {
+    this._disabledByCva.set(isDisabled);
+  }
 
   readonly selectedLabel = computed(() => {
     const v = this.value();

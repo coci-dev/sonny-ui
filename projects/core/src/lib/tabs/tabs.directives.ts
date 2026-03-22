@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input, model, InjectionToken } from '@angular/core';
+import { Directive, ElementRef, computed, inject, input, model, InjectionToken } from '@angular/core';
 import { cn } from '../core/utils/cn';
 
 export const SNY_TABS = new InjectionToken<SnyTabsDirective>('SnyTabs');
@@ -6,6 +6,7 @@ export const SNY_TABS = new InjectionToken<SnyTabsDirective>('SnyTabs');
 @Directive({
   selector: '[snyTabs]',
   standalone: true,
+  exportAs: 'snyTabs',
   providers: [{ provide: SNY_TABS, useExisting: SnyTabsDirective }],
   host: { '[class]': 'computedClass()' },
 })
@@ -28,10 +29,12 @@ export class SnyTabsDirective {
   host: {
     role: 'tablist',
     '[class]': 'computedClass()',
+    '(keydown)': 'onKeydown($event)',
   },
 })
 export class SnyTabsListDirective {
   readonly class = input<string>('');
+  private readonly elRef = inject(ElementRef);
 
   protected readonly computedClass = computed(() =>
     cn(
@@ -39,6 +42,41 @@ export class SnyTabsListDirective {
       this.class()
     )
   );
+
+  onKeydown(event: KeyboardEvent): void {
+    const triggers = Array.from(
+      (this.elRef.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('[role="tab"]')
+    );
+    if (triggers.length === 0) return;
+
+    const currentIndex = triggers.indexOf(document.activeElement as HTMLElement);
+    if (currentIndex === -1) return;
+
+    let nextIndex: number | null = null;
+    switch (event.key) {
+      case 'ArrowRight':
+      case 'ArrowDown':
+        event.preventDefault();
+        nextIndex = (currentIndex + 1) % triggers.length;
+        break;
+      case 'ArrowLeft':
+      case 'ArrowUp':
+        event.preventDefault();
+        nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
+        break;
+      case 'Home':
+        event.preventDefault();
+        nextIndex = 0;
+        break;
+      case 'End':
+        event.preventDefault();
+        nextIndex = triggers.length - 1;
+        break;
+    }
+    if (nextIndex !== null) {
+      triggers[nextIndex].focus();
+    }
+  }
 }
 
 @Directive({
@@ -48,6 +86,7 @@ export class SnyTabsListDirective {
     role: 'tab',
     '[class]': 'computedClass()',
     '[attr.aria-selected]': 'isActive()',
+    '[attr.tabindex]': 'isActive() ? 0 : -1',
     '(click)': 'tabs.select(value())',
   },
 })

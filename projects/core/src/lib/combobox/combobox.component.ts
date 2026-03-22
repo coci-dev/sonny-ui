@@ -1,7 +1,10 @@
 import {
+  ChangeDetectionStrategy,
   Component,
   computed,
+  effect,
   ElementRef,
+  forwardRef,
   HostListener,
   inject,
   input,
@@ -10,6 +13,7 @@ import {
   signal,
   viewChild,
 } from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { comboboxTriggerVariants, type ComboboxSize } from './combobox.variants';
 
@@ -21,9 +25,13 @@ export interface ComboboxOption {
 @Component({
   selector: 'sny-combobox',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'relative inline-block w-full',
   },
+  providers: [
+    { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyComboboxComponent), multi: true },
+  ],
   template: `
     <!-- Trigger button -->
     <button
@@ -34,6 +42,7 @@ export interface ComboboxOption {
       aria-haspopup="listbox"
       [class]="triggerClass()"
       (click)="toggle()"
+      (blur)="onTouched()"
     >
       <span [class]="selectedLabel() ? '' : 'text-muted-foreground'">
         {{ selectedLabel() || placeholder() }}
@@ -89,7 +98,7 @@ export interface ComboboxOption {
     }
   `,
 })
-export class SnyComboboxComponent implements OnDestroy {
+export class SnyComboboxComponent implements ControlValueAccessor, OnDestroy {
   readonly options = input<ComboboxOption[]>([]);
   readonly placeholder = input('Select...');
   readonly searchPlaceholder = input('Search...');
@@ -101,6 +110,8 @@ export class SnyComboboxComponent implements OnDestroy {
   readonly query = signal('');
   readonly activeIndex = signal(0);
 
+  private readonly _disabledByCva = signal(false);
+
   private readonly triggerRef = viewChild<ElementRef<HTMLButtonElement>>('triggerEl');
   private readonly searchRef = viewChild<ElementRef<HTMLInputElement>>('searchEl');
   private readonly dropdownRef = viewChild<ElementRef<HTMLDivElement>>('dropdownEl');
@@ -108,6 +119,38 @@ export class SnyComboboxComponent implements OnDestroy {
 
   private scrollHandler: (() => void) | null = null;
   private resizeHandler: (() => void) | null = null;
+
+  private _onChange: (value: string) => void = () => {};
+  protected onTouched: () => void = () => {};
+  private _writing = false;
+
+  constructor() {
+    effect(() => {
+      const val = this.value();
+      if (this._writing) {
+        this._writing = false;
+        return;
+      }
+      this._onChange(val);
+    });
+  }
+
+  writeValue(val: string): void {
+    this._writing = true;
+    this.value.set(val ?? '');
+  }
+
+  registerOnChange(fn: (value: string) => void): void {
+    this._onChange = fn;
+  }
+
+  registerOnTouched(fn: () => void): void {
+    this.onTouched = fn;
+  }
+
+  setDisabledState(_isDisabled: boolean): void {
+    this._disabledByCva.set(_isDisabled);
+  }
 
   readonly selectedLabel = computed(() => {
     const v = this.value();

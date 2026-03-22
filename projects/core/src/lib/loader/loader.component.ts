@@ -1,10 +1,11 @@
-import { Component, computed, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, input } from '@angular/core';
 import { cn } from '../core/utils/cn';
 import { loaderVariants, type LoaderSize, type LoaderVariant } from './loader.variants';
 
 @Component({
   selector: 'sny-loader',
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'computedClass()',
     role: 'status',

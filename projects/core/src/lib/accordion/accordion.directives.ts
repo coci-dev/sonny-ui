@@ -1,4 +1,4 @@
-import { Directive, computed, inject, input, signal, InjectionToken } from '@angular/core';
+import { Directive, ElementRef, computed, inject, input, signal, InjectionToken } from '@angular/core';
 import { cn } from '../core/utils/cn';
 
 export const SNY_ACCORDION = new InjectionToken<SnyAccordionDirective>('SnyAccordion');
@@ -7,13 +7,18 @@ export const SNY_ACCORDION_ITEM = new InjectionToken<SnyAccordionItemDirective>(
 @Directive({
   selector: '[snyAccordion]',
   standalone: true,
+  exportAs: 'snyAccordion',
   providers: [{ provide: SNY_ACCORDION, useExisting: SnyAccordionDirective }],
-  host: { '[class]': 'computedClass()' },
+  host: {
+    '[class]': 'computedClass()',
+    '(keydown)': 'onKeydown($event)',
+  },
 })
 export class SnyAccordionDirective {
   readonly multi = input(false);
   readonly class = input<string>('');
 
+  private readonly elRef = inject(ElementRef);
   private readonly _openItems = signal(new Set<string>());
 
   protected readonly computedClass = computed(() =>
@@ -36,11 +41,48 @@ export class SnyAccordionDirective {
       return next;
     });
   }
+
+  onKeydown(event: KeyboardEvent): void {
+    const target = event.target as HTMLElement;
+    if (!target.hasAttribute('snyaccordiontrigger') && !target.closest('[snyAccordionTrigger]')) return;
+
+    const triggers = Array.from(
+      (this.elRef.nativeElement as HTMLElement).querySelectorAll<HTMLElement>('[snyAccordionTrigger]')
+    );
+    if (triggers.length === 0) return;
+
+    const currentIndex = triggers.indexOf(target.closest('[snyAccordionTrigger]') as HTMLElement || target);
+    if (currentIndex === -1) return;
+
+    let nextIndex: number | null = null;
+    switch (event.key) {
+      case 'ArrowDown':
+        event.preventDefault();
+        nextIndex = (currentIndex + 1) % triggers.length;
+        break;
+      case 'ArrowUp':
+        event.preventDefault();
+        nextIndex = (currentIndex - 1 + triggers.length) % triggers.length;
+        break;
+      case 'Home':
+        event.preventDefault();
+        nextIndex = 0;
+        break;
+      case 'End':
+        event.preventDefault();
+        nextIndex = triggers.length - 1;
+        break;
+    }
+    if (nextIndex !== null) {
+      triggers[nextIndex].focus();
+    }
+  }
 }
 
 @Directive({
   selector: '[snyAccordionItem]',
   standalone: true,
+  exportAs: 'snyAccordionItem',
   providers: [{ provide: SNY_ACCORDION_ITEM, useExisting: SnyAccordionItemDirective }],
   host: { '[class]': 'computedClass()' },
 })
@@ -66,6 +108,7 @@ export class SnyAccordionItemDirective {
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-expanded]': 'item.isOpen()',
+    'tabindex': '0',
     '(click)': 'item.toggle()',
   },
 })
