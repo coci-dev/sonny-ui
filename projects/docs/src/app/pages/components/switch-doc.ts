@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -10,7 +11,7 @@ import { SWITCH_DOC_ES } from '../../i18n/es/pages/switch-doc';
 @Component({
   selector: 'docs-switch-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnySwitchComponent, SnyLabelDirective],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnySwitchComponent, SnyLabelDirective, ReactiveFormsModule],
   template: `
     <div class="space-y-8">
       <div>
@@ -75,6 +76,16 @@ import { SWITCH_DOC_ES } from '../../i18n/es/pages/switch-doc';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.reactiveForms }}</h2>
+        <docs-component-preview [code]="reactiveFormsCode" language="typescript">
+          <div class="flex items-center gap-3">
+            <sny-switch [formControl]="switchCtrl" />
+            <label snyLabel>Value: {{ switchCtrl.value }}</label>
+          </div>
+        </docs-component-preview>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
         <docs-props-table [props]="props()" />
       </section>
@@ -94,10 +105,17 @@ export class SwitchDocComponent {
   readonly i18n = inject(I18nService);
   readonly t = computed(() => this.i18n.locale() === 'es' ? SWITCH_DOC_ES : SWITCH_DOC_EN);
 
+  readonly switchCtrl = new FormControl(false);
   readonly darkMode = signal(false);
   readonly notifications = signal(true);
   readonly marketing = signal(false);
   readonly autoUpdates = signal(true);
+
+  reactiveFormsCode = `import { FormControl, ReactiveFormsModule } from '@angular/forms';
+
+readonly switchCtrl = new FormControl(false);
+
+<sny-switch [formControl]="switchCtrl" />`;
 
   importCode = `import { SnySwitchComponent } from '@sonny-ui/core';`;
   basicCode = `<sny-switch [(checked)]="darkMode" />`;

@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -10,7 +11,7 @@ import { TOGGLE_DOC_ES } from '../../i18n/es/pages/toggle-doc';
 @Component({
   selector: 'docs-toggle-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyToggleDirective],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyToggleDirective, ReactiveFormsModule],
   template: `
     <div class="space-y-8">
       <div>
@@ -64,6 +65,16 @@ import { TOGGLE_DOC_ES } from '../../i18n/es/pages/toggle-doc';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.reactiveForms }}</h2>
+        <docs-component-preview [code]="reactiveFormsCode" language="typescript">
+          <div class="flex items-center gap-3">
+            <button snyToggle [formControl]="toggleCtrl">B</button>
+            <p class="text-sm text-muted-foreground">Value: {{ toggleCtrl.value }}</p>
+          </div>
+        </docs-component-preview>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
         <docs-props-table [props]="props()" />
       </section>
@@ -83,9 +94,14 @@ export class ToggleDocComponent {
   readonly i18n = inject(I18nService);
   readonly t = computed(() => this.i18n.locale() === 'es' ? TOGGLE_DOC_ES : TOGGLE_DOC_EN);
 
+  readonly toggleCtrl = new FormControl(false);
   readonly bold = signal(false);
   readonly italic = signal(false);
   readonly underline = signal(false);
+
+  reactiveFormsCode = `readonly toggleCtrl = new FormControl(false);
+
+<button snyToggle [formControl]="toggleCtrl">B</button>`;
 
   importCode = `import { SnyToggleDirective } from '@sonny-ui/core';`;
   basicCode = `<button snyToggle [(pressed)]="bold">B</button>`;

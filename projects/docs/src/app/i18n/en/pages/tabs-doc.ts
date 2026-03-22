@@ -6,7 +6,8 @@ export const TABS_DOC_EN = {
   tabsContentLabel: 'TabsContent',
   accessibility: [
     'Uses <code>role="tablist"</code>, <code>role="tab"</code>, and <code>role="tabpanel"</code> for proper ARIA semantics.',
-    'Arrow keys navigate between tabs. <code>Enter</code> or <code>Space</code> activates a tab.',
+    '<code>ArrowLeft</code>/<code>ArrowRight</code> navigate between tabs with roving <code>tabindex</code>. <code>Home</code>/<code>End</code> jump to first/last tab.',
+    'Active tab has <code>tabindex="0"</code>, inactive tabs have <code>tabindex="-1"</code> (roving tabindex pattern).',
     'Each tab is linked to its panel via <code>aria-controls</code> and <code>aria-labelledby</code>.',
   ],
   propDescriptions: {

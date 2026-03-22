@@ -1,4 +1,5 @@
 import { Component, computed, inject, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -10,7 +11,7 @@ import { SELECT_DOC_ES } from '../../i18n/es/pages/select-doc';
 @Component({
   selector: 'docs-select-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnySelectComponent, SnyLabelDirective],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnySelectComponent, SnyLabelDirective, ReactiveFormsModule],
   template: `
     <div class="space-y-8">
       <div>
@@ -52,6 +53,17 @@ import { SELECT_DOC_ES } from '../../i18n/es/pages/select-doc';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.reactiveForms }}</h2>
+        <docs-component-preview [code]="reactiveFormsCode" language="typescript">
+          <div class="w-full max-w-xs space-y-2">
+            <label snyLabel>Theme</label>
+            <sny-select [options]="themes" [formControl]="selectCtrl" placeholder="Select theme..." />
+            <p class="text-sm text-muted-foreground">Value: {{ selectCtrl.value }}</p>
+          </div>
+        </docs-component-preview>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.apiReference }}</h2>
         <docs-props-table [props]="props()" />
       </section>
@@ -71,6 +83,7 @@ export class SelectDocComponent {
   readonly i18n = inject(I18nService);
   readonly t = computed(() => this.i18n.locale() === 'es' ? SELECT_DOC_ES : SELECT_DOC_EN);
 
+  readonly selectCtrl = new FormControl('');
   readonly selectedTimezone = signal('');
   readonly selectedLanguage = signal('');
   readonly selectedTheme = signal('');
@@ -96,6 +109,10 @@ export class SelectDocComponent {
     { value: 'dark', label: 'Dark' },
     { value: 'system', label: 'System' },
   ];
+
+  reactiveFormsCode = `readonly selectCtrl = new FormControl('');
+
+<sny-select [options]="themes" [formControl]="selectCtrl" />`;
 
   importCode = `import { SnySelectComponent } from '@sonny-ui/core';`;
   basicCode = `<sny-select

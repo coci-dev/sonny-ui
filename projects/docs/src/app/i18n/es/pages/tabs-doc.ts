@@ -6,7 +6,8 @@ export const TABS_DOC_ES = {
   tabsContentLabel: 'TabsContent',
   accessibility: [
     'Usa <code>role="tablist"</code>, <code>role="tab"</code> y <code>role="tabpanel"</code> para la semántica ARIA correcta.',
-    'Las teclas de flecha navegan entre pestañas. <code>Enter</code> o <code>Space</code> activa una pestaña.',
+    '<code>ArrowLeft</code>/<code>ArrowRight</code> navegan entre pestañas con <code>tabindex</code> itinerante. <code>Home</code>/<code>End</code> saltan a la primera/última pestaña.',
+    'La pestaña activa tiene <code>tabindex="0"</code>, las inactivas tienen <code>tabindex="-1"</code> (patrón roving tabindex).',
     'Cada pestaña está vinculada a su panel mediante <code>aria-controls</code> y <code>aria-labelledby</code>.',
   ],
   propDescriptions: {
