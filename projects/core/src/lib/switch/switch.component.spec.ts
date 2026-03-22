@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SnySwitchComponent } from './switch.component';
 
@@ -46,5 +47,52 @@ describe('SnySwitchComponent', () => {
     fixture.componentInstance.disabled.set(true);
     fixture.detectChanges();
     expect(button.disabled).toBe(true);
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, SnySwitchComponent],
+  template: `<sny-switch [formControl]="ctrl" />`,
+})
+class ReactiveFormHost {
+  ctrl = new FormControl(false);
+}
+
+describe('SnySwitchComponent — Reactive Forms', () => {
+  let fixture: ComponentFixture<ReactiveFormHost>;
+  let button: HTMLButtonElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormHost],
+    }).compileComponents();
+    fixture = TestBed.createComponent(ReactiveFormHost);
+    fixture.detectChanges();
+    button = fixture.nativeElement.querySelector('button');
+  });
+
+  it('should update view when FormControl value changes (writeValue)', () => {
+    fixture.componentInstance.ctrl.setValue(true);
+    fixture.detectChanges();
+    expect(button.getAttribute('aria-checked')).toBe('true');
+  });
+
+  it('should update FormControl when user interacts (onChange)', () => {
+    button.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.ctrl.value).toBe(true);
+  });
+
+  it('should disable via FormControl.disable() (setDisabledState)', () => {
+    fixture.componentInstance.ctrl.disable();
+    fixture.detectChanges();
+    expect(button.disabled).toBe(true);
+  });
+
+  it('should mark as touched on blur (onTouched)', () => {
+    expect(fixture.componentInstance.ctrl.touched).toBe(false);
+    button.dispatchEvent(new Event('blur'));
+    expect(fixture.componentInstance.ctrl.touched).toBe(true);
   });
 });

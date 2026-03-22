@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SnyToggleDirective } from './toggle.directive';
 import type { ToggleVariant, ToggleSize } from './toggle.variants';
@@ -48,5 +49,52 @@ describe('SnyToggleDirective', () => {
     fixture.componentInstance.variant.set('outline');
     fixture.detectChanges();
     expect(button.className).toContain('border');
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, SnyToggleDirective],
+  template: `<button snyToggle [formControl]="ctrl">Toggle</button>`,
+})
+class ReactiveFormHost {
+  ctrl = new FormControl(false);
+}
+
+describe('SnyToggleDirective — Reactive Forms', () => {
+  let fixture: ComponentFixture<ReactiveFormHost>;
+  let button: HTMLButtonElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormHost],
+    }).compileComponents();
+    fixture = TestBed.createComponent(ReactiveFormHost);
+    fixture.detectChanges();
+    button = fixture.nativeElement.querySelector('button');
+  });
+
+  it('should update view when FormControl value changes (writeValue)', () => {
+    fixture.componentInstance.ctrl.setValue(true);
+    fixture.detectChanges();
+    expect(button.getAttribute('aria-pressed')).toBe('true');
+  });
+
+  it('should update FormControl when user interacts (onChange)', () => {
+    button.click();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.ctrl.value).toBe(true);
+  });
+
+  it('should disable via FormControl.disable() (setDisabledState)', () => {
+    fixture.componentInstance.ctrl.disable();
+    fixture.detectChanges();
+    expect(button.disabled).toBe(true);
+  });
+
+  it('should mark as touched on blur (onTouched)', () => {
+    expect(fixture.componentInstance.ctrl.touched).toBe(false);
+    button.dispatchEvent(new Event('blur'));
+    expect(fixture.componentInstance.ctrl.touched).toBe(true);
   });
 });

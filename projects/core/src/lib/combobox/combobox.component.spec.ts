@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SnyComboboxComponent, type ComboboxOption } from './combobox.component';
 
@@ -89,5 +90,62 @@ describe('SnyComboboxComponent', () => {
     fixture.detectChanges();
 
     expect(trigger.getAttribute('aria-expanded')).toBe('false');
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, SnyComboboxComponent],
+  template: `<sny-combobox [options]="options" [formControl]="ctrl" placeholder="Select..." />`,
+})
+class ReactiveFormHost {
+  options: ComboboxOption[] = [
+    { value: 'us', label: 'United States' },
+    { value: 'uk', label: 'United Kingdom' },
+    { value: 'ca', label: 'Canada' },
+  ];
+  ctrl = new FormControl('');
+}
+
+describe('SnyComboboxComponent — Reactive Forms', () => {
+  let fixture: ComponentFixture<ReactiveFormHost>;
+  let el: HTMLElement;
+  let trigger: HTMLButtonElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormHost],
+    }).compileComponents();
+    fixture = TestBed.createComponent(ReactiveFormHost);
+    fixture.detectChanges();
+    el = fixture.nativeElement.querySelector('sny-combobox');
+    trigger = el.querySelector('button')!;
+  });
+
+  it('should update view when FormControl value changes (writeValue)', () => {
+    fixture.componentInstance.ctrl.setValue('uk');
+    fixture.detectChanges();
+    expect(trigger.textContent).toContain('United Kingdom');
+  });
+
+  it('should update FormControl when user interacts (onChange)', () => {
+    trigger.click();
+    fixture.detectChanges();
+    const option = el.querySelector('[role="option"]') as HTMLElement;
+    option.dispatchEvent(new Event('mousedown'));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.ctrl.value).toBe('us');
+  });
+
+  it('should handle FormControl.disable() (setDisabledState)', () => {
+    fixture.componentInstance.ctrl.disable();
+    fixture.detectChanges();
+    expect(fixture.componentInstance.ctrl.disabled).toBe(true);
+  });
+
+  it('should mark as touched on blur (onTouched)', () => {
+    expect(fixture.componentInstance.ctrl.touched).toBe(false);
+    trigger.dispatchEvent(new Event('blur'));
+    expect(fixture.componentInstance.ctrl.touched).toBe(true);
   });
 });

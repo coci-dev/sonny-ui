@@ -1,4 +1,5 @@
 import { Component, signal } from '@angular/core';
+import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { TestBed, ComponentFixture } from '@angular/core/testing';
 import { SnySliderComponent } from './slider.component';
 
@@ -51,5 +52,53 @@ describe('SnySliderComponent', () => {
     host.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowLeft' }));
     fixture.detectChanges();
     expect(thumb.getAttribute('aria-valuenow')).toBe('49');
+  });
+});
+
+@Component({
+  standalone: true,
+  imports: [ReactiveFormsModule, SnySliderComponent],
+  template: `<sny-slider [formControl]="ctrl" />`,
+})
+class ReactiveFormHost {
+  ctrl = new FormControl(50);
+}
+
+describe('SnySliderComponent — Reactive Forms', () => {
+  let fixture: ComponentFixture<ReactiveFormHost>;
+  let thumb: HTMLButtonElement;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ReactiveFormHost],
+    }).compileComponents();
+    fixture = TestBed.createComponent(ReactiveFormHost);
+    fixture.detectChanges();
+    thumb = fixture.nativeElement.querySelector('button[role="slider"]');
+  });
+
+  it('should update view when FormControl value changes (writeValue)', () => {
+    fixture.componentInstance.ctrl.setValue(75);
+    fixture.detectChanges();
+    expect(thumb.getAttribute('aria-valuenow')).toBe('75');
+  });
+
+  it('should update FormControl when user interacts (onChange)', () => {
+    const host = fixture.nativeElement.querySelector('sny-slider');
+    host.dispatchEvent(new KeyboardEvent('keydown', { key: 'ArrowRight' }));
+    fixture.detectChanges();
+    expect(fixture.componentInstance.ctrl.value).toBe(51);
+  });
+
+  it('should disable via FormControl.disable() (setDisabledState)', () => {
+    fixture.componentInstance.ctrl.disable();
+    fixture.detectChanges();
+    expect(thumb.disabled).toBe(true);
+  });
+
+  it('should mark as touched on blur (onTouched)', () => {
+    expect(fixture.componentInstance.ctrl.touched).toBe(false);
+    thumb.dispatchEvent(new Event('blur'));
+    expect(fixture.componentInstance.ctrl.touched).toBe(true);
   });
 });
