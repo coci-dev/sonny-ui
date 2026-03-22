@@ -5,7 +5,6 @@ export interface NavTranslations {
   components: string;
   github: string;
   searchPlaceholder: string;
-  alpha: string;
   toggleSidebar: string;
 }
 

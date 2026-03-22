@@ -1,8 +1,15 @@
-import { type EnvironmentProviders, InjectionToken, makeEnvironmentProviders } from '@angular/core';
+import {
+  type EnvironmentProviders,
+  inject,
+  InjectionToken,
+  makeEnvironmentProviders,
+  provideEnvironmentInitializer,
+} from '@angular/core';
+import { ThemeService } from './theme.service';
 
 export interface SonnyConfig {
   prefix?: string;
-  defaultTheme?: 'light' | 'dark' | 'corporate';
+  defaultTheme?: 'light' | 'dark' | 'corporate' | 'system';
 }
 
 const DEFAULT_CONFIG: SonnyConfig = { prefix: 'sny', defaultTheme: 'light' };
@@ -15,5 +22,6 @@ export const SNY_CONFIG = new InjectionToken<SonnyConfig>('SNY_CONFIG', {
 export function provideSonnyUI(config: Partial<SonnyConfig> = {}): EnvironmentProviders {
   return makeEnvironmentProviders([
     { provide: SNY_CONFIG, useValue: { ...DEFAULT_CONFIG, ...config } },
+    provideEnvironmentInitializer(() => inject(ThemeService)),
   ]);
 }

@@ -27,6 +27,37 @@ export function ngAdd(options: { project?: string; theme?: string }): Rule {
       }
     }
 
+    // Add provideSonnyUI to app.config.ts
+    const configPath = 'src/app/app.config.ts';
+    if (tree.exists(configPath)) {
+      let configContent = tree.read(configPath)!.toString('utf-8');
+      const theme = options.theme || 'light';
+
+      if (!configContent.includes('provideSonnyUI')) {
+        // Add import statement
+        const importLine = `import { provideSonnyUI } from '@sonny-ui/core';\n`;
+        const lastImportIndex = configContent.lastIndexOf('import ');
+        const lastImportEnd = configContent.indexOf('\n', lastImportIndex);
+        configContent =
+          configContent.slice(0, lastImportEnd + 1) +
+          importLine +
+          configContent.slice(lastImportEnd + 1);
+
+        // Add provider to providers array
+        const providersMatch = configContent.match(/providers\s*:\s*\[/);
+        if (providersMatch && providersMatch.index !== undefined) {
+          const insertPos = providersMatch.index + providersMatch[0].length;
+          configContent =
+            configContent.slice(0, insertPos) +
+            `\n    provideSonnyUI({ defaultTheme: '${theme}' }),` +
+            configContent.slice(insertPos);
+        }
+
+        tree.overwrite(configPath, configContent);
+        context.logger.info('Added provideSonnyUI to app.config.ts');
+      }
+    }
+
     return tree;
   };
 }
