@@ -6,7 +6,7 @@
   "properties": {
     "name": {
       "type": "string",
-      "description": "The component to copy (accordion, avatar, badge, breadcrumb, button, button-group, card, checkbox, combobox, input, loader, modal, radio, select, sheet, skeleton, slider, switch, table, tabs, toast, toggle).",
+      "description": "The component to copy (accordion, alert, avatar, badge, breadcrumb, button, button-group, calendar, card, carousel, chat-bubble, checkbox, combobox, diff, divider, dock, drawer, dropdown, fab, fieldset, file-input, indicator, input, kbd, link, list, loader, modal, navbar, pagination, progress, radial-progress, radio, rating, select, sheet, skeleton, slider, stat, status, steps, switch, table, tabs, textarea, timeline, toast, toggle, tooltip, validator).",
       "$default": {
         "$source": "argv",
         "index": 0
