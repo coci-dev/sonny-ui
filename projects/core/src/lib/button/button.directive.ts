@@ -22,7 +22,7 @@ export class SnyButtonDirective {
   protected readonly computedClass = computed(() =>
     cn(
       buttonVariants({ variant: this.variant(), size: this.size() }),
-      this.loading() && 'relative cursor-wait',
+      this.loading() && 'cursor-wait opacity-70',
       this.class()
     )
   );

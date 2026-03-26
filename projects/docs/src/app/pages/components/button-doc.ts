@@ -2,7 +2,7 @@ import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
-import { SnyButtonDirective, type ButtonVariant, type ButtonSize } from 'core';
+import { SnyButtonDirective, SnyLoaderComponent, type ButtonVariant, type ButtonSize } from 'core';
 import { I18nService } from '../../i18n/i18n.service';
 import { BUTTON_DOC_EN } from '../../i18n/en/pages/button-doc';
 import { BUTTON_DOC_ES } from '../../i18n/es/pages/button-doc';
@@ -10,7 +10,7 @@ import { BUTTON_DOC_ES } from '../../i18n/es/pages/button-doc';
 @Component({
   selector: 'docs-button-doc',
   standalone: true,
-  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyButtonDirective],
+  imports: [CodeBlockComponent, ComponentPreviewComponent, PropsTableComponent, SnyButtonDirective, SnyLoaderComponent],
   template: `
     <div class="space-y-8">
       <div>
@@ -52,7 +52,14 @@ import { BUTTON_DOC_ES } from '../../i18n/es/pages/button-doc';
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.states }}</h2>
         <docs-component-preview [code]="statesCode">
           <button snyBtn [disabled]="true">Disabled</button>
-          <button snyBtn [loading]="true">Loading</button>
+          <button snyBtn [loading]="true">
+            <sny-loader variant="spinner" size="sm" />
+            Loading
+          </button>
+          <button snyBtn [loading]="true">
+            <sny-loader variant="dots" size="sm" />
+            Loading dots
+          </button>
         </docs-component-preview>
       </section>
 
@@ -119,7 +126,11 @@ export class ButtonDocComponent {
 <button snyBtn size="icon">...</button>`;
 
   statesCode = `<button snyBtn [disabled]="true">Disabled</button>
-<button snyBtn [loading]="true">Loading</button>`;
+
+<button snyBtn [loading]="isLoading()">
+  @if (isLoading()) { <sny-loader variant="spinner" size="sm" /> }
+  Save
+</button>`;
 
   linkCode = `<a snyBtn variant="link" href="#">Link Button</a>
 <a snyBtn variant="outline" href="#">Outline Link</a>`;
