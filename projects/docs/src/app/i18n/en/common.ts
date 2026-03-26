@@ -97,6 +97,10 @@ export const COMMON_EN: CommonTranslations = {
       title: 'Contributing',
       items: [{ label: 'Development', path: '/docs/contributing/development' }],
     },
+    {
+      title: 'Changelog',
+      items: [{ label: 'Changelog', path: '/docs/changelog' }],
+    },
   ],
   shared: {
     preview: 'Preview',

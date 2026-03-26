@@ -73,6 +73,17 @@ import { COPY_PASTE_ES } from '../../i18n/es/pages/copy-paste';
       </section>
 
       <section class="space-y-4">
+        <h2 class="text-xl font-semibold">Available Components</h2>
+        <p class="text-sm text-muted-foreground">All 50 components can be generated with the schematic:</p>
+        <docs-code-block [code]="generateUsage" language="bash" />
+        <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-2">
+          @for (c of availableComponents; track c) {
+            <code class="text-xs bg-muted px-2 py-1 rounded-sm text-foreground">{{ c }}</code>
+          }
+        </div>
+      </section>
+
+      <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ t().dependencies }}</h2>
         <p class="text-sm text-muted-foreground">{{ t().dependenciesDesc }}</p>
         <docs-code-block [code]="depsCode" language="bash" />
@@ -171,6 +182,29 @@ export class ExampleComponent {}`;
 
 <!-- As link -->
 <a snyBtn variant="outline" href="/about">About</a>`;
+
+  generateUsage = `ng generate @sonny-ui/core:component <name>
+
+# Examples:
+ng generate @sonny-ui/core:component button
+ng generate @sonny-ui/core:component accordion
+ng generate @sonny-ui/core:component toast
+
+# Options:
+#   --path=src/app/components    Change output directory
+#   --prefix=my                  Custom prefix (default: sny)
+#   --skip-tests                 Skip test files`;
+
+  availableComponents = [
+    'accordion', 'alert', 'avatar', 'badge', 'breadcrumb', 'button',
+    'button-group', 'calendar', 'card', 'carousel', 'chat-bubble',
+    'checkbox', 'combobox', 'diff', 'divider', 'dock', 'drawer',
+    'dropdown', 'fab', 'fieldset', 'file-input', 'indicator', 'input',
+    'kbd', 'link', 'list', 'loader', 'modal', 'navbar', 'pagination',
+    'progress', 'radial-progress', 'radio', 'rating', 'select', 'sheet',
+    'skeleton', 'slider', 'stat', 'status', 'steps', 'switch', 'table',
+    'tabs', 'textarea', 'timeline', 'toast', 'toggle', 'tooltip', 'validator',
+  ];
 
   depsCode = `npm install clsx tailwind-merge class-variance-authority`;
 }

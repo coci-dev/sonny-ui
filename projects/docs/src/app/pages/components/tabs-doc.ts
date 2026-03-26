@@ -108,13 +108,43 @@ export class TabsDocComponent {
   SnyTabsContentDirective,
 } from '@sonny-ui/core';`;
 
-  basicCode = `<div snyTabs [(value)]="activeTab">
+  basicCode = `readonly activeTab = signal('account');
+
+<div snyTabs [(value)]="activeTab">
   <div snyTabsList>
     <button snyTabsTrigger value="account">Account</button>
     <button snyTabsTrigger value="password">Password</button>
+    <button snyTabsTrigger value="notifications">Notifications</button>
   </div>
-  <div snyTabsContent value="account">Account content</div>
-  <div snyTabsContent value="password">Password content</div>
+
+  <div snyTabsContent value="account" class="space-y-4">
+    <div class="space-y-2">
+      <label snyLabel>Name</label>
+      <input snyInput placeholder="Your name" />
+    </div>
+    <div class="space-y-2">
+      <label snyLabel>Email</label>
+      <input snyInput type="email" placeholder="you@example.com" />
+    </div>
+    <button snyBtn>Save changes</button>
+  </div>
+
+  <div snyTabsContent value="password" class="space-y-4">
+    <div class="space-y-2">
+      <label snyLabel>Current password</label>
+      <input snyInput type="password" />
+    </div>
+    <div class="space-y-2">
+      <label snyLabel>New password</label>
+      <input snyInput type="password" />
+    </div>
+    <button snyBtn>Update password</button>
+  </div>
+
+  <div snyTabsContent value="notifications" class="space-y-2">
+    <p class="text-sm text-muted-foreground">Manage your notification preferences.</p>
+    <button snyBtn variant="outline">Configure</button>
+  </div>
 </div>`;
 
   readonly tabsProps = computed<PropDef[]>(() => [

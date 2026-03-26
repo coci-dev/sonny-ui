@@ -11,12 +11,14 @@ import { SidebarComponent } from './layout/sidebar';
   imports: [RouterOutlet, NavbarComponent, SidebarComponent],
   template: `
     <docs-navbar (toggleSidebar)="sidebarOpen = !sidebarOpen" />
-    <div class="flex pt-16">
+    <div [class]="isHome() ? 'pt-16' : 'flex pt-16 h-screen'">
       @if (!isHome()) {
         <docs-sidebar [open]="sidebarOpen" (close)="sidebarOpen = false" />
       }
-      <main [class]="isHome() ? 'flex-1 min-w-0 w-full' : 'flex-1 min-w-0 px-6 py-8 lg:px-8 max-w-4xl mx-auto w-full'">
-        <router-outlet />
+      <main [class]="isHome() ? 'flex-1 min-w-0 w-full' : 'flex-1 min-w-0 overflow-y-auto'">
+        <div [class]="isHome() ? '' : 'px-6 py-8 lg:px-8 max-w-4xl mx-auto w-full'">
+          <router-outlet />
+        </div>
       </main>
     </div>
   `,

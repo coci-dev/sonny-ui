@@ -1,4 +1,4 @@
-import { Component, computed, inject } from '@angular/core';
+import { Component, computed, inject, signal } from '@angular/core';
 import { CodeBlockComponent } from '../../shared/code-block';
 import { ComponentPreviewComponent } from '../../shared/component-preview';
 import { PropsTableComponent, type PropDef } from '../../shared/props-table';
@@ -43,6 +43,7 @@ import { DROPDOWN_DOC_ES } from '../../i18n/es/pages/dropdown-doc';
       <section class="space-y-4">
         <h2 class="text-xl font-semibold">{{ i18n.common().docSections.usage }}</h2>
         <docs-component-preview [code]="basicCode">
+          <div class="min-h-[280px] flex items-start justify-center pt-4">
           <div snyDropdown>
             <button
               snyDropdownTrigger
@@ -57,6 +58,37 @@ import { DROPDOWN_DOC_ES } from '../../i18n/es/pages/dropdown-doc';
               <div snyMenuSeparator></div>
               <div snyMenuItem variant="destructive">Delete</div>
             </div>
+          </div>
+          </div>
+        </docs-component-preview>
+      </section>
+
+      <section class="space-y-4">
+        <h2 class="text-xl font-semibold">{{ i18n.common().docSections.examples }}</h2>
+        <h3 class="text-lg font-medium">Interactive Actions</h3>
+        <docs-component-preview [code]="exampleCode" language="typescript">
+          <div class="min-h-[280px] flex flex-col items-center pt-4 gap-4">
+            <div snyDropdown>
+              <button
+                snyDropdownTrigger
+                class="rounded-md border px-4 py-2 text-sm"
+              >
+                File
+              </button>
+              <div snyDropdownContent>
+                <div snyMenuLabel>Document</div>
+                <div snyMenuItem (click)="onAction('New File')">New File</div>
+                <div snyMenuItem (click)="onAction('Open')">Open</div>
+                <div snyMenuItem (click)="onAction('Save')">Save</div>
+                <div snyMenuSeparator></div>
+                <div snyMenuItem (click)="onAction('Export as PDF')">Export as PDF</div>
+                <div snyMenuSeparator></div>
+                <div snyMenuItem variant="destructive" (click)="onAction('Delete')">Delete</div>
+              </div>
+            </div>
+            <p class="text-sm text-muted-foreground">
+              Last action: {{ lastAction() || 'None' }}
+            </p>
           </div>
         </docs-component-preview>
       </section>
@@ -91,6 +123,33 @@ export class DropdownDocComponent {
     <div snyMenuItem variant="destructive">Delete</div>
   </div>
 </div>`;
+
+  readonly lastAction = signal('');
+
+  onAction(action: string): void {
+    this.lastAction.set(action);
+  }
+
+  exampleCode = `readonly lastAction = signal('');
+
+onAction(action: string): void {
+  this.lastAction.set(action);
+}
+
+<div snyDropdown>
+  <button snyDropdownTrigger>File</button>
+  <div snyDropdownContent>
+    <div snyMenuLabel>Document</div>
+    <div snyMenuItem (click)="onAction('New File')">New File</div>
+    <div snyMenuItem (click)="onAction('Open')">Open</div>
+    <div snyMenuItem (click)="onAction('Save')">Save</div>
+    <div snyMenuSeparator></div>
+    <div snyMenuItem (click)="onAction('Export as PDF')">Export as PDF</div>
+    <div snyMenuSeparator></div>
+    <div snyMenuItem variant="destructive" (click)="onAction('Delete')">Delete</div>
+  </div>
+</div>
+<p>Last action: {{ lastAction() }}</p>`;
 
   readonly props = computed<PropDef[]>(() => [
     { name: 'variant', type: "'default' | 'destructive'", default: "'default'", description: this.t().propDescriptions.variant },

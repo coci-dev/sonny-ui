@@ -17,6 +17,8 @@
   --color-destructive-foreground: var(--sny-destructive-foreground);
   --color-card: var(--sny-card);
   --color-card-foreground: var(--sny-card-foreground);
+  --color-popover: var(--sny-popover);
+  --color-popover-foreground: var(--sny-popover-foreground);
   --color-border: var(--sny-border);
   --color-input: var(--sny-input);
   --color-ring: var(--sny-ring);
@@ -38,6 +40,8 @@
   --sny-destructive-foreground: #fafafa;
   --sny-card: #ffffff;
   --sny-card-foreground: #0a0a0a;
+  --sny-popover: #ffffff;
+  --sny-popover-foreground: #0a0a0a;
   --sny-border: #e5e5e5;
   --sny-input: #e5e5e5;
   --sny-ring: #0a0a0a;
@@ -60,6 +64,8 @@
   --sny-destructive-foreground: #fafafa;
   --sny-card: #0a0a0a;
   --sny-card-foreground: #fafafa;
+  --sny-popover: #171717;
+  --sny-popover-foreground: #fafafa;
   --sny-border: #262626;
   --sny-input: #262626;
   --sny-ring: #d4d4d4;
@@ -80,10 +86,37 @@
   --sny-destructive-foreground: #ffffff;
   --sny-card: #ffffff;
   --sny-card-foreground: #0f172a;
+  --sny-popover: #ffffff;
+  --sny-popover-foreground: #0f172a;
   --sny-border: #cbd5e1;
   --sny-input: #cbd5e1;
   --sny-ring: #3b82f6;
   --sny-radius: 0.375rem;
+}
+
+/* ─── Custom scrollbar ─── */
+
+.sny-scrollbar {
+  scrollbar-width: thin;
+  scrollbar-color: var(--sny-muted-foreground) transparent;
+}
+
+.sny-scrollbar::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+.sny-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.sny-scrollbar::-webkit-scrollbar-thumb {
+  background-color: var(--sny-muted-foreground);
+  border-radius: 9999px;
+}
+
+.sny-scrollbar::-webkit-scrollbar-thumb:hover {
+  background-color: var(--sny-foreground);
 }
 
 /* ─── Dialog / Sheet overlay ─── */

@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   ElementRef,
   forwardRef,
   HostListener,
@@ -56,7 +55,7 @@ export interface SelectOption {
         #dropdownEl
         class="fixed z-50 rounded-sm border border-border bg-popover text-popover-foreground shadow-md"
       >
-        <ul role="listbox" class="max-h-60 overflow-auto p-1">
+        <ul role="listbox" class="max-h-60 overflow-auto p-1 sny-scrollbar">
           @for (opt of options(); track opt.value; let i = $index) {
             <li
               role="option"
@@ -101,21 +100,8 @@ export class SnySelectComponent implements ControlValueAccessor, OnDestroy {
 
   private _onChange: (value: string) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.value();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: string): void {
-    this._writing = true;
     this.value.set(val ?? '');
   }
 
@@ -207,6 +193,7 @@ export class SnySelectComponent implements ControlValueAccessor, OnDestroy {
 
   select(opt: SelectOption): void {
     this.value.set(opt.value);
+    this._onChange(opt.value);
     this.close();
   }
 

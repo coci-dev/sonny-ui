@@ -18,29 +18,31 @@ import { I18nService } from '../i18n/i18n.service';
     <!-- Sidebar panel -->
     <aside
       [class]="
-        'fixed top-16 bottom-0 z-40 w-64 overflow-y-auto border-r border-border bg-background px-4 py-6 transition-transform duration-200 lg:sticky lg:translate-x-0 ' +
+        'fixed top-16 bottom-0 z-40 w-64 border-r border-border bg-background transition-transform duration-200 lg:sticky lg:top-16 lg:h-[calc(100vh-4rem)] lg:translate-x-0 lg:shrink-0 ' +
         (open() ? 'translate-x-0' : '-translate-x-full')
       "
     >
-      @for (section of sections(); track section.title) {
-        <div class="mb-4">
-          <h4 class="mb-1 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
-            {{ section.title }}
-          </h4>
-          <nav class="flex flex-col gap-0.5">
-            @for (item of section.items; track item.path) {
-              <a
-                [routerLink]="item.path"
-                routerLinkActive="bg-accent text-accent-foreground font-medium"
-                class="rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
-                (click)="close.emit()"
-              >
-                {{ item.label }}
-              </a>
-            }
-          </nav>
-        </div>
-      }
+      <div class="h-full overflow-y-auto px-4 py-6 sny-scrollbar">
+        @for (section of sections(); track section.title) {
+          <div class="mb-4">
+            <h4 class="mb-1 px-2 text-xs font-semibold uppercase tracking-wider text-muted-foreground">
+              {{ section.title }}
+            </h4>
+            <nav class="flex flex-col gap-0.5">
+              @for (item of section.items; track item.path) {
+                <a
+                  [routerLink]="item.path"
+                  routerLinkActive="bg-accent text-accent-foreground font-medium"
+                  class="rounded-sm px-2 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors"
+                  (click)="close.emit()"
+                >
+                  {{ item.label }}
+                </a>
+              }
+            </nav>
+          </div>
+        }
+      </div>
     </aside>
   `,
 })

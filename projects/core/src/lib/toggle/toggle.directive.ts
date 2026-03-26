@@ -1,4 +1,4 @@
-import { Directive, computed, effect, forwardRef, input, model, signal } from '@angular/core';
+import { Directive, computed, forwardRef, input, model, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { toggleVariants, type ToggleVariant, type ToggleSize } from './toggle.variants';
@@ -28,21 +28,8 @@ export class SnyToggleDirective implements ControlValueAccessor {
 
   private _onChange: (value: boolean) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.pressed();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: boolean): void {
-    this._writing = true;
     this.pressed.set(val ?? false);
   }
 
@@ -60,7 +47,9 @@ export class SnyToggleDirective implements ControlValueAccessor {
 
   protected toggle(): void {
     if (this.isDisabled()) return;
-    this.pressed.set(!this.pressed());
+    const newVal = !this.pressed();
+    this.pressed.set(newVal);
+    this._onChange(newVal);
   }
 
   protected readonly computedClass = computed(() =>
