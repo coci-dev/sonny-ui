@@ -53,19 +53,19 @@ import { INDICATOR_DOC_ES } from '../../i18n/es/pages/indicator-doc';
         <docs-component-preview [code]="variantsCode" language="markup">
           <div class="flex items-center gap-8">
             <div snyIndicator>
-              <span snyIndicatorBadge variant="primary">1</span>
+              <span snyIndicatorBadge variant="primary" position="top-start">1</span>
               <div class="w-12 h-12 bg-muted rounded-md"></div>
             </div>
             <div snyIndicator>
-              <span snyIndicatorBadge variant="success">2</span>
+              <span snyIndicatorBadge variant="success" position="top-end">2</span>
               <div class="w-12 h-12 bg-muted rounded-md"></div>
             </div>
             <div snyIndicator>
-              <span snyIndicatorBadge variant="warning">3</span>
+              <span snyIndicatorBadge variant="warning" position="bottom-start">3</span>
               <div class="w-12 h-12 bg-muted rounded-md"></div>
             </div>
             <div snyIndicator>
-              <span snyIndicatorBadge variant="error">4</span>
+              <span snyIndicatorBadge variant="error" position="bottom-end">4</span>
               <div class="w-12 h-12 bg-muted rounded-md"></div>
             </div>
           </div>
@@ -106,19 +106,19 @@ export class IndicatorDocComponent {
 </div>`;
 
   variantsCode = `<div snyIndicator>
-  <span snyIndicatorBadge variant="primary">1</span>
+  <span snyIndicatorBadge variant="primary" position="top-start">1</span>
   <div>...</div>
 </div>
 <div snyIndicator>
-  <span snyIndicatorBadge variant="success">2</span>
+  <span snyIndicatorBadge variant="success" position="top-end">2</span>
   <div>...</div>
 </div>
 <div snyIndicator>
-  <span snyIndicatorBadge variant="warning">3</span>
+  <span snyIndicatorBadge variant="warning" position="bottom-start">3</span>
   <div>...</div>
 </div>
 <div snyIndicator>
-  <span snyIndicatorBadge variant="error">4</span>
+  <span snyIndicatorBadge variant="error" position="bottom-end">4</span>
   <div>...</div>
 </div>`;
 
