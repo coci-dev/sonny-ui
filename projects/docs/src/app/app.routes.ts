@@ -293,6 +293,11 @@ const docsChildren: Routes = [
       import('./pages/contributing/development').then((m) => m.DevelopmentComponent),
   },
   {
+    path: 'changelog',
+    loadComponent: () =>
+      import('./pages/changelog').then((m) => m.ChangelogComponent),
+  },
+  {
     path: 'components/input',
     loadComponent: () =>
       import('./pages/components/input-doc').then((m) => m.InputDocComponent),
