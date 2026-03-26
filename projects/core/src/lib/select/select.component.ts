@@ -55,7 +55,7 @@ export interface SelectOption {
         #dropdownEl
         class="fixed z-50 rounded-sm border border-border bg-popover text-popover-foreground shadow-md"
       >
-        <ul role="listbox" class="max-h-60 overflow-auto p-1">
+        <ul role="listbox" class="max-h-60 overflow-auto p-1 sny-scrollbar">
           @for (opt of options(); track opt.value; let i = $index) {
             <li
               role="option"

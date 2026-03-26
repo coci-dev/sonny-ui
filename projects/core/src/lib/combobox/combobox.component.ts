@@ -71,7 +71,7 @@ export interface ComboboxOption {
 
         <!-- Options list -->
         @if (filtered().length > 0) {
-          <ul role="listbox" class="max-h-60 overflow-auto p-1">
+          <ul role="listbox" class="max-h-60 overflow-auto p-1 sny-scrollbar">
             @for (opt of filtered(); track opt.value; let i = $index) {
               <li
                 role="option"
