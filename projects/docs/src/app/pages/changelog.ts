@@ -4,7 +4,6 @@ import {
   SnyBadgeDirective,
   SnyDividerComponent,
   SnyCardDirective,
-  SnyCardHeaderDirective,
   SnyCardContentDirective,
 } from 'core';
 import { I18nService } from '../i18n/i18n.service';
@@ -25,7 +24,6 @@ interface ChangelogEntry {
     SnyBadgeDirective,
     SnyDividerComponent,
     SnyCardDirective,
-    SnyCardHeaderDirective,
     SnyCardContentDirective,
   ],
   template: `
