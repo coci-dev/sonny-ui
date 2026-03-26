@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   ElementRef,
   forwardRef,
   HostListener,
@@ -122,21 +121,8 @@ export class SnyComboboxComponent implements ControlValueAccessor, OnDestroy {
 
   private _onChange: (value: string) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.value();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: string): void {
-    this._writing = true;
     this.value.set(val ?? '');
   }
 
@@ -244,6 +230,7 @@ export class SnyComboboxComponent implements ControlValueAccessor, OnDestroy {
 
   select(opt: ComboboxOption): void {
     this.value.set(opt.value);
+    this._onChange(opt.value);
     this.close();
   }
 

@@ -2,7 +2,6 @@ import {
   ChangeDetectionStrategy,
   Component,
   computed,
-  effect,
   forwardRef,
   input,
   model,
@@ -74,21 +73,8 @@ export class SnyFileInputComponent implements ControlValueAccessor {
 
   private _onChange: (value: FileList | null) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.value();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: FileList | null): void {
-    this._writing = true;
     this.value.set(val ?? null);
   }
 
@@ -148,6 +134,7 @@ export class SnyFileInputComponent implements ControlValueAccessor {
 
   clear(): void {
     this.value.set(null);
+    this._onChange(null);
     const inputEl = this.fileInputRef()?.nativeElement;
     if (inputEl) inputEl.value = '';
   }
@@ -163,6 +150,7 @@ export class SnyFileInputComponent implements ControlValueAccessor {
       }
     }
     this.value.set(files);
+    this._onChange(files);
     this.fileChange.emit(files);
   }
 }

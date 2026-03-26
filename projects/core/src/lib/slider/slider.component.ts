@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, ElementRef, forwardRef, input, model, OnDestroy, signal, viewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, ElementRef, forwardRef, input, model, OnDestroy, signal, viewChild } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { sliderTrackVariants, sliderThumbSize, type SliderSize } from './slider.variants';
@@ -55,21 +55,8 @@ export class SnySliderComponent implements ControlValueAccessor, OnDestroy {
 
   private _onChange: (value: number) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.value();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: number): void {
-    this._writing = true;
     this.value.set(val ?? 0);
   }
 
@@ -110,7 +97,9 @@ export class SnySliderComponent implements ControlValueAccessor, OnDestroy {
     const percent = Math.max(0, Math.min(1, (clientX - rect.left) / rect.width));
     const raw = this.min() + percent * (this.max() - this.min());
     const stepped = Math.round(raw / this.step()) * this.step();
-    this.value.set(Math.max(this.min(), Math.min(this.max(), stepped)));
+    const clamped = Math.max(this.min(), Math.min(this.max(), stepped));
+    this.value.set(clamped);
+    this._onChange(clamped);
   }
 
   onTrackMousedown(event: MouseEvent): void {
@@ -147,25 +136,30 @@ export class SnySliderComponent implements ControlValueAccessor, OnDestroy {
   onKeydown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
     const step = this.step();
+    let newVal: number | undefined;
     switch (event.key) {
       case 'ArrowRight':
       case 'ArrowUp':
         event.preventDefault();
-        this.value.set(Math.min(this.max(), this.value() + step));
+        newVal = Math.min(this.max(), this.value() + step);
         break;
       case 'ArrowLeft':
       case 'ArrowDown':
         event.preventDefault();
-        this.value.set(Math.max(this.min(), this.value() - step));
+        newVal = Math.max(this.min(), this.value() - step);
         break;
       case 'Home':
         event.preventDefault();
-        this.value.set(this.min());
+        newVal = this.min();
         break;
       case 'End':
         event.preventDefault();
-        this.value.set(this.max());
+        newVal = this.max();
         break;
+    }
+    if (newVal !== undefined) {
+      this.value.set(newVal);
+      this._onChange(newVal);
     }
   }
 

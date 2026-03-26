@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, forwardRef, input, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input, model, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { ratingVariants, type RatingSize, type RatingVariant } from './rating.variants';
@@ -62,21 +62,8 @@ export class SnyRatingComponent implements ControlValueAccessor {
 
   private _onChange: (value: number) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.value();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: number): void {
-    this._writing = true;
     this.value.set(val ?? 0);
   }
 
@@ -133,6 +120,7 @@ export class SnyRatingComponent implements ControlValueAccessor {
   onStarClick(index: number): void {
     if (this.isDisabled()) return;
     this.value.set(index);
+    this._onChange(index);
   }
 
   onStarHover(index: number): void {
@@ -147,25 +135,30 @@ export class SnyRatingComponent implements ControlValueAccessor {
   onKeydown(event: KeyboardEvent): void {
     if (this.isDisabled()) return;
     const step = this.half() ? 0.5 : 1;
+    let newVal: number | undefined;
     switch (event.key) {
       case 'ArrowRight':
       case 'ArrowUp':
         event.preventDefault();
-        this.value.update((v) => Math.min(this.max(), v + step));
+        newVal = Math.min(this.max(), this.value() + step);
         break;
       case 'ArrowLeft':
       case 'ArrowDown':
         event.preventDefault();
-        this.value.update((v) => Math.max(0, v - step));
+        newVal = Math.max(0, this.value() - step);
         break;
       case 'Home':
         event.preventDefault();
-        this.value.set(0);
+        newVal = 0;
         break;
       case 'End':
         event.preventDefault();
-        this.value.set(this.max());
+        newVal = this.max();
         break;
+    }
+    if (newVal !== undefined) {
+      this.value.set(newVal);
+      this._onChange(newVal);
     }
   }
 }

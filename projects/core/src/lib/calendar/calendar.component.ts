@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, forwardRef, input, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input, model, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 
@@ -74,21 +74,8 @@ export class SnyCalendarComponent implements ControlValueAccessor {
 
   private _onChange: (value: Date | null) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.value();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: Date | null): void {
-    this._writing = true;
     this.value.set(val ?? null);
     if (val) {
       this.viewDate.set(new Date(val.getFullYear(), val.getMonth(), 1));
@@ -160,6 +147,7 @@ export class SnyCalendarComponent implements ControlValueAccessor {
 
   selectDate(date: Date): void {
     this.value.set(date);
+    this._onChange(date);
     this.onTouched();
   }
 
@@ -201,6 +189,7 @@ export class SnyCalendarComponent implements ControlValueAccessor {
     const next = new Date(current);
     next.setDate(next.getDate() + offset);
     this.value.set(next);
+    this._onChange(next);
     this.viewDate.set(new Date(next.getFullYear(), next.getMonth(), 1));
   }
 

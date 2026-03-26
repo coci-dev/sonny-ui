@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, computed, effect, forwardRef, input, model, signal } from '@angular/core';
+import { ChangeDetectionStrategy, Component, computed, forwardRef, input, model, signal } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { cn } from '../core/utils/cn';
 import { switchTrackVariants, switchThumbSize, switchThumbTranslate, type SwitchSize } from './switch.variants';
@@ -18,7 +18,7 @@ import { switchTrackVariants, switchThumbSize, switchThumbTranslate, type Switch
       [attr.aria-checked]="checked()"
       [disabled]="isDisabled()"
       [class]="trackClass()"
-      (click)="checked.set(!checked())"
+      (click)="toggle()"
       (blur)="onTouched()"
     >
       <span [class]="thumbClass()"></span>
@@ -36,21 +36,8 @@ export class SnySwitchComponent implements ControlValueAccessor {
 
   private _onChange: (value: boolean) => void = () => {};
   protected onTouched: () => void = () => {};
-  private _writing = false;
-
-  constructor() {
-    effect(() => {
-      const val = this.checked();
-      if (this._writing) {
-        this._writing = false;
-        return;
-      }
-      this._onChange(val);
-    });
-  }
 
   writeValue(val: boolean): void {
-    this._writing = true;
     this.checked.set(val ?? false);
   }
 
@@ -64,6 +51,12 @@ export class SnySwitchComponent implements ControlValueAccessor {
 
   setDisabledState(isDisabled: boolean): void {
     this._disabledByCva.set(isDisabled);
+  }
+
+  toggle(): void {
+    const newVal = !this.checked();
+    this.checked.set(newVal);
+    this._onChange(newVal);
   }
 
   protected readonly trackClass = computed(() =>
