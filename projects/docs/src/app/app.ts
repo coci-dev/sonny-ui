@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, signal } from '@angular/core';
 import { Router, NavigationEnd, RouterOutlet } from '@angular/router';
 import { filter, map } from 'rxjs';
 import { toSignal } from '@angular/core/rxjs-interop';
@@ -10,10 +10,10 @@ import { SidebarComponent } from './layout/sidebar';
   standalone: true,
   imports: [RouterOutlet, NavbarComponent, SidebarComponent],
   template: `
-    <docs-navbar (toggleSidebar)="sidebarOpen = !sidebarOpen" />
+    <docs-navbar [isHome]="!!isHome()" (toggleSidebar)="sidebarOpen.set(!sidebarOpen())" />
     <div [class]="isHome() ? 'pt-16' : 'flex pt-16 h-screen'">
       @if (!isHome()) {
-        <docs-sidebar [open]="sidebarOpen" (close)="sidebarOpen = false" />
+        <docs-sidebar [open]="sidebarOpen()" (close)="sidebarOpen.set(false)" />
       }
       <main [class]="isHome() ? 'flex-1 min-w-0 w-full' : 'flex-1 min-w-0 overflow-y-auto'">
         <div [class]="isHome() ? '' : 'px-6 py-8 lg:px-8 max-w-4xl mx-auto w-full'">
@@ -32,5 +32,5 @@ export class App {
     ),
     { initialValue: this.router.url === '/' || this.router.url === '/es' }
   );
-  sidebarOpen = false;
+  readonly sidebarOpen = signal(false);
 }

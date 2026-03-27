@@ -37,7 +37,7 @@ export class I18nService {
     if (currentUrl.startsWith('/es/') || currentUrl === '/es') {
       return currentUrl.replace(/^\/es/, '') || '/';
     }
-    return `/es${currentUrl}`;
+    return currentUrl === '/' ? '/es' : `/es${currentUrl}`;
   }
 
   private detectLocale(url: string): Locale {
