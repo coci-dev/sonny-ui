@@ -73,6 +73,9 @@ export * from './lib/select';
 // Table
 export * from './lib/table';
 
+// Data Table
+export * from './lib/data-table';
+
 // Sheet
 export * from './lib/sheet';
 

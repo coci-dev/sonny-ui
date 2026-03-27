@@ -36,7 +36,7 @@ import { I18nService } from '../i18n/i18n.service';
 
       <!-- Content -->
       @if (tab === 'preview') {
-        <div class="p-6 flex items-center justify-center min-h-[120px] gap-4 flex-wrap">
+        <div class="p-3 sm:p-6 flex items-center justify-center min-h-[120px] gap-4 flex-wrap overflow-x-auto">
           <ng-content />
         </div>
       } @else {
