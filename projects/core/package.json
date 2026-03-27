@@ -1,6 +1,6 @@
 {
   "name": "@sonny-ui/core",
-  "version": "0.1.0-alpha.13",
+  "version": "0.1.0-alpha.14",
   "description": "Angular UI component library inspired by shadcn/ui — signals, zoneless, Tailwind CSS v4",
   "peerDependencies": {
     "@angular/common": "^21.0.0",

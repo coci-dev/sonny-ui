@@ -80,7 +80,7 @@ export class ChangelogComponent {
 
   changelog: ChangelogEntry[] = [
     {
-      version: 'v0.1.0-alpha.14 (next)',
+      version: 'v0.1.0-alpha.14',
       date: '2026-03-27',
       changes: [
         { type: 'feat', description: 'Add SnyDataTableComponent with sorting, global filtering, pagination with page size selector, row selection, and JSON export.' },
