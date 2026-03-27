@@ -93,6 +93,11 @@ const docsChildren: Routes = [
       import('./pages/components/combobox-doc').then((m) => m.ComboboxDocComponent),
   },
   {
+    path: 'components/data-table',
+    loadComponent: () =>
+      import('./pages/components/data-table-doc').then((m) => m.DataTableDocComponent),
+  },
+  {
     path: 'components/dropdown',
     loadComponent: () =>
       import('./pages/components/dropdown-doc').then((m) => m.DropdownDocComponent),

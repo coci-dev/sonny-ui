@@ -16,7 +16,7 @@ import { SidebarComponent } from './layout/sidebar';
         <docs-sidebar [open]="sidebarOpen()" (close)="sidebarOpen.set(false)" />
       }
       <main [class]="isHome() ? 'flex-1 min-w-0 w-full' : 'flex-1 min-w-0 overflow-y-auto'">
-        <div [class]="isHome() ? '' : 'px-6 py-8 lg:px-8 max-w-4xl mx-auto w-full'">
+        <div [class]="isHome() ? '' : 'px-3 py-6 sm:px-6 sm:py-8 lg:px-8 max-w-4xl mx-auto w-full'">
           <router-outlet />
         </div>
       </main>

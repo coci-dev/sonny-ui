@@ -80,7 +80,22 @@ export class ChangelogComponent {
 
   changelog: ChangelogEntry[] = [
     {
-      version: 'v0.1.0-alpha.13 (next)',
+      version: 'v0.1.0-alpha.14 (next)',
+      date: '2026-03-27',
+      changes: [
+        { type: 'feat', description: 'Add SnyDataTableComponent with sorting, global filtering, pagination with page size selector, row selection, and JSON export.' },
+        { type: 'feat', description: 'Add custom cell templates (SnyCellDefDirective) and custom header templates (SnyHeaderCellDefDirective) for rendering badges, buttons, and custom content in data-table cells.' },
+        { type: 'feat', description: 'Add loading state with skeleton rows to data-table.' },
+        { type: 'feat', description: 'Add bulk actions toolbar with content-projected action buttons when rows are selected.' },
+        { type: 'feat', description: 'Add row expansion with custom detail content via SnyRowExpandDefDirective.' },
+        { type: 'feat', description: 'Add column visibility toggle dropdown to data-table.' },
+        { type: 'fix', description: 'Fix docs navbar responsive layout — hide burger on home, add mobile search button and SVG theme icons.' },
+        { type: 'fix', description: 'Fix zoneless reactivity bug — convert sidebarOpen to signal for provideZonelessChangeDetection() compatibility.' },
+        { type: 'fix', description: 'Fix locale switch URL generating trailing slash on home route causing layout mismatch.' },
+      ],
+    },
+    {
+      version: 'v0.1.0-alpha.13',
       date: '2026-03-26',
       changes: [
         { type: 'fix', description: 'Resolve ControlValueAccessor async effect causing value desync in reactive forms (NG0100). Affects: switch, select, combobox, slider, rating, toggle, calendar, file-input.' },
