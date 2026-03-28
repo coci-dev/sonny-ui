@@ -80,8 +80,8 @@ export class ChangelogComponent {
 
   changelog: ChangelogEntry[] = [
     {
-      version: 'v0.1.0-alpha.15 (next)',
-      date: '2026-03-27',
+      version: 'v0.1.0-alpha.15',
+      date: '2026-03-28',
       changes: [
         { type: 'feat', description: 'Add range selection mode to SnyCalendarComponent with visual highlighting, hover preview, and backwards-compatible mode input.' },
         { type: 'feat', description: 'Add SnyDatePickerComponent — single date picker with calendar dropdown, clearable, min/max constraints, and CVA support.' },
