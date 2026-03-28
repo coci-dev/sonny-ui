@@ -160,5 +160,11 @@ export * from './lib/link';
 // Calendar
 export * from './lib/calendar';
 
+// Date Picker
+export * from './lib/date-picker';
+
+// Date Range Picker
+export * from './lib/date-range-picker';
+
 // Validator
 export * from './lib/validator';

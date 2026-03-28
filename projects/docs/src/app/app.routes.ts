@@ -98,6 +98,16 @@ const docsChildren: Routes = [
       import('./pages/components/data-table-doc').then((m) => m.DataTableDocComponent),
   },
   {
+    path: 'components/date-picker',
+    loadComponent: () =>
+      import('./pages/components/date-picker-doc').then((m) => m.DatePickerDocComponent),
+  },
+  {
+    path: 'components/date-range-picker',
+    loadComponent: () =>
+      import('./pages/components/date-range-picker-doc').then((m) => m.DateRangePickerDocComponent),
+  },
+  {
     path: 'components/dropdown',
     loadComponent: () =>
       import('./pages/components/dropdown-doc').then((m) => m.DropdownDocComponent),

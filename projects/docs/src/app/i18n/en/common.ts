@@ -48,6 +48,8 @@ export const COMMON_EN: CommonTranslations = {
         { label: 'Checkbox', path: '/docs/components/checkbox' },
         { label: 'Combobox', path: '/docs/components/combobox' },
         { label: 'Data Table', path: '/docs/components/data-table' },
+        { label: 'Date Picker', path: '/docs/components/date-picker' },
+        { label: 'Date Range Picker', path: '/docs/components/date-range-picker' },
         { label: 'Diff', path: '/docs/components/diff' },
         { label: 'Divider', path: '/docs/components/divider' },
         { label: 'Dock', path: '/docs/components/dock' },

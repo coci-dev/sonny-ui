@@ -1,0 +1,27 @@
+export const DATE_PICKER_DOC_EN = {
+  title: 'Date Picker',
+  description: 'A date input with a calendar dropdown for selecting a single date.',
+  clearable: 'Clearable',
+  clearableDesc: 'A clear button appears when a date is selected.',
+  formats: 'Date Formats',
+  formatsDesc: 'Customize the display format using Intl.DateTimeFormatOptions.',
+  constraints: 'Min / Max',
+  constraintsDesc: 'Restrict selectable dates with min and max bounds.',
+  accessibility: [
+    'Trigger has combobox role with aria-expanded state.',
+    'Calendar is keyboard navigable with arrow keys.',
+    'Clear button has an accessible label.',
+    'Escape key closes the dropdown.',
+  ],
+  propDescriptions: {
+    value: 'The selected date (two-way bindable).',
+    placeholder: 'Placeholder text when no date is selected.',
+    size: 'Trigger size: sm, md, or lg.',
+    locale: 'Locale for date formatting.',
+    dateFormat: 'Intl.DateTimeFormatOptions for display formatting.',
+    min: 'Minimum selectable date.',
+    max: 'Maximum selectable date.',
+    clearable: 'Show a clear button when a date is selected.',
+    disabled: 'Disable the date picker.',
+  },
+};

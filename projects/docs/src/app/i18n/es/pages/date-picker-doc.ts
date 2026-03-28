@@ -1,0 +1,27 @@
+export const DATE_PICKER_DOC_ES = {
+  title: 'Date Picker',
+  description: 'Un input de fecha con un calendario desplegable para seleccionar una fecha.',
+  clearable: 'Limpiable',
+  clearableDesc: 'Un botón de limpiar aparece cuando hay una fecha seleccionada.',
+  formats: 'Formatos de Fecha',
+  formatsDesc: 'Personaliza el formato de visualización usando Intl.DateTimeFormatOptions.',
+  constraints: 'Mín / Máx',
+  constraintsDesc: 'Restringe las fechas seleccionables con límites mínimo y máximo.',
+  accessibility: [
+    'El trigger tiene rol combobox con estado aria-expanded.',
+    'El calendario es navegable con teclas de flecha.',
+    'El botón de limpiar tiene una etiqueta accesible.',
+    'La tecla Escape cierra el desplegable.',
+  ],
+  propDescriptions: {
+    value: 'La fecha seleccionada (enlace bidireccional).',
+    placeholder: 'Texto de marcador cuando no hay fecha seleccionada.',
+    size: 'Tamaño del trigger: sm, md o lg.',
+    locale: 'Localización para el formato de fecha.',
+    dateFormat: 'Intl.DateTimeFormatOptions para el formato de visualización.',
+    min: 'Fecha mínima seleccionable.',
+    max: 'Fecha máxima seleccionable.',
+    clearable: 'Mostrar botón de limpiar cuando hay fecha seleccionada.',
+    disabled: 'Deshabilitar el selector de fecha.',
+  },
+};
