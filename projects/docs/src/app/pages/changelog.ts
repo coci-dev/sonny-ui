@@ -80,6 +80,13 @@ export class ChangelogComponent {
 
   changelog: ChangelogEntry[] = [
     {
+      version: 'v0.1.0-alpha.16 (next)',
+      date: '2026-03-29',
+      changes: [
+        { type: 'feat', description: 'Add SnyColorPickerComponent with saturation/brightness panel, hue slider, alpha slider, HEX/RGB/HSL format switching, preset palettes, favorites, EyeDropper API, inline mode, and CVA support.' },
+      ],
+    },
+    {
       version: 'v0.1.0-alpha.15',
       date: '2026-03-28',
       changes: [
