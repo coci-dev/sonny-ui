@@ -203,6 +203,11 @@ const docsChildren: Routes = [
       import('./pages/components/navbar-doc').then((m) => m.NavbarDocComponent),
   },
   {
+    path: 'components/otp-input',
+    loadComponent: () =>
+      import('./pages/components/otp-input-doc').then((m) => m.OtpInputDocComponent),
+  },
+  {
     path: 'components/drawer',
     loadComponent: () =>
       import('./pages/components/drawer-doc').then((m) => m.DrawerDocComponent),

@@ -169,5 +169,8 @@ export * from './lib/date-range-picker';
 // Color Picker
 export * from './lib/color-picker';
 
+// OTP Input
+export * from './lib/otp-input';
+
 // Validator
 export * from './lib/validator';
