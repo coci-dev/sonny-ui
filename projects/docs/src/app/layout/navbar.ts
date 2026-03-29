@@ -1,7 +1,6 @@
-import { Component, inject, input, output } from '@angular/core';
+import { Component, computed, inject, input, output } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
-import { ThemeService, type Theme, SnyDialogService } from 'core';
-import { SearchDialogComponent } from '../shared/search-dialog';
+import { ThemeService, type Theme, SnyCommandPaletteService, type Command } from 'core';
 import { I18nService } from '../i18n/i18n.service';
 import { LIB_VERSION, NPM_URL } from '../shared/version';
 
@@ -44,7 +43,7 @@ import { LIB_VERSION, NPM_URL } from '../shared/version';
         <div class="flex items-center gap-1 sm:gap-2 shrink-0">
           <!-- Mobile search button -->
           <button
-            (click)="openSearch()"
+            (click)="openCommandPalette()"
             class="md:hidden p-2 rounded-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -52,7 +51,7 @@ import { LIB_VERSION, NPM_URL } from '../shared/version';
 
           <!-- Desktop search button -->
           <button
-            (click)="openSearch()"
+            (click)="openCommandPalette()"
             class="hidden md:inline-flex items-center gap-2 border border-border rounded-sm px-3 py-1.5 text-sm text-muted-foreground hover:bg-accent hover:text-accent-foreground transition-colors cursor-pointer"
           >
             <svg xmlns="http://www.w3.org/2000/svg" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.3-4.3"/></svg>
@@ -105,26 +104,71 @@ export class NavbarComponent {
   readonly npmUrl = NPM_URL;
 
   private readonly router = inject(Router);
-  private readonly dialogService = inject(SnyDialogService);
-  private searchOpen = false;
+  private readonly commandPalette = inject(SnyCommandPaletteService);
+
+  readonly commands = computed<Command[]>(() => {
+    const nav = this.i18n.common();
+    const commands: Command[] = [];
+
+    // Navigation commands from sidebar
+    for (const section of nav.sidebar) {
+      for (const item of section.items) {
+        commands.push({
+          id: `nav-${item.path}`,
+          label: item.label,
+          group: section.title,
+          keywords: [section.title.toLowerCase()],
+          action: () => this.router.navigate([item.path]),
+        });
+      }
+    }
+
+    // Theme commands
+    commands.push(
+      { id: 'theme-light', label: 'Light Theme', group: 'Theme', icon: '☀️', action: () => this.themeService.setTheme('light') },
+      { id: 'theme-dark', label: 'Dark Theme', group: 'Theme', icon: '🌙', action: () => this.themeService.setTheme('dark') },
+      { id: 'theme-corporate', label: 'Corporate Theme', group: 'Theme', icon: '🏢', action: () => this.themeService.setTheme('corporate') },
+    );
+
+    // Language
+    commands.push({
+      id: 'lang-switch',
+      label: this.i18n.locale() === 'es' ? 'Switch to English' : 'Cambiar a Español',
+      group: 'Settings',
+      icon: '🌐',
+      action: () => this.switchLanguage(),
+    });
+
+    // Actions
+    commands.push({
+      id: 'copy-url',
+      label: 'Copy Current URL',
+      group: 'Actions',
+      keywords: ['clipboard', 'share', 'link'],
+      action: () => navigator.clipboard.writeText(location.href),
+    });
+
+    commands.push({
+      id: 'github',
+      label: 'Open GitHub',
+      group: 'Actions',
+      action: () => window.open('https://github.com/coci-dev/sonny-ui', '_blank'),
+    });
+
+    return commands;
+  });
 
   onGlobalKeydown(event: KeyboardEvent): void {
     if ((event.ctrlKey || event.metaKey) && event.key === 'k') {
       event.preventDefault();
-      this.openSearch();
+      this.openCommandPalette();
     }
   }
 
-  openSearch(): void {
-    if (this.searchOpen) return;
-    this.searchOpen = true;
-
-    const ref = this.dialogService.open(SearchDialogComponent, {
-      width: '32rem',
-    });
-
-    ref.closed.subscribe(() => {
-      this.searchOpen = false;
+  openCommandPalette(): void {
+    this.commandPalette.open({
+      commands: this.commands(),
+      placeholder: this.i18n.common().nav.searchPlaceholder,
     });
   }
 
