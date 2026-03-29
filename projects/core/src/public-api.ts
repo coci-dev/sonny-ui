@@ -172,5 +172,8 @@ export * from './lib/color-picker';
 // OTP Input
 export * from './lib/otp-input';
 
+// Command Palette
+export * from './lib/command-palette';
+
 // Validator
 export * from './lib/validator';

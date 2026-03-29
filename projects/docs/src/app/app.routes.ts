@@ -88,6 +88,11 @@ const docsChildren: Routes = [
       import('./pages/components/checkbox-doc').then((m) => m.CheckboxDocComponent),
   },
   {
+    path: 'components/command-palette',
+    loadComponent: () =>
+      import('./pages/components/command-palette-doc').then((m) => m.CommandPaletteDocComponent),
+  },
+  {
     path: 'components/color-picker',
     loadComponent: () =>
       import('./pages/components/color-picker-doc').then((m) => m.ColorPickerDocComponent),

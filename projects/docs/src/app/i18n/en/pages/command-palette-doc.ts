@@ -1,0 +1,25 @@
+export const COMMAND_PALETTE_DOC_EN = {
+  title: 'Command Palette',
+  description: 'A searchable command menu opened via service or keyboard shortcut with grouped commands, keyboard navigation, and instant execution.',
+  grouped: 'Grouped Commands',
+  groupedDesc: 'Commands can be organized into visual groups with category headers.',
+  withIcons: 'Icons & Shortcuts',
+  withIconsDesc: 'Commands can display icons and keyboard shortcut hints.',
+  serviceUsage: 'Service Usage',
+  serviceUsageDesc: 'Use SnyCommandPaletteService to open the palette programmatically from anywhere.',
+  fullExample: 'Full Example',
+  fullExampleDesc: 'Press Ctrl+K to open. Includes grouped commands with icons, shortcuts, descriptions, and keyword search.',
+  accessibility: [
+    'Keyboard navigation: Arrow Up/Down to navigate, Enter to execute, Escape to close.',
+    'Search input is auto-focused when opened.',
+    'Active item scrolls into view automatically.',
+    'Backdrop click closes the palette.',
+    'Disabled commands are excluded from results.',
+  ],
+  propDescriptions: {
+    commands: 'Array of command objects with id, label, action, and optional group/icon/shortcut/keywords.',
+    placeholder: 'Placeholder text for the search input.',
+    emptyText: 'Text shown when no commands match the search.',
+    width: 'Width of the palette dialog.',
+  },
+};

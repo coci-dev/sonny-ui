@@ -1,0 +1,25 @@
+export const COMMAND_PALETTE_DOC_ES = {
+  title: 'Command Palette',
+  description: 'Un menú de comandos con búsqueda que se abre mediante servicio o atajo de teclado con comandos agrupados, navegación por teclado y ejecución instantánea.',
+  grouped: 'Comandos Agrupados',
+  groupedDesc: 'Los comandos se pueden organizar en grupos visuales con encabezados de categoría.',
+  withIcons: 'Iconos y Atajos',
+  withIconsDesc: 'Los comandos pueden mostrar iconos e indicadores de atajos de teclado.',
+  serviceUsage: 'Uso del Servicio',
+  serviceUsageDesc: 'Usa SnyCommandPaletteService para abrir la paleta programáticamente desde cualquier lugar.',
+  fullExample: 'Ejemplo Completo',
+  fullExampleDesc: 'Presiona Ctrl+K para abrir. Incluye comandos agrupados con iconos, atajos, descripciones y búsqueda por palabras clave.',
+  accessibility: [
+    'Navegación por teclado: Flecha Arriba/Abajo para navegar, Enter para ejecutar, Escape para cerrar.',
+    'El campo de búsqueda se enfoca automáticamente al abrir.',
+    'El elemento activo se desplaza a la vista automáticamente.',
+    'Clic en el fondo cierra la paleta.',
+    'Los comandos deshabilitados se excluyen de los resultados.',
+  ],
+  propDescriptions: {
+    commands: 'Array de objetos de comando con id, label, action y opcionales group/icon/shortcut/keywords.',
+    placeholder: 'Texto de marcador para el campo de búsqueda.',
+    emptyText: 'Texto mostrado cuando ningún comando coincide con la búsqueda.',
+    width: 'Ancho del diálogo de la paleta.',
+  },
+};

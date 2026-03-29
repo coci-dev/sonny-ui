@@ -46,6 +46,7 @@ export const COMMON_EN: CommonTranslations = {
         { label: 'Carousel', path: '/docs/components/carousel' },
         { label: 'Chat Bubble', path: '/docs/components/chat-bubble' },
         { label: 'Checkbox', path: '/docs/components/checkbox' },
+        { label: 'Command Palette', path: '/docs/components/command-palette' },
         { label: 'Color Picker', path: '/docs/components/color-picker' },
         { label: 'Combobox', path: '/docs/components/combobox' },
         { label: 'Data Table', path: '/docs/components/data-table' },

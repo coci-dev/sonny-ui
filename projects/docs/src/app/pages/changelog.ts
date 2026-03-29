@@ -85,6 +85,7 @@ export class ChangelogComponent {
       changes: [
         { type: 'feat', description: 'Add SnyColorPickerComponent with saturation/brightness panel, hue slider, HEX/RGB/HSL format switching, preset palettes, favorites, EyeDropper API, inline mode, and CVA support.' },
         { type: 'feat', description: 'Add SnyOtpInputComponent with auto-focus, clipboard paste, number/alphanumeric types, mask mode, visual separator, keyboard navigation (arrows, Home, End), autocomplete="one-time-code", and CVA support.' },
+        { type: 'feat', description: 'Add SnyCommandPaletteComponent and SnyCommandPaletteService — searchable command menu with grouped commands, keyboard navigation, keyword search, shortcut hints, and SnyDialogService integration.' },
       ],
     },
     {
