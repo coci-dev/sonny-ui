@@ -166,5 +166,8 @@ export * from './lib/date-picker';
 // Date Range Picker
 export * from './lib/date-range-picker';
 
+// Color Picker
+export * from './lib/color-picker';
+
 // Validator
 export * from './lib/validator';
