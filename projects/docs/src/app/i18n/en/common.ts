@@ -67,6 +67,7 @@ export const COMMON_EN: CommonTranslations = {
         { label: 'Loader', path: '/docs/components/loader' },
         { label: 'Modal', path: '/docs/components/modal' },
         { label: 'Navbar', path: '/docs/components/navbar' },
+        { label: 'OTP Input', path: '/docs/components/otp-input' },
         { label: 'Pagination', path: '/docs/components/pagination' },
         { label: 'Progress', path: '/docs/components/progress' },
         { label: 'Radial Progress', path: '/docs/components/radial-progress' },
