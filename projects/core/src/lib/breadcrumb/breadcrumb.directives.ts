@@ -57,7 +57,7 @@ export class SnyBreadcrumbLinkDirective {
 export class SnyBreadcrumbSeparatorDirective {
   readonly class = input<string>('');
   protected readonly computedClass = computed(() =>
-    cn('[&>svg]:size-3.5', this.class())
+    cn('[&>svg]:size-3.5 text-muted-foreground', this.class())
   );
 }
 
