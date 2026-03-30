@@ -89,6 +89,7 @@ export class ChangelogComponent {
         { type: 'feat', description: 'Add SnyNumberInputComponent — numeric stepper with +/- buttons, min/max/step, ArrowUp/Down, and CVA support.' },
         { type: 'feat', description: 'Add SnyAvatarGroupComponent — stacked avatar display with overflow counter, images and fallback initials.' },
         { type: 'feat', description: 'Add SnyTagInputComponent — tag/chip input with Enter/comma separators, custom validation, maxTags, Backspace remove, addOnBlur, and CVA support.' },
+        { type: 'feat', description: 'Add SnyPopoverDirective — reusable floating panel with trigger/content directives, fixed positioning, scroll/resize tracking, matchWidth, click-outside, escape, and programmatic control via template ref.' },
       ],
     },
     {

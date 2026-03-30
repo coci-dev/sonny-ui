@@ -184,5 +184,8 @@ export * from './lib/avatar-group';
 // Tag Input
 export * from './lib/tag-input';
 
+// Popover
+export * from './lib/popover';
+
 // Validator
 export * from './lib/validator';
