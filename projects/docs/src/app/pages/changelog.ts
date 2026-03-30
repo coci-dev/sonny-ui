@@ -86,6 +86,9 @@ export class ChangelogComponent {
         { type: 'feat', description: 'Add SnyColorPickerComponent with saturation/brightness panel, hue slider, HEX/RGB/HSL format switching, preset palettes, favorites, EyeDropper API, inline mode, and CVA support.' },
         { type: 'feat', description: 'Add SnyOtpInputComponent with auto-focus, clipboard paste, number/alphanumeric types, mask mode, visual separator, keyboard navigation (arrows, Home, End), autocomplete="one-time-code", and CVA support.' },
         { type: 'feat', description: 'Add SnyCommandPaletteComponent and SnyCommandPaletteService — searchable command menu with grouped commands, keyboard navigation, keyword search, shortcut hints, and SnyDialogService integration.' },
+        { type: 'feat', description: 'Add SnyNumberInputComponent — numeric stepper with +/- buttons, min/max/step, ArrowUp/Down, and CVA support.' },
+        { type: 'feat', description: 'Add SnyAvatarGroupComponent — stacked avatar display with overflow counter, images and fallback initials.' },
+        { type: 'feat', description: 'Add SnyTagInputComponent — tag/chip input with Enter/comma separators, custom validation, maxTags, Backspace remove, addOnBlur, and CVA support.' },
       ],
     },
     {

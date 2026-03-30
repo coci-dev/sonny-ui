@@ -68,6 +68,21 @@ const docsChildren: Routes = [
       import('./pages/components/avatar-doc').then((m) => m.AvatarDocComponent),
   },
   {
+    path: 'components/avatar-group',
+    loadComponent: () =>
+      import('./pages/components/avatar-group-doc').then((m) => m.AvatarGroupDocComponent),
+  },
+  {
+    path: 'components/number-input',
+    loadComponent: () =>
+      import('./pages/components/number-input-doc').then((m) => m.NumberInputDocComponent),
+  },
+  {
+    path: 'components/tag-input',
+    loadComponent: () =>
+      import('./pages/components/tag-input-doc').then((m) => m.TagInputDocComponent),
+  },
+  {
     path: 'components/badge',
     loadComponent: () =>
       import('./pages/components/badge-doc').then((m) => m.BadgeDocComponent),
