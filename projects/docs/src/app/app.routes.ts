@@ -238,6 +238,11 @@ const docsChildren: Routes = [
       import('./pages/components/pagination-doc').then((m) => m.PaginationDocComponent),
   },
   {
+    path: 'components/popover',
+    loadComponent: () =>
+      import('./pages/components/popover-doc').then((m) => m.PopoverDocComponent),
+  },
+  {
     path: 'components/divider',
     loadComponent: () =>
       import('./pages/components/divider-doc').then((m) => m.DividerDocComponent),
