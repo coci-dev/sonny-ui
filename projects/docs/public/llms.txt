@@ -1,0 +1,392 @@
+# @sonny-ui/core
+
+> Angular 21 component library with Tailwind CSS v4 and Signals. Inspired by shadcn/ui.
+
+- Package: @sonny-ui/core
+- Angular: >= 21.0.0
+- Styling: Tailwind CSS v4 with CSS custom properties (--sny-* prefix)
+- Reactivity: Angular Signals (input(), model(), output(), computed(), signal(), linkedSignal())
+- Change Detection: Zoneless (provideZonelessChangeDetection())
+- Forms: ControlValueAccessor on all form components
+- Themes: light, dark, corporate (runtime switching via ThemeService)
+- Documentation: https://coci-dev.github.io/sonny-ui/
+- GitHub: https://github.com/coci-dev/sonny-ui
+
+## Installation
+
+```bash
+ng add @sonny-ui/core
+```
+
+Or manually:
+
+```bash
+npm install @sonny-ui/core
+```
+
+```typescript
+// app.config.ts
+import { provideZonelessChangeDetection } from '@angular/core';
+import { provideSonnyUI } from '@sonny-ui/core';
+
+export const appConfig = {
+  providers: [
+    provideZonelessChangeDetection(),
+    provideSonnyUI({ defaultTheme: 'light' }),
+  ],
+};
+```
+
+```css
+/* styles.css */
+@import "tailwindcss";
+@import "@sonny-ui/core/styles/sonny-theme.css";
+```
+
+## Components (60+)
+
+### Button
+- Selector: `button[snyBtn], a[snyBtn]`
+- Import: `import { SnyButtonDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'destructive'|'outline'|'secondary'|'ghost'|'link'), size ('sm'|'md'|'lg'|'icon'), disabled, loading, class
+- Example: `<button snyBtn variant="outline" size="sm">Click</button>`
+
+### Card
+- Selectors: `[snyCard]`, `[snyCardHeader]`, `[snyCardTitle]`, `[snyCardDescription]`, `[snyCardContent]`, `[snyCardFooter]`
+- Import: `import { SnyCardDirective, SnyCardHeaderDirective, SnyCardTitleDirective, SnyCardDescriptionDirective, SnyCardContentDirective, SnyCardFooterDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'outline'|'ghost'), padding ('none'|'sm'|'md'|'lg')
+- Example: `<div snyCard padding="md"><div snyCardHeader><h3 snyCardTitle>Title</h3></div></div>`
+
+### Input
+- Selector: `input[snyInput], textarea[snyInput]`
+- Import: `import { SnyInputDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'error'|'success'), inputSize ('sm'|'md'|'lg')
+- Example: `<input snyInput placeholder="Email" />`
+
+### Textarea
+- Selector: `textarea[snyTextarea]`
+- Import: `import { SnyTextareaDirective } from '@sonny-ui/core';`
+- Inputs: variant, textareaSize, resize, autoResize
+
+### Badge
+- Selector: `[snyBadge]`
+- Import: `import { SnyBadgeDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'secondary'|'destructive'|'outline'|'success'|'warning'), size ('sm'|'md'|'lg')
+- Example: `<span snyBadge variant="success">Active</span>`
+
+### Avatar
+- Selector: `sny-avatar`
+- Import: `import { SnyAvatarDirective } from '@sonny-ui/core';`
+- Inputs: src, alt, fallback, size, variant
+
+### Avatar Group
+- Selector: `sny-avatar-group`
+- Import: `import { SnyAvatarGroupComponent, type AvatarGroupItem } from '@sonny-ui/core';`
+- Inputs: items (required, AvatarGroupItem[]), max (default 3), size ('sm'|'md'|'lg'), spacing ('tight'|'normal')
+- Example: `<sny-avatar-group [items]="users" [max]="3" />`
+
+### Accordion
+- Selectors: `[snyAccordion]`, `[snyAccordionItem]`, `[snyAccordionTrigger]`, `[snyAccordionContent]`
+- Import: `import { SnyAccordionDirective, SnyAccordionItemDirective, SnyAccordionTriggerDirective, SnyAccordionContentDirective } from '@sonny-ui/core';`
+- Inputs: multi (boolean)
+
+### Alert
+- Selectors: `[snyAlert]`, `[snyAlertTitle]`, `[snyAlertDescription]`
+- Import: `import { SnyAlertDirective, SnyAlertTitleDirective, SnyAlertDescriptionDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'destructive'|'success'|'warning'|'info'), dismissible
+
+### Select
+- Selector: `sny-select`
+- Import: `import { SnySelectComponent, type SelectOption } from '@sonny-ui/core';`
+- Inputs: options (SelectOption[]), value (model, string), placeholder, disabled, size
+- CVA: Yes
+- Example: `<sny-select [options]="opts" [(value)]="selected" />`
+
+### Combobox
+- Selector: `sny-combobox`
+- Import: `import { SnyComboboxComponent, type ComboboxOption } from '@sonny-ui/core';`
+- Inputs: options (ComboboxOption[]), value (model, string), placeholder, searchPlaceholder, disabled, size
+- CVA: Yes
+
+### Calendar
+- Selector: `sny-calendar`
+- Import: `import { SnyCalendarComponent, type DateRange, type CalendarMode } from '@sonny-ui/core';`
+- Inputs: value (model, Date|null), mode ('single'|'range'), rangeValue (model, DateRange|null), min, max, locale, showNavigation, initialViewDate, borderless
+- CVA: Yes
+
+### Date Picker
+- Selector: `sny-date-picker`
+- Import: `import { SnyDatePickerComponent } from '@sonny-ui/core';`
+- Inputs: value (model, Date|null), placeholder, size, locale, dateFormat (Intl.DateTimeFormatOptions), min, max, clearable, disabled
+- CVA: Yes
+- Example: `<sny-date-picker [(value)]="date" [clearable]="true" />`
+
+### Date Range Picker
+- Selector: `sny-date-range-picker`
+- Import: `import { SnyDateRangePickerComponent, type DateRange, type DatePickerPreset } from '@sonny-ui/core';`
+- Inputs: value (model, DateRange|null), placeholder, size, locale, dateFormat, separator, dualCalendar, presets (DatePickerPreset[]), min, max, clearable, disabled
+- CVA: Yes
+- Example: `<sny-date-range-picker [(value)]="range" [dualCalendar]="true" [presets]="presets" />`
+
+### Color Picker
+- Selector: `sny-color-picker`
+- Import: `import { SnyColorPickerComponent, type ColorPickerPreset, type ColorFormat } from '@sonny-ui/core';`
+- Inputs: value (model, string '#hex'), format ('hex'|'rgb'|'hsl'), presets (ColorPickerPreset[]), showInput, showEyeDropper, showFavorites, inline, disabled, placeholder, size
+- Outputs: colorChange, formatChange
+- CVA: Yes
+- Example: `<sny-color-picker [(value)]="color" [presets]="presets" [showFavorites]="true" />`
+
+### Number Input
+- Selector: `sny-number-input`
+- Import: `import { SnyNumberInputComponent } from '@sonny-ui/core';`
+- Inputs: value (model, number), min, max, step, disabled, size, placeholder
+- CVA: Yes
+- Example: `<sny-number-input [(value)]="count" [min]="0" [max]="100" [step]="5" />`
+
+### OTP Input
+- Selector: `sny-otp-input`
+- Import: `import { SnyOtpInputComponent } from '@sonny-ui/core';`
+- Inputs: value (model, string), length (default 6), type ('number'|'alphanumeric'), size, disabled, mask, autoFocus, placeholder, separator (number|null), status ('idle'|'loading'|'success'|'error')
+- Outputs: completed (string)
+- CVA: Yes
+- Example: `<sny-otp-input [(value)]="otp" [length]="6" [separator]="3" (completed)="verify($event)" />`
+
+### Tag Input
+- Selector: `sny-tag-input`
+- Import: `import { SnyTagInputComponent } from '@sonny-ui/core';`
+- Inputs: value (model, string[]), placeholder, maxTags, allowDuplicates, removable, addOnBlur, separators (string[]), validate ((tag)=>boolean), disabled, size
+- Outputs: tagAdded, tagRemoved
+- CVA: Yes (string[])
+- Example: `<sny-tag-input [(value)]="tags" [maxTags]="5" />`
+
+### Data Table
+- Selector: `sny-data-table`
+- Import: `import { SnyDataTableComponent, SnyCellDefDirective, SnyBulkActionsDefDirective, SnyRowExpandDefDirective, type DataTableColumn } from '@sonny-ui/core';`
+- Inputs: columns (required, DataTableColumn[]), data (required, Record[]), variant, density, hoverable, stickyHeader, selectable, paginated, filterable, showExport, showColumnToggle, expandable, loading, loadingRows, paginationConfig, trackBy, noDataText
+- Models: selectedRows (Record[])
+- Outputs: sortChanged, rowClicked, dataExported
+- Template directives: snyCell (custom cells), snyHeaderCell (custom headers), snyBulkActions (bulk toolbar), snyRowExpand (expandable rows)
+
+### Table
+- Selectors: `table[snyTable]`, `thead[snyTableHeader]`, `tbody[snyTableBody]`, `tr[snyTableRow]`, `th[snyTableHead]`, `td[snyTableCell]`, `tfoot[snyTableFooter]`, `caption[snyTableCaption]`
+- Import: `import { SnyTableDirective, SnyTableHeaderDirective, SnyTableBodyDirective, SnyTableRowDirective, SnyTableHeadDirective, SnyTableCellDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'striped'|'bordered'), density ('compact'|'normal'|'comfortable'), hoverable, stickyHeader
+
+### Checkbox
+- Selector: `input[type="checkbox"][snyCheckbox]`
+- Import: `import { SnyCheckboxDirective } from '@sonny-ui/core';`
+- Inputs: size
+
+### Radio
+- Selector: `input[type="radio"][snyRadio]`
+- Import: `import { SnyRadioDirective } from '@sonny-ui/core';`
+- Inputs: size
+
+### Switch
+- Selector: `sny-switch`
+- Import: `import { SnySwitchComponent } from '@sonny-ui/core';`
+- Inputs: checked (model), disabled, size
+- CVA: Yes
+
+### Slider
+- Selector: `sny-slider`
+- Import: `import { SnySliderComponent } from '@sonny-ui/core';`
+- Inputs: value (model), min, max, step, disabled, size
+- CVA: Yes
+
+### Toggle
+- Selector: `button[snyToggle]`
+- Import: `import { SnyToggleDirective } from '@sonny-ui/core';`
+- Inputs: variant, size, pressed (model)
+- CVA: Yes
+
+### Rating
+- Selector: `sny-rating`
+- Import: `import { SnyRatingComponent } from '@sonny-ui/core';`
+- Inputs: value (model), max, readonly, size, half
+- CVA: Yes
+
+### File Input
+- Selector: `sny-file-input`
+- Import: `import { SnyFileInputComponent } from '@sonny-ui/core';`
+- Inputs: accept, multiple, disabled, placeholder, variant, size, maxSize, value (model)
+- Outputs: fileChange, error
+- CVA: Yes
+
+### Pagination
+- Selector: `sny-pagination`
+- Import: `import { SnyPaginationComponent } from '@sonny-ui/core';`
+- Inputs: currentPage (model), totalPages (required), siblingCount, boundaryCount, size, variant
+
+### Progress
+- Selector: `sny-progress`
+- Import: `import { SnyProgressComponent } from '@sonny-ui/core';`
+- Inputs: value, max, variant, size, indeterminate, label
+
+### Radial Progress
+- Selector: `sny-radial-progress`
+- Import: `import { SnyRadialProgressComponent } from '@sonny-ui/core';`
+- Inputs: value, size, thickness, variant
+
+### Loader
+- Selector: `sny-loader`
+- Import: `import { SnyLoaderComponent } from '@sonny-ui/core';`
+- Inputs: variant ('spinner'|'dots'|'bars'), size
+
+### Skeleton
+- Selector: `[snySkeleton]`
+- Import: `import { SnySkeletonDirective } from '@sonny-ui/core';`
+- Inputs: variant ('line'|'circular'|'rounded'), size
+
+### Tooltip
+- Selector: `[snyTooltip]`
+- Import: `import { SnyTooltipDirective } from '@sonny-ui/core';`
+- Inputs: snyTooltip (required, string), tooltipPosition, tooltipDelay, tooltipDisabled
+- Example: `<button snyTooltip="Save changes">Save</button>`
+
+### Popover
+- Selectors: `[snyPopover]`, `[snyPopoverTrigger]`, `[snyPopoverContent]`
+- Import: `import { SnyPopoverDirective, SnyPopoverTriggerDirective, SnyPopoverContentDirective } from '@sonny-ui/core';`
+- Inputs: matchWidth, offset, closeOnOutside, closeOnEscape
+- ExportAs: snyPopover (for template ref)
+- Example: `<div snyPopover #pop="snyPopover"><button snyPopoverTrigger>Open</button><div snyPopoverContent class="p-4">Content</div></div>`
+
+### Dropdown Menu
+- Selectors: `[snyDropdown]`, `[snyDropdownTrigger]`, `[snyDropdownContent]`, `[snyMenuItem]`, `[snyMenuSeparator]`, `[snyMenuLabel]`
+- Import: `import { SnyDropdownDirective, SnyDropdownTriggerDirective, SnyDropdownContentDirective, SnyMenuItemDirective } from '@sonny-ui/core';`
+
+### Command Palette
+- Service: `SnyCommandPaletteService`
+- Import: `import { SnyCommandPaletteService, type Command } from '@sonny-ui/core';`
+- Usage: `this.commandPalette.open({ commands: [...], placeholder: 'Type a command...' })`
+- Command interface: { id, label, action, description?, icon?, group?, keywords?, shortcut?, disabled? }
+
+### Modal / Dialog
+- Service: `SnyDialogService`
+- Import: `import { SnyDialogService } from '@sonny-ui/core';`
+- Usage: `this.dialogService.open(MyComponent, { width: '28rem', data: {...} })`
+- Directives: snyDialogHeader, snyDialogTitle, snyDialogDescription, snyDialogContent, snyDialogFooter, snyDialogClose
+
+### Sheet
+- Import: `import { SnySheetHeaderDirective, SnySheetTitleDirective, SnySheetContentDirective, SnySheetCloseDirective } from '@sonny-ui/core';`
+- Opened via SnyDialogService with sheet panel class
+
+### Toast
+- Service: `SnyToastService`
+- Import: `import { SnyToastService } from '@sonny-ui/core';`
+- Selector: `sny-toaster` (place in root template)
+- Usage: `this.toastService.success('Title', 'Description')`
+- Methods: success, error, warning, info
+- Inputs: position, maxToasts
+
+### Alert
+- Selector: `[snyAlert]`
+- Import: `import { SnyAlertDirective, SnyAlertTitleDirective, SnyAlertDescriptionDirective } from '@sonny-ui/core';`
+- Inputs: variant ('default'|'destructive'|'success'|'warning'|'info'), dismissible
+
+### Tabs
+- Selectors: `[snyTabs]`, `[snyTabsList]`, `[snyTabsTrigger]`, `[snyTabsContent]`
+- Import: `import { SnyTabsDirective, SnyTabsListDirective, SnyTabsTriggerDirective, SnyTabsContentDirective } from '@sonny-ui/core';`
+- Inputs: value (model, string)
+
+### Accordion
+- Selectors: `[snyAccordion]`, `[snyAccordionItem]`, `[snyAccordionTrigger]`, `[snyAccordionContent]`
+- Inputs: multi (boolean)
+
+### Steps
+- Selectors: `[snySteps]`, `[snyStep]`
+- Inputs: orientation, size (steps); status ('default'|'active'|'complete'|'error'), icon (step)
+
+### Timeline
+- Selectors: `[snyTimeline]`, `[snyTimelineItem]`, `[snyTimelineStart]`, `[snyTimelineMiddle]`, `[snyTimelineEnd]`
+- Inputs: orientation (timeline); connect (item); variant (middle)
+
+### Breadcrumb
+- Selectors: `nav[snyBreadcrumb]`, `ol[snyBreadcrumbList]`, `li[snyBreadcrumbItem]`, `[snyBreadcrumbLink]`, `[snyBreadcrumbSeparator]`, `[snyBreadcrumbPage]`
+
+### Navbar
+- Selectors: `[snyNavbar]`, `[snyNavbarBrand]`, `[snyNavbarContent]`, `[snyNavbarEnd]`
+- Inputs: variant ('default'|'bordered'|'floating'), sticky
+
+### Divider
+- Selector: `sny-divider`
+- Inputs: orientation, variant, label
+
+### Stat
+- Selectors: `[snyStat]`, `[snyStatTitle]`, `[snyStatValue]`, `[snyStatDescription]`, `[snyStatFigure]`
+
+### Status
+- Selector: `[snyStatus]`
+- Inputs: variant, size, pulse
+
+### Indicator
+- Selectors: `[snyIndicator]`, `[snyIndicatorBadge]`
+- Inputs: position, variant, ariaLabel
+
+### Kbd
+- Selector: `kbd[snyKbd]`
+- Inputs: size
+
+### Link
+- Selector: `a[snyLink]`
+- Inputs: variant
+
+### List
+- Selectors: `[snyList]`, `[snyListItem]`, `[snyListItemIcon]`, `[snyListItemContent]`, `[snyListItemAction]`
+
+### Carousel
+- Selectors: `[snyCarousel]`, `[snyCarouselContent]`, `[snyCarouselItem]`, `[snyCarouselPrev]`, `[snyCarouselNext]`
+- Inputs: orientation, loop, autoplay
+
+### Chat Bubble
+- Selectors: `[snyChatBubble]`, `[snyChatBubbleAvatar]`, `[snyChatBubbleHeader]`, `[snyChatBubbleContent]`, `[snyChatBubbleBody]`, `[snyChatBubbleFooter]`
+- Inputs: align ('start'|'end')
+
+### Dock
+- Selectors: `[snyDock]`, `[snyDockItem]`
+- Inputs: position, class (dock); active (item)
+
+### Drawer
+- Selectors: `[snyDrawerLayout]`, `[snyDrawerContent]`, `[snyDrawerSide]`
+- Inputs: overlay, side
+
+### FAB
+- Selectors: `[snyFab]`, `[snyFabTrigger]`, `[snyFabAction]`
+- Inputs: position, direction
+
+### Fieldset
+- Selectors: `fieldset[snyFieldset]`, `legend[snyFieldsetLegend]`, `[snyFieldsetContent]`
+- Inputs: variant, disabled
+
+### Diff
+- Selector: `sny-diff`
+- Inputs: value (model), orientation
+
+### Validator
+- Selectors: `[snyValidator]`, `[snyValidatorHint]`
+- Inputs: control, state (validator); when, type, variant (hint)
+
+### Button Group
+- Selector: `[snyButtonGroup]`
+- Inputs: orientation
+
+## Theming
+
+Three built-in themes: light (default), dark, corporate.
+
+```typescript
+import { ThemeService } from '@sonny-ui/core';
+themeService = inject(ThemeService);
+themeService.setTheme('dark');
+```
+
+CSS custom properties: --sny-background, --sny-foreground, --sny-primary, --sny-primary-foreground, --sny-secondary, --sny-secondary-foreground, --sny-accent, --sny-accent-foreground, --sny-muted, --sny-muted-foreground, --sny-destructive, --sny-destructive-foreground, --sny-border, --sny-ring, --sny-radius
+
+## Key Patterns
+
+- All components use `input()` signal API (no @Input decorators)
+- Two-way binding uses `model()` with `[(value)]="signal"` syntax
+- Form components implement ControlValueAccessor for `[formControl]` / `formControlName`
+- Styling uses CVA (class-variance-authority) + `cn()` utility (clsx + tailwind-merge)
+- All components are standalone
+- All components use ChangeDetectionStrategy.OnPush
