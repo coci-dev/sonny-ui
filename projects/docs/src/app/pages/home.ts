@@ -45,6 +45,7 @@ import { HOME_ES } from '../i18n/es/home';
           <span class="rounded-full border border-primary/20 bg-primary/10 text-primary px-3 py-1 font-medium">{{ t().badges.zoneless }}</span>
           <span class="rounded-full border border-primary/20 bg-primary/10 text-primary px-3 py-1 font-medium">{{ t().badges.signals }}</span>
           <span class="rounded-full border border-yellow-500/20 bg-yellow-500/10 text-yellow-600 px-3 py-1 font-medium">{{ t().badges.alpha }}</span>
+          <a href="llms.txt" target="_blank" class="rounded-full border border-violet-500/20 bg-violet-500/10 text-violet-600 px-3 py-1 font-medium hover:bg-violet-500/20 transition-colors no-underline">AI Ready</a>
         </div>
         <div class="mt-8 flex items-center justify-center gap-4">
           <a snyBtn size="lg" [routerLink]="i18n.localizeLink('/docs/getting-started/installation')">{{ t().hero.getStarted }}</a>

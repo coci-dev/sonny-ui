@@ -32,6 +32,7 @@ export const HOME_EN = {
     { icon: '♿', title: 'Accessible', description: 'Built with ARIA attributes, keyboard navigation, and screen reader support.' },
     { icon: '🌊', title: 'Tailwind CSS v4', description: 'Styled with Tailwind v4 utility classes and CSS-first configuration.' },
     { icon: '🚀', title: 'Zoneless Performance', description: 'Designed for zoneless Angular. No zone.js dependency, maximum performance.' },
+    { icon: '🤖', title: 'AI Ready', description: 'Includes llms.txt with full API reference. AI tools can generate correct code with SonnyUI components.' },
   ],
   showcase: {
     title: 'Component Showcase',
