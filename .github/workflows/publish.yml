@@ -34,6 +34,9 @@ jobs:
       - name: Run tests
         run: npm test
 
+      - name: Copy README to dist
+        run: cp projects/core/README.md dist/core/README.md
+
       - name: Publish
         run: cd dist/core && npm publish --access public --provenance
         env:
