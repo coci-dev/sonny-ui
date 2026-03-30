@@ -9,7 +9,7 @@ import { cn } from '../core/utils/cn';
 export class SnyDialogHeaderDirective {
   readonly class = input<string>('');
   protected readonly computedClass = computed(() =>
-    cn('flex flex-col space-y-1.5 text-center sm:text-left', this.class())
+    cn('flex flex-col space-y-1.5 text-center sm:text-left px-6 pt-6 shrink-0', this.class())
   );
 }
 
@@ -43,7 +43,7 @@ export class SnyDialogContentDirective {
   readonly class = input<string>('');
   protected readonly computedClass = computed(() =>
     cn(
-      'relative bg-background rounded-sm border border-border shadow-lg p-6 w-full max-w-lg mx-auto',
+      'flex-1 overflow-y-auto px-6 py-4',
       this.class()
     )
   );
@@ -56,7 +56,7 @@ export class SnyDialogContentDirective {
 export class SnyDialogFooterDirective {
   readonly class = input<string>('');
   protected readonly computedClass = computed(() =>
-    cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2', this.class())
+    cn('flex flex-col-reverse sm:flex-row sm:justify-end sm:space-x-2 px-6 pb-6 shrink-0', this.class())
   );
 }
 
@@ -71,7 +71,7 @@ export class SnyDialogCloseDirective {
   readonly class = input<string>('');
   protected readonly computedClass = computed(() =>
     cn(
-      'absolute right-4 top-4 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none',
+      'absolute right-4 top-4 z-10 rounded-sm opacity-70 ring-offset-background transition-opacity hover:opacity-100 focus:outline-none focus:ring-2 focus:ring-ring focus:ring-offset-2 disabled:pointer-events-none cursor-pointer',
       this.class()
     )
   );
