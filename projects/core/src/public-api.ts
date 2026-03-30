@@ -175,5 +175,14 @@ export * from './lib/otp-input';
 // Command Palette
 export * from './lib/command-palette';
 
+// Number Input
+export * from './lib/number-input';
+
+// Avatar Group
+export * from './lib/avatar-group';
+
+// Tag Input
+export * from './lib/tag-input';
+
 // Validator
 export * from './lib/validator';
