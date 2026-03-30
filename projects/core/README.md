@@ -52,7 +52,7 @@ And import the theme in your global styles:
 - Angular CDK >= 21.0.0
 - Tailwind CSS v4
 
-## Components (55+)
+## Components (60+)
 
 ### Layout & Navigation
 | Component | Description |
@@ -73,6 +73,7 @@ And import the theme in your global styles:
 | **Card** | Content containers — 4 variants, selectable |
 | **Badge** | Status labels — 6 variants, 3 sizes |
 | **Avatar** | User images with fallback initials |
+| **Avatar Group** | Stacked avatars with overflow counter, fallback initials |
 | **Stat** | Statistic display with label/value/change |
 | **Timeline** | Chronological event display |
 | **List** | Styled list items |
@@ -100,7 +101,9 @@ And import the theme in your global styles:
 | **Date Picker** | Single date with calendar dropdown, clearable, min/max |
 | **Date Range Picker** | Date range with dual calendar, preset ranges, responsive |
 | **Color Picker** | Visual color selector with saturation panel, hue slider, HEX/RGB/HSL, presets, favorites, EyeDropper API |
+| **Number Input** | Numeric stepper with +/- buttons, min/max/step, ArrowUp/Down |
 | **OTP Input** | One-time password input with auto-focus, paste, mask, separator, status feedback |
+| **Tag Input** | Tag/chip creator with Enter/comma, validation, maxTags, Backspace remove |
 | **Validator** | Form validation message display |
 
 ### Feedback & Overlays
@@ -114,6 +117,7 @@ And import the theme in your global styles:
 | **Tooltip** | Hover/focus tooltips |
 | **Dropdown Menu** | Context menus with items, separators, labels |
 | **Command Palette** | Searchable command menu with groups, keyboard nav, service-based |
+| **Popover** | Floating panel with trigger, positioning, click-outside, escape |
 
 ### Visual
 | Component | Description |

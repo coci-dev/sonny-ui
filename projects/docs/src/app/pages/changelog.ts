@@ -80,8 +80,8 @@ export class ChangelogComponent {
 
   changelog: ChangelogEntry[] = [
     {
-      version: 'v0.1.0-alpha.16',
-      date: '2026-03-29',
+      version: 'v0.1.0-alpha.17',
+      date: '2026-03-30',
       changes: [
         { type: 'feat', description: 'Add SnyColorPickerComponent with saturation/brightness panel, hue slider, HEX/RGB/HSL format switching, preset palettes, favorites, EyeDropper API, inline mode, and CVA support.' },
         { type: 'feat', description: 'Add SnyOtpInputComponent with auto-focus, clipboard paste, number/alphanumeric types, mask mode, visual separator, keyboard navigation (arrows, Home, End), autocomplete="one-time-code", and CVA support.' },
