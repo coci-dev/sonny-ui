@@ -70,7 +70,7 @@ export class SnyDrawerSideDirective {
   protected readonly computedClass = computed(() => {
     const isOpen = this.drawer.isOpen();
     const s = this.side();
-    const base = 'fixed inset-y-0 z-40 w-64 bg-background border-r border-border transition-transform duration-300 ease-in-out';
+    const base = 'fixed inset-y-0 z-50 w-64 bg-background border-r border-border transition-transform duration-300 ease-in-out overflow-y-auto';
     const sideClass = s === 'left' ? 'left-0' : 'right-0 border-l border-r-0';
     const transformClass = isOpen
       ? 'translate-x-0'

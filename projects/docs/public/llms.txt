@@ -76,7 +76,7 @@ export const appConfig = {
 
 ### Avatar
 - Selector: `sny-avatar`
-- Import: `import { SnyAvatarDirective } from '@sonny-ui/core';`
+- Import: `import { SnyAvatarComponent } from '@sonny-ui/core';`
 - Inputs: src, alt, fallback, size, variant
 
 ### Avatar Group
@@ -166,6 +166,7 @@ export const appConfig = {
 - Models: selectedRows (Record[])
 - Outputs: sortChanged, rowClicked, dataExported
 - Template directives: snyCell (custom cells), snyHeaderCell (custom headers), snyBulkActions (bulk toolbar), snyRowExpand (expandable rows)
+- snyCell context: `let-value` = cell value ($implicit), `let-row="row"` = full row object. Example: `<ng-template snyCell="status" let-value let-row="row"><span>{{ value }} for {{ row['name'] }}</span></ng-template>`
 
 ### Table
 - Selectors: `table[snyTable]`, `thead[snyTableHeader]`, `tbody[snyTableBody]`, `tr[snyTableRow]`, `th[snyTableHead]`, `td[snyTableCell]`, `tfoot[snyTableFooter]`, `caption[snyTableCaption]`
@@ -348,7 +349,10 @@ export const appConfig = {
 
 ### Drawer
 - Selectors: `[snyDrawerLayout]`, `[snyDrawerContent]`, `[snyDrawerSide]`
-- Inputs: overlay, side
+- Import: `import { SnyDrawerLayoutComponent, SnyDrawerContentDirective, SnyDrawerSideDirective } from '@sonny-ui/core';`
+- SnyDrawerLayoutComponent: exportAs `snyDrawerLayout`, methods: open(), close(), toggle(), isOpen signal (read-only, not two-way bindable)
+- Inputs: overlay (boolean, default true), side ('left'|'right')
+- Usage: `<div snyDrawerLayout #drawer="snyDrawerLayout">` then `drawer.toggle()` to control
 
 ### FAB
 - Selectors: `[snyFab]`, `[snyFabTrigger]`, `[snyFabAction]`
