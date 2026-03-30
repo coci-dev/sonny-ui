@@ -24,7 +24,7 @@ export class SnyNavbarDirective {
       v === 'bordered' ? 'border-b border-border' :
       v === 'floating' ? 'mx-4 mt-2 rounded-lg border border-border shadow-sm' :
       '';
-    const stickyClass = this.sticky() ? 'sticky top-0 z-50' : '';
+    const stickyClass = this.sticky() ? 'sticky top-0 z-40' : '';
     return cn(base, variantClass, stickyClass, this.class());
   });
 }
