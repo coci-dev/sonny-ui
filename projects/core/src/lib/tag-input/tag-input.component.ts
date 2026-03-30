@@ -16,7 +16,6 @@ import { tagInputContainerVariants, tagVariants, type TagInputSize } from './tag
 
 @Component({
   selector: 'sny-tag-input',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyTagInputComponent), multi: true },

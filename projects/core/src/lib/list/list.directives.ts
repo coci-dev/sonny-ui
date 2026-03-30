@@ -5,7 +5,6 @@ export type ListVariant = 'default' | 'bordered' | 'hover';
 
 @Directive({
   selector: '[snyList]',
-  standalone: true,
   host: {
     'role': 'list',
     '[class]': 'computedClass()',
@@ -27,7 +26,6 @@ export class SnyListDirective {
 
 @Directive({
   selector: '[snyListItem]',
-  standalone: true,
   host: {
     'role': 'listitem',
     '[class]': 'computedClass()',
@@ -51,7 +49,6 @@ export class SnyListItemDirective {
 
 @Directive({
   selector: '[snyListItemIcon]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyListItemIconDirective {
@@ -63,7 +60,6 @@ export class SnyListItemIconDirective {
 
 @Directive({
   selector: '[snyListItemContent]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyListItemContentDirective {
@@ -75,7 +71,6 @@ export class SnyListItemContentDirective {
 
 @Directive({
   selector: '[snyListItemAction]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyListItemActionDirective {

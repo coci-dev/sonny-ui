@@ -15,7 +15,6 @@ import { numberInputVariants, type NumberInputSize } from './number-input.varian
 
 @Component({
   selector: 'sny-number-input',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyNumberInputComponent), multi: true },

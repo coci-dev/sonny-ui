@@ -20,7 +20,6 @@ import { otpCellVariants, type OtpInputSize, type OtpInputType } from './otp-inp
 
 @Component({
   selector: 'sny-otp-input',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyOtpInputComponent), multi: true },

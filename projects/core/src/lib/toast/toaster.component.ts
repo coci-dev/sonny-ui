@@ -5,7 +5,6 @@ import { cn } from '../core/utils/cn';
 
 @Component({
   selector: 'sny-toaster',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [class]="containerClass()" role="region" aria-label="Notifications" tabindex="-1">

@@ -4,7 +4,6 @@ import { buttonGroupVariants, type ButtonGroupOrientation } from './button-group
 
 @Directive({
   selector: '[snyButtonGroup]',
-  standalone: true,
   host: {
     role: 'group',
     '[class]': 'computedClass()',

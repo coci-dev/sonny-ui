@@ -4,7 +4,6 @@ import { cardVariants, type CardVariant, type CardPadding } from './card.variant
 
 @Directive({
   selector: '[snyCard]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCardDirective {
@@ -19,7 +18,6 @@ export class SnyCardDirective {
 
 @Directive({
   selector: '[snyCardHeader]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCardHeaderDirective {
@@ -31,7 +29,6 @@ export class SnyCardHeaderDirective {
 
 @Directive({
   selector: '[snyCardTitle]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCardTitleDirective {
@@ -43,7 +40,6 @@ export class SnyCardTitleDirective {
 
 @Directive({
   selector: '[snyCardDescription]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCardDescriptionDirective {
@@ -55,7 +51,6 @@ export class SnyCardDescriptionDirective {
 
 @Directive({
   selector: '[snyCardContent]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCardContentDirective {
@@ -67,7 +62,6 @@ export class SnyCardContentDirective {
 
 @Directive({
   selector: '[snyCardFooter]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCardFooterDirective {

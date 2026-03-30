@@ -5,7 +5,6 @@ import { sliderTrackVariants, sliderThumbSize, type SliderSize } from './slider.
 
 @Component({
   selector: 'sny-slider',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'block',

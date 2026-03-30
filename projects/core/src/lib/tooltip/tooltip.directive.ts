@@ -16,7 +16,6 @@ let tooltipIdCounter = 0;
 
 @Directive({
   selector: '[snyTooltip]',
-  standalone: true,
   exportAs: 'snyTooltip',
   host: {
     '(mouseenter)': 'show()',

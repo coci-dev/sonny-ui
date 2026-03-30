@@ -5,7 +5,6 @@ import { switchTrackVariants, switchThumbSize, switchThumbTranslate, type Switch
 
 @Component({
   selector: 'sny-switch',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { class: 'inline-flex' },
   providers: [

@@ -4,7 +4,6 @@ import { loaderVariants, type LoaderSize, type LoaderVariant } from './loader.va
 
 @Component({
   selector: 'sny-loader',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'computedClass()',

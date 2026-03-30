@@ -5,7 +5,6 @@ import { toggleVariants, type ToggleVariant, type ToggleSize } from './toggle.va
 
 @Directive({
   selector: 'button[snyToggle]',
-  standalone: true,
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyToggleDirective), multi: true },
   ],

@@ -54,7 +54,6 @@ const DEFAULT_PAGINATION: DataTablePaginationConfig = {
 
 @Component({
   selector: 'sny-data-table',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     NgTemplateOutlet,

@@ -3,7 +3,6 @@ import { cn } from '../core/utils/cn';
 
 @Directive({
   selector: 'nav[snyBreadcrumb]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     'aria-label': 'Breadcrumb',
@@ -16,7 +15,6 @@ export class SnyBreadcrumbDirective {
 
 @Directive({
   selector: 'ol[snyBreadcrumbList]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyBreadcrumbListDirective {
@@ -28,7 +26,6 @@ export class SnyBreadcrumbListDirective {
 
 @Directive({
   selector: 'li[snyBreadcrumbItem]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyBreadcrumbItemDirective {
@@ -40,7 +37,6 @@ export class SnyBreadcrumbItemDirective {
 
 @Directive({
   selector: '[snyBreadcrumbLink]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyBreadcrumbLinkDirective {
@@ -52,7 +48,6 @@ export class SnyBreadcrumbLinkDirective {
 
 @Directive({
   selector: '[snyBreadcrumbSeparator]',
-  standalone: true,
   host: {
     role: 'presentation',
     '[aria-hidden]': 'true',
@@ -68,7 +63,6 @@ export class SnyBreadcrumbSeparatorDirective {
 
 @Directive({
   selector: '[snyBreadcrumbPage]',
-  standalone: true,
   host: {
     role: 'link',
     'aria-disabled': 'true',

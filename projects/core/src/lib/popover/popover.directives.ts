@@ -1,7 +1,6 @@
 import {
   Directive,
   ElementRef,
-  HostListener,
   InjectionToken,
   OnDestroy,
   computed,
@@ -15,11 +14,12 @@ export const SNY_POPOVER = new InjectionToken<SnyPopoverDirective>('SnyPopover')
 
 @Directive({
   selector: '[snyPopover]',
-  standalone: true,
   exportAs: 'snyPopover',
   providers: [{ provide: SNY_POPOVER, useExisting: SnyPopoverDirective }],
   host: {
     '[class]': '"relative inline-block"',
+    '(document:click)': 'onDocumentClick($event)',
+    '(keydown.escape)': 'onEscape()',
   },
 })
 export class SnyPopoverDirective implements OnDestroy {
@@ -91,14 +91,12 @@ export class SnyPopoverDirective implements OnDestroy {
     }
   }
 
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (this.closeOnOutside() && this.isOpen() && !this.elRef.nativeElement.contains(event.target)) {
       this.close();
     }
   }
 
-  @HostListener('keydown.escape')
   onEscape(): void {
     if (this.closeOnEscape() && this.isOpen()) {
       this.close();
@@ -112,7 +110,6 @@ export class SnyPopoverDirective implements OnDestroy {
 
 @Directive({
   selector: '[snyPopoverTrigger]',
-  standalone: true,
   host: {
     '(click)': 'popover.toggle()',
     '[attr.aria-expanded]': 'popover.isOpen()',
@@ -130,7 +127,6 @@ export class SnyPopoverTriggerDirective {
 
 @Directive({
   selector: '[snyPopoverContent]',
-  standalone: true,
   host: {
     'role': 'dialog',
     '[style.display]': 'popover.isOpen() ? "" : "none"',

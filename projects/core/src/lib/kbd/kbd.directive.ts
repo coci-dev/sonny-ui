@@ -4,7 +4,6 @@ import { kbdVariants, type KbdSize } from './kbd.variants';
 
 @Directive({
   selector: 'kbd[snyKbd]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },

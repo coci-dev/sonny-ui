@@ -14,7 +14,6 @@ import type { CalendarDay, CalendarMode, DateRange } from './calendar.types';
 
 @Component({
   selector: 'sny-calendar',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': 'hostClass()',

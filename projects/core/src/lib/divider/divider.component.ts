@@ -8,7 +8,6 @@ import {
 
 @Component({
   selector: 'sny-divider',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'role': 'separator',

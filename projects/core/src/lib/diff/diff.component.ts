@@ -3,7 +3,6 @@ import { cn } from '../core/utils/cn';
 
 @Component({
   selector: 'sny-diff',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': '"relative overflow-hidden select-none w-full"',

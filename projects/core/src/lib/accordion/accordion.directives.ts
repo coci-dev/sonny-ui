@@ -6,7 +6,6 @@ export const SNY_ACCORDION_ITEM = new InjectionToken<SnyAccordionItemDirective>(
 
 @Directive({
   selector: '[snyAccordion]',
-  standalone: true,
   exportAs: 'snyAccordion',
   providers: [{ provide: SNY_ACCORDION, useExisting: SnyAccordionDirective }],
   host: {
@@ -81,7 +80,6 @@ export class SnyAccordionDirective {
 
 @Directive({
   selector: '[snyAccordionItem]',
-  standalone: true,
   exportAs: 'snyAccordionItem',
   providers: [{ provide: SNY_ACCORDION_ITEM, useExisting: SnyAccordionItemDirective }],
   host: { '[class]': 'computedClass()' },
@@ -104,7 +102,6 @@ export class SnyAccordionItemDirective {
 
 @Directive({
   selector: '[snyAccordionTrigger]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-expanded]': 'item.isOpen()',
@@ -127,7 +124,6 @@ export class SnyAccordionTriggerDirective {
 
 @Directive({
   selector: '[snyAccordionContent]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     role: 'region',

@@ -4,7 +4,6 @@ import {
   computed,
   ElementRef,
   forwardRef,
-  HostListener,
   inject,
   input,
   model,
@@ -23,10 +22,10 @@ export interface SelectOption {
 
 @Component({
   selector: 'sny-select',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     class: 'relative inline-block w-full',
+    '(document:click)': 'onDocumentClick($event)',
   },
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnySelectComponent), multi: true },
@@ -228,7 +227,6 @@ export class SnySelectComponent implements ControlValueAccessor, OnDestroy {
     }
   }
 
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.elRef.nativeElement.contains(event.target)) {
       this.close();

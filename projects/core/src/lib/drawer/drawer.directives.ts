@@ -5,7 +5,6 @@ export const SNY_DRAWER = new InjectionToken<SnyDrawerLayoutComponent>('SnyDrawe
 
 @Component({
   selector: '[snyDrawerLayout]',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   exportAs: 'snyDrawerLayout',
   providers: [{ provide: SNY_DRAWER, useExisting: SnyDrawerLayoutComponent }],
@@ -41,7 +40,6 @@ export const SnyDrawerLayoutDirective = SnyDrawerLayoutComponent;
 
 @Directive({
   selector: '[snyDrawerContent]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },
@@ -57,7 +55,6 @@ export type DrawerSide = 'left' | 'right';
 
 @Directive({
   selector: '[snyDrawerSide]',
-  standalone: true,
   host: {
     'role': 'navigation',
     'aria-label': 'Sidebar navigation',

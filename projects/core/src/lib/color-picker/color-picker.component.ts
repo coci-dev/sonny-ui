@@ -5,7 +5,6 @@ import {
   effect,
   ElementRef,
   forwardRef,
-  HostListener,
   inject,
   input,
   model,
@@ -30,9 +29,12 @@ import { colorPickerTriggerVariants, type ColorPickerSize } from './color-picker
 
 @Component({
   selector: 'sny-color-picker',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  host: { class: 'relative inline-block' },
+  host: {
+    class: 'relative inline-block',
+    '(document:click)': 'onDocumentClick($event)',
+    '(keydown.escape)': 'onEscape()',
+  },
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyColorPickerComponent), multi: true },
   ],
@@ -518,14 +520,12 @@ export class SnyColorPickerComponent implements ControlValueAccessor, OnDestroy 
     }
   }
 
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.elRef.nativeElement.contains(event.target)) {
       this.close();
     }
   }
 
-  @HostListener('keydown.escape')
   onEscape(): void {
     this.close();
   }

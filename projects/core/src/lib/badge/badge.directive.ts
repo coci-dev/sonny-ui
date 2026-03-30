@@ -4,7 +4,6 @@ import { badgeVariants, type BadgeVariant, type BadgeSize } from './badge.varian
 
 @Directive({
   selector: '[snyBadge]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyBadgeDirective {

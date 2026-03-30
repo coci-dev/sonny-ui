@@ -2,7 +2,6 @@ import { Directive, TemplateRef, inject, input } from '@angular/core';
 
 @Directive({
   selector: '[snyCell]',
-  standalone: true,
 })
 export class SnyCellDefDirective {
   readonly snyCell = input.required<string>();
@@ -11,7 +10,6 @@ export class SnyCellDefDirective {
 
 @Directive({
   selector: '[snyHeaderCell]',
-  standalone: true,
 })
 export class SnyHeaderCellDefDirective {
   readonly snyHeaderCell = input.required<string>();
@@ -20,7 +18,6 @@ export class SnyHeaderCellDefDirective {
 
 @Directive({
   selector: '[snyBulkActions]',
-  standalone: true,
 })
 export class SnyBulkActionsDefDirective {
   readonly template = inject(TemplateRef);
@@ -28,7 +25,6 @@ export class SnyBulkActionsDefDirective {
 
 @Directive({
   selector: '[snyRowExpand]',
-  standalone: true,
 })
 export class SnyRowExpandDefDirective {
   readonly template = inject(TemplateRef);

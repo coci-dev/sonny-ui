@@ -16,7 +16,6 @@ const variantColorMap: Record<RadialProgressVariant, string> = {
 
 @Component({
   selector: 'sny-radial-progress',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'role': 'progressbar',

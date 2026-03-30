@@ -4,7 +4,6 @@ import { radioVariants, type RadioSize } from './radio.variants';
 
 @Directive({
   selector: 'input[type="radio"][snyRadio]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyRadioDirective {

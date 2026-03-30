@@ -9,7 +9,6 @@ export type StepsSize = 'sm' | 'md' | 'lg';
 
 @Directive({
   selector: '[snyStep]',
-  standalone: true,
   host: {
     'role': 'listitem',
     '[class]': 'computedClass()',
@@ -46,7 +45,6 @@ export class SnyStepDirective {
 
 @Directive({
   selector: '[snySteps]',
-  standalone: true,
   exportAs: 'snySteps',
   providers: [{ provide: SNY_STEPS, useExisting: SnyStepsDirective }],
   host: {

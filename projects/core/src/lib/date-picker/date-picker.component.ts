@@ -4,7 +4,6 @@ import {
   computed,
   ElementRef,
   forwardRef,
-  HostListener,
   inject,
   input,
   model,
@@ -19,10 +18,13 @@ import { datePickerTriggerVariants, type DatePickerSize } from './date-picker.va
 
 @Component({
   selector: 'sny-date-picker',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SnyCalendarComponent],
-  host: { class: 'relative inline-block w-full' },
+  host: {
+    class: 'relative inline-block w-full',
+    '(document:click)': 'onDocumentClick($event)',
+    '(keydown.escape)': 'onEscape()',
+  },
   providers: [
     { provide: NG_VALUE_ACCESSOR, useExisting: forwardRef(() => SnyDatePickerComponent), multi: true },
   ],
@@ -206,14 +208,12 @@ export class SnyDatePickerComponent implements ControlValueAccessor, OnDestroy {
     this.removeGlobalListeners();
   }
 
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.elRef.nativeElement.contains(event.target)) {
       this.close();
     }
   }
 
-  @HostListener('keydown.escape')
   onEscape(): void {
     this.close();
   }

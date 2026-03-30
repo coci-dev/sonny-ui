@@ -1,4 +1,4 @@
-import { Directive, ElementRef, HostListener, InjectionToken, computed, inject, input, signal } from '@angular/core';
+import { Directive, ElementRef, InjectionToken, computed, inject, input, signal } from '@angular/core';
 import { cn } from '../core/utils/cn';
 import {
   dropdownContentVariants,
@@ -10,11 +10,12 @@ export const SNY_DROPDOWN = new InjectionToken<SnyDropdownDirective>('SnyDropdow
 
 @Directive({
   selector: '[snyDropdown]',
-  standalone: true,
   exportAs: 'snyDropdown',
   providers: [{ provide: SNY_DROPDOWN, useExisting: SnyDropdownDirective }],
   host: {
     '[class]': '"relative inline-block"',
+    '(document:click)': 'onDocumentClick($event)',
+    '(keydown.escape)': 'onEscape()',
   },
 })
 export class SnyDropdownDirective {
@@ -25,14 +26,12 @@ export class SnyDropdownDirective {
   open(): void { this.isOpen.set(true); }
   close(): void { this.isOpen.set(false); }
 
-  @HostListener('document:click', ['$event'])
   onDocumentClick(event: MouseEvent): void {
     if (!this.elementRef.nativeElement.contains(event.target)) {
       this.close();
     }
   }
 
-  @HostListener('keydown.escape')
   onEscape(): void {
     this.close();
   }
@@ -40,7 +39,6 @@ export class SnyDropdownDirective {
 
 @Directive({
   selector: '[snyDropdownTrigger]',
-  standalone: true,
   host: {
     '(click)': 'dropdown.toggle()',
     '[attr.aria-expanded]': 'dropdown.isOpen()',
@@ -53,7 +51,6 @@ export class SnyDropdownTriggerDirective {
 
 @Directive({
   selector: '[snyDropdownContent]',
-  standalone: true,
   host: {
     'role': 'menu',
     '[class]': 'computedClass()',
@@ -75,7 +72,6 @@ export class SnyDropdownContentDirective {
 
 @Directive({
   selector: '[snyMenuContent]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },
@@ -90,7 +86,6 @@ export class SnyMenuContentDirective {
 
 @Directive({
   selector: '[snyMenuItem]',
-  standalone: true,
   host: {
     'role': 'menuitem',
     '[class]': 'computedClass()',
@@ -113,7 +108,6 @@ export class SnyMenuItemDirective {
 
 @Directive({
   selector: '[snyMenuSeparator]',
-  standalone: true,
   host: {
     'role': 'separator',
     '[class]': 'computedClass()',
@@ -129,7 +123,6 @@ export class SnyMenuSeparatorDirective {
 
 @Directive({
   selector: '[snyMenuLabel]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },

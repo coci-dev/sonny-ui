@@ -4,7 +4,6 @@ import { checkboxVariants, type CheckboxSize } from './checkbox.variants';
 
 @Directive({
   selector: 'input[type="checkbox"][snyCheckbox]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyCheckboxDirective {

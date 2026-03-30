@@ -6,7 +6,6 @@ export type ValidatorHintVariant = 'error' | 'success' | 'warning' | 'info';
 
 @Directive({
   selector: '[snyValidator]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyValidatorDirective {
@@ -27,7 +26,6 @@ export class SnyValidatorDirective {
 
 @Directive({
   selector: '[snyValidatorHint]',
-  standalone: true,
   host: {
     'role': 'alert',
     '[class]': 'computedClass()',

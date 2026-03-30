@@ -54,7 +54,6 @@ function computePageRange(
 
 @Component({
   selector: 'sny-pagination',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'role': 'navigation',

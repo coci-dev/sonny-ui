@@ -14,7 +14,6 @@ const positionMap: Record<FabPosition, string> = {
 
 @Directive({
   selector: '[snyFab]',
-  standalone: true,
   exportAs: 'snyFab',
   providers: [{ provide: SNY_FAB, useExisting: SnyFabDirective }],
   host: { '[class]': 'computedClass()' },
@@ -36,7 +35,6 @@ export class SnyFabDirective {
 
 @Directive({
   selector: '[snyFabTrigger]',
-  standalone: true,
   host: {
     '(click)': 'fab.toggle()',
     '[attr.aria-expanded]': 'fab.isOpen()',
@@ -59,7 +57,6 @@ export class SnyFabTriggerDirective {
 
 @Directive({
   selector: '[snyFabAction]',
-  standalone: true,
   host: {
     'role': 'menuitem',
     '[attr.aria-label]': 'ariaLabel() || null',

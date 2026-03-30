@@ -4,7 +4,6 @@ import { labelVariants, type InputVariant } from './input.variants';
 
 @Directive({
   selector: 'label[snyLabel]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyLabelDirective {

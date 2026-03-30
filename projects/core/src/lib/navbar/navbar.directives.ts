@@ -5,7 +5,6 @@ export type NavbarVariant = 'default' | 'bordered' | 'floating';
 
 @Directive({
   selector: '[snyNavbar]',
-  standalone: true,
   host: {
     'role': 'navigation',
     '[attr.aria-label]': 'ariaLabel()',
@@ -32,7 +31,6 @@ export class SnyNavbarDirective {
 
 @Directive({
   selector: '[snyNavbarBrand]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyNavbarBrandDirective {
@@ -42,7 +40,6 @@ export class SnyNavbarBrandDirective {
 
 @Directive({
   selector: '[snyNavbarContent]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyNavbarContentDirective {
@@ -52,7 +49,6 @@ export class SnyNavbarContentDirective {
 
 @Directive({
   selector: '[snyNavbarEnd]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyNavbarEndDirective {

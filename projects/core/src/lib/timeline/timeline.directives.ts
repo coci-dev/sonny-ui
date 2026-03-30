@@ -8,7 +8,6 @@ export type TimelineMiddleVariant = 'default' | 'primary' | 'success' | 'error';
 
 @Directive({
   selector: '[snyTimelineItem]',
-  standalone: true,
   host: { 'role': 'listitem', '[class]': 'computedClass()' },
 })
 export class SnyTimelineItemDirective {
@@ -21,7 +20,6 @@ export class SnyTimelineItemDirective {
 
 @Directive({
   selector: '[snyTimelineStart]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTimelineStartDirective {
@@ -33,7 +31,6 @@ export class SnyTimelineStartDirective {
 
 @Directive({
   selector: '[snyTimelineMiddle]',
-  standalone: true,
   host: { '[class]': 'computedClass()', 'aria-hidden': 'true' },
 })
 export class SnyTimelineMiddleDirective {
@@ -52,7 +49,6 @@ export class SnyTimelineMiddleDirective {
 
 @Directive({
   selector: '[snyTimelineEnd]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTimelineEndDirective {
@@ -64,7 +60,6 @@ export class SnyTimelineEndDirective {
 
 @Directive({
   selector: '[snyTimeline]',
-  standalone: true,
   exportAs: 'snyTimeline',
   providers: [{ provide: SNY_TIMELINE, useExisting: SnyTimelineDirective }],
   host: {

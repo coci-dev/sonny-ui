@@ -8,7 +8,6 @@ export const SNY_CHAT_BUBBLE = new InjectionToken<SnyChatBubbleDirective>('SnyCh
 
 @Directive({
   selector: '[snyChatBubble]',
-  standalone: true,
   providers: [{ provide: SNY_CHAT_BUBBLE, useExisting: SnyChatBubbleDirective }],
   host: {
     'role': 'article',
@@ -30,7 +29,6 @@ export class SnyChatBubbleDirective {
 
 @Directive({
   selector: '[snyChatBubbleAvatar]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyChatBubbleAvatarDirective {
@@ -42,7 +40,6 @@ export class SnyChatBubbleAvatarDirective {
 
 @Directive({
   selector: '[snyChatBubbleHeader]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyChatBubbleHeaderDirective {
@@ -54,7 +51,6 @@ export class SnyChatBubbleHeaderDirective {
 
 @Directive({
   selector: '[snyChatBubbleContent]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyChatBubbleContentDirective {
@@ -74,7 +70,6 @@ export class SnyChatBubbleContentDirective {
 
 @Directive({
   selector: '[snyChatBubbleFooter]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyChatBubbleFooterDirective {
@@ -86,7 +81,6 @@ export class SnyChatBubbleFooterDirective {
 
 @Directive({
   selector: '[snyChatBubbleBody]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyChatBubbleBodyDirective {

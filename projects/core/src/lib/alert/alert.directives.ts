@@ -5,7 +5,6 @@ import { alertVariants, type AlertVariant } from './alert.variants';
 @Directive({
   selector: '[snyAlert]',
   exportAs: 'snyAlert',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.role]': 'role()',
@@ -41,7 +40,6 @@ export class SnyAlertDirective {
 
 @Directive({
   selector: '[snyAlertTitle]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },
@@ -56,7 +54,6 @@ export class SnyAlertTitleDirective {
 
 @Directive({
   selector: '[snyAlertDescription]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },

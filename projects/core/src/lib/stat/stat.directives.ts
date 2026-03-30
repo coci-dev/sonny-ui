@@ -7,7 +7,6 @@ let statIdCounter = 0;
 
 @Directive({
   selector: '[snyStat]',
-  standalone: true,
   providers: [{ provide: SNY_STAT, useExisting: SnyStatDirective }],
   host: { '[class]': 'computedClass()' },
 })
@@ -21,7 +20,6 @@ export class SnyStatDirective {
 
 @Directive({
   selector: '[snyStatTitle]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[id]': 'stat.titleId',
@@ -37,7 +35,6 @@ export class SnyStatTitleDirective {
 
 @Directive({
   selector: '[snyStatValue]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-labelledby]': 'stat.titleId',
@@ -55,7 +52,6 @@ export type StatDescriptionVariant = 'default' | 'success' | 'error';
 
 @Directive({
   selector: '[snyStatDescription]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyStatDescriptionDirective {
@@ -73,7 +69,6 @@ export class SnyStatDescriptionDirective {
 
 @Directive({
   selector: '[snyStatFigure]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyStatFigureDirective {

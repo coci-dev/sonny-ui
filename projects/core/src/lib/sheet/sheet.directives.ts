@@ -4,7 +4,6 @@ import { cn } from '../core/utils/cn';
 
 @Directive({
   selector: '[snySheetHeader]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnySheetHeaderDirective {
@@ -16,7 +15,6 @@ export class SnySheetHeaderDirective {
 
 @Directive({
   selector: '[snySheetTitle]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnySheetTitleDirective {
@@ -28,7 +26,6 @@ export class SnySheetTitleDirective {
 
 @Directive({
   selector: '[snySheetDescription]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnySheetDescriptionDirective {
@@ -40,7 +37,6 @@ export class SnySheetDescriptionDirective {
 
 @Directive({
   selector: '[snySheetContent]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnySheetContentDirective {
@@ -52,7 +48,6 @@ export class SnySheetContentDirective {
 
 @Directive({
   selector: '[snySheetClose]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '(click)': 'onClick()',

@@ -26,7 +26,6 @@ const variantMap: Record<IndicatorVariant, string> = {
 
 @Directive({
   selector: '[snyIndicator]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyIndicatorDirective {
@@ -38,7 +37,6 @@ export class SnyIndicatorDirective {
 
 @Directive({
   selector: '[snyIndicatorBadge]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-label]': 'ariaLabel() || null',

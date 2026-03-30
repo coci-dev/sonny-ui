@@ -15,7 +15,6 @@ import type { Command, CommandGroup, CommandPaletteConfig } from './command-pale
 
 @Component({
   selector: 'sny-command-palette',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [SnyInputDirective],
   host: {

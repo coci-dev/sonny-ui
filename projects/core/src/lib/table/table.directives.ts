@@ -6,7 +6,6 @@ export const SNY_TABLE = new InjectionToken<SnyTableDirective>('SnyTable');
 
 @Directive({
   selector: 'table[snyTable]',
-  standalone: true,
   providers: [{ provide: SNY_TABLE, useExisting: SnyTableDirective }],
   host: { '[class]': 'computedClass()' },
 })
@@ -24,7 +23,6 @@ export class SnyTableDirective {
 
 @Directive({
   selector: 'thead[snyTableHeader]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableHeaderDirective {
@@ -42,7 +40,6 @@ export class SnyTableHeaderDirective {
 
 @Directive({
   selector: 'tbody[snyTableBody]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableBodyDirective {
@@ -55,7 +52,6 @@ export class SnyTableBodyDirective {
 
 @Directive({
   selector: 'tr[snyTableRow]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableRowDirective {
@@ -73,7 +69,6 @@ export class SnyTableRowDirective {
 
 @Directive({
   selector: 'th[snyTableHead]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableHeadDirective {
@@ -91,7 +86,6 @@ export class SnyTableHeadDirective {
 
 @Directive({
   selector: 'td[snyTableCell]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableCellDirective {
@@ -109,7 +103,6 @@ export class SnyTableCellDirective {
 
 @Directive({
   selector: 'tfoot[snyTableFooter]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableFooterDirective {
@@ -122,7 +115,6 @@ export class SnyTableFooterDirective {
 
 @Directive({
   selector: 'caption[snyTableCaption]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyTableCaptionDirective {

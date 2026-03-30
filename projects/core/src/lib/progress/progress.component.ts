@@ -9,7 +9,6 @@ import {
 
 @Component({
   selector: 'sny-progress',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'role': 'progressbar',

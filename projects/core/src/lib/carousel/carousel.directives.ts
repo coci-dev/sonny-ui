@@ -7,7 +7,6 @@ export const SNY_CAROUSEL = new InjectionToken<SnyCarouselDirective>('SnyCarouse
 
 @Directive({
   selector: '[snyCarouselItem]',
-  standalone: true,
   host: {
     'role': 'group',
     '[attr.aria-roledescription]': '"slide"',
@@ -23,7 +22,6 @@ export class SnyCarouselItemDirective {
 
 @Directive({
   selector: '[snyCarouselContent]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[style.transform]': 'transformStyle()',
@@ -44,7 +42,6 @@ export class SnyCarouselContentDirective {
 
 @Directive({
   selector: '[snyCarousel]',
-  standalone: true,
   exportAs: 'snyCarousel',
   providers: [{ provide: SNY_CAROUSEL, useExisting: SnyCarouselDirective }],
   host: {
@@ -131,7 +128,6 @@ export class SnyCarouselDirective implements OnDestroy {
 
 @Directive({
   selector: '[snyCarouselPrev]',
-  standalone: true,
   host: {
     '(click)': 'carousel.prev()',
     '[attr.aria-label]': '"Previous slide"',
@@ -148,7 +144,6 @@ export class SnyCarouselPrevDirective {
 
 @Directive({
   selector: '[snyCarouselNext]',
-  standalone: true,
   host: {
     '(click)': 'carousel.next()',
     '[attr.aria-label]': '"Next slide"',

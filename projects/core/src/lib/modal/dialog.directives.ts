@@ -4,7 +4,6 @@ import { cn } from '../core/utils/cn';
 
 @Directive({
   selector: '[snyDialogHeader]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyDialogHeaderDirective {
@@ -16,7 +15,6 @@ export class SnyDialogHeaderDirective {
 
 @Directive({
   selector: '[snyDialogTitle]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyDialogTitleDirective {
@@ -28,7 +26,6 @@ export class SnyDialogTitleDirective {
 
 @Directive({
   selector: '[snyDialogDescription]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyDialogDescriptionDirective {
@@ -40,7 +37,6 @@ export class SnyDialogDescriptionDirective {
 
 @Directive({
   selector: '[snyDialogContent]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyDialogContentDirective {
@@ -55,7 +51,6 @@ export class SnyDialogContentDirective {
 
 @Directive({
   selector: '[snyDialogFooter]',
-  standalone: true,
   host: { '[class]': 'computedClass()' },
 })
 export class SnyDialogFooterDirective {
@@ -67,7 +62,6 @@ export class SnyDialogFooterDirective {
 
 @Directive({
   selector: '[snyDialogClose]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '(click)': 'onClick()',

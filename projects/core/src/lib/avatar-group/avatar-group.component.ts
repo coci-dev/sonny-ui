@@ -28,7 +28,6 @@ export type AvatarGroupSpacing = 'tight' | 'normal';
 
 @Component({
   selector: 'sny-avatar-group',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   template: `
     <div [class]="containerClass()" role="group" [attr.aria-label]="'Group of ' + items().length + ' users'">

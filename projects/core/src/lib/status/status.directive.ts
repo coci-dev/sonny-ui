@@ -13,7 +13,6 @@ const variantLabels: Record<StatusVariant, string> = {
 
 @Directive({
   selector: '[snyStatus]',
-  standalone: true,
   host: {
     'role': 'status',
     '[attr.aria-label]': 'ariaLabel()',

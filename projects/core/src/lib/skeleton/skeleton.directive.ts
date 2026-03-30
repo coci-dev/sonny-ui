@@ -4,7 +4,6 @@ import { skeletonVariants, type SkeletonVariant, type SkeletonSize } from './ske
 
 @Directive({
   selector: '[snySkeleton]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     'aria-busy': 'true',

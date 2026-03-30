@@ -4,7 +4,6 @@ import { linkVariants, type LinkVariant } from './link.variants';
 
 @Directive({
   selector: 'a[snyLink]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },

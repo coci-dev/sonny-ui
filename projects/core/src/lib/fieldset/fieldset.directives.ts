@@ -4,7 +4,6 @@ import { fieldsetVariants, type FieldsetVariant } from './fieldset.variants';
 
 @Directive({
   selector: 'fieldset[snyFieldset]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.disabled]': 'disabled() || null',
@@ -23,7 +22,6 @@ export class SnyFieldsetDirective {
 
 @Directive({
   selector: 'legend[snyFieldsetLegend]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },
@@ -38,7 +36,6 @@ export class SnyFieldsetLegendDirective {
 
 @Directive({
   selector: '[snyFieldsetContent]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
   },

@@ -4,7 +4,6 @@ import { buttonVariants, type ButtonVariant, type ButtonSize } from './button.va
 
 @Directive({
   selector: 'button[snyBtn], a[snyBtn]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-disabled]': 'disabled() || loading() || null',

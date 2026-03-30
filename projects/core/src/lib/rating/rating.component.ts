@@ -10,7 +10,6 @@ interface StarState {
 
 @Component({
   selector: 'sny-rating',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     'role': 'slider',

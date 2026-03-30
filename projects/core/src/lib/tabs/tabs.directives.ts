@@ -5,7 +5,6 @@ export const SNY_TABS = new InjectionToken<SnyTabsDirective>('SnyTabs');
 
 @Directive({
   selector: '[snyTabs]',
-  standalone: true,
   exportAs: 'snyTabs',
   providers: [{ provide: SNY_TABS, useExisting: SnyTabsDirective }],
   host: { '[class]': 'computedClass()' },
@@ -25,7 +24,6 @@ export class SnyTabsDirective {
 
 @Directive({
   selector: '[snyTabsList]',
-  standalone: true,
   host: {
     role: 'tablist',
     '[class]': 'computedClass()',
@@ -81,7 +79,6 @@ export class SnyTabsListDirective {
 
 @Directive({
   selector: '[snyTabsTrigger]',
-  standalone: true,
   host: {
     role: 'tab',
     '[class]': 'computedClass()',
@@ -110,7 +107,6 @@ export class SnyTabsTriggerDirective {
 
 @Directive({
   selector: '[snyTabsContent]',
-  standalone: true,
   host: {
     role: 'tabpanel',
     '[class]': 'computedClass()',

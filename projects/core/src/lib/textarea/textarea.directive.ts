@@ -17,7 +17,6 @@ import {
 
 @Directive({
   selector: 'textarea[snyTextarea]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-invalid]': 'variant() === "error" || null',

@@ -4,7 +4,6 @@ import { avatarVariants, type AvatarSize, type AvatarVariant } from './avatar.va
 
 @Component({
   selector: 'sny-avatar',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: { '[class]': 'computedClass()' },
   template: `

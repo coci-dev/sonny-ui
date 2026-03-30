@@ -4,7 +4,6 @@ import { inputVariants, type InputVariant, type InputSize } from './input.varian
 
 @Directive({
   selector: 'input[snyInput], textarea[snyInput]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.aria-invalid]': 'variant() === "error" || null',

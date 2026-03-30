@@ -5,7 +5,6 @@ export type DockPosition = 'bottom' | 'top';
 
 @Directive({
   selector: '[snyDock]',
-  standalone: true,
   host: {
     'role': 'toolbar',
     'aria-label': 'Dock',
@@ -63,7 +62,6 @@ export class SnyDockDirective {
 
 @Directive({
   selector: '[snyDockItem]',
-  standalone: true,
   host: {
     '[class]': 'computedClass()',
     '[attr.tabindex]': 'active() ? 0 : -1',

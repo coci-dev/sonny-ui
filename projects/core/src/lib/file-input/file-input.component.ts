@@ -20,7 +20,6 @@ import {
 
 @Component({
   selector: 'sny-file-input',
-  standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
   host: {
     '[class]': '"w-full"',
