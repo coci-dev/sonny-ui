@@ -178,6 +178,7 @@ CSS custom properties:
 ## Links
 
 - [Documentation](https://coci-dev.github.io/sonny-ui/)
+- [Live Demo](https://coci-dev.github.io/sonny-ui-demo/)
 - [GitHub](https://github.com/coci-dev/sonny-ui)
 - [npm](https://www.npmjs.com/package/@sonny-ui/core)
 - [Issues](https://github.com/coci-dev/sonny-ui/issues)

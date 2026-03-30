@@ -47,9 +47,10 @@ import { HOME_ES } from '../i18n/es/home';
           <span class="rounded-full border border-yellow-500/20 bg-yellow-500/10 text-yellow-600 px-3 py-1 font-medium">{{ t().badges.alpha }}</span>
           <a href="llms.txt" target="_blank" class="rounded-full border border-violet-500/20 bg-violet-500/10 text-violet-600 px-3 py-1 font-medium hover:bg-violet-500/20 transition-colors no-underline">AI Ready</a>
         </div>
-        <div class="mt-8 flex items-center justify-center gap-4">
+        <div class="mt-8 flex flex-wrap items-center justify-center gap-4">
           <a snyBtn size="lg" [routerLink]="i18n.localizeLink('/docs/getting-started/installation')">{{ t().hero.getStarted }}</a>
           <a snyBtn variant="outline" size="lg" [routerLink]="i18n.localizeLink('/docs/components/button')">{{ t().hero.viewComponents }}</a>
+          <a snyBtn variant="outline" size="lg" href="https://coci-dev.github.io/sonny-ui-demo/" target="_blank" rel="noopener">{{ t().hero.liveDemo }}</a>
         </div>
         <div class="mx-auto mt-8 max-w-md">
           <div class="flex items-center gap-2 rounded-lg border border-border bg-muted/50 px-4 py-3 text-sm font-mono text-muted-foreground">

@@ -4,6 +4,7 @@ export const HOME_ES = {
     description: 'Componentes Angular hermosos y accesibles, construidos con Tailwind CSS v4 y Signals. Copia y pega o instala — el código es tuyo.',
     getStarted: 'Comenzar',
     viewComponents: 'Ver Componentes',
+    liveDemo: 'Demo en Vivo',
   },
   badges: {
     angular: 'Angular 21+',
