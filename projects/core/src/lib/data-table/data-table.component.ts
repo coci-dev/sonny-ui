@@ -42,6 +42,7 @@ import {
 } from './data-table.directives';
 import type {
   DataTableColumn,
+  DataTableLabels,
   DataTablePaginationConfig,
   SortState,
   SortDirection,
@@ -50,6 +51,12 @@ import type {
 const DEFAULT_PAGINATION: DataTablePaginationConfig = {
   pageSize: 10,
   pageSizeOptions: [5, 10, 25, 50],
+};
+
+const DEFAULT_LABELS: Required<DataTableLabels> = {
+  rowsPerPage: 'Rows per page',
+  rowsSelected: (selected, total) => `${selected} of ${total} row(s) selected`,
+  totalRows: (total) => `${total} row(s)`,
 };
 
 @Component({
@@ -292,14 +299,14 @@ const DEFAULT_PAGINATION: DataTablePaginationConfig = {
       <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between mt-4 gap-3 sm:gap-4">
         <span class="text-sm text-muted-foreground">
           @if (selectable()) {
-            {{ selectedRows().length }} of {{ filteredData().length }} row(s) selected
+            {{ resolvedLabels().rowsSelected(selectedRows().length, filteredData().length) }}
           } @else {
-            {{ filteredData().length }} row(s)
+            {{ resolvedLabels().totalRows(filteredData().length) }}
           }
         </span>
         <div class="flex items-center gap-3 sm:gap-4 flex-wrap">
           <div class="flex items-center gap-2">
-            <span class="hidden sm:inline text-sm text-muted-foreground whitespace-nowrap">Rows per page</span>
+            <span class="hidden sm:inline text-sm text-muted-foreground whitespace-nowrap">{{ resolvedLabels().rowsPerPage }}</span>
             <sny-select
               [options]="pageSizeOptions()"
               [value]="pageSizeValue()"
@@ -337,6 +344,7 @@ export class SnyDataTableComponent {
   readonly paginationConfig = input<DataTablePaginationConfig>(DEFAULT_PAGINATION);
   readonly trackBy = input('');
   readonly noDataText = input('No data available');
+  readonly labels = input<DataTableLabels>({});
 
   // Model
   readonly selectedRows = model<Record<string, unknown>[]>([]);
@@ -351,6 +359,9 @@ export class SnyDataTableComponent {
   readonly headerCellDefs = contentChildren(SnyHeaderCellDefDirective);
   readonly bulkActionsDef = contentChild(SnyBulkActionsDefDirective);
   readonly rowExpandDef = contentChild(SnyRowExpandDefDirective);
+
+  // Resolved labels
+  readonly resolvedLabels = computed(() => ({ ...DEFAULT_LABELS, ...this.labels() }));
 
   // Internal state
   readonly sortState = signal<SortState>({ key: '', direction: null });
@@ -478,8 +489,17 @@ export class SnyDataTableComponent {
     effect(() => {
       this.filterText();
       this.pageSize();
-      this.data();
-      untracked(() => this.currentPage.set(1));
+      const data = this.data();
+      untracked(() => {
+        this.currentPage.set(1);
+        const selected = this.selectedRows();
+        if (selected.length) {
+          const cleaned = selected.filter((row) => this.isRowInList(row, data));
+          if (cleaned.length !== selected.length) {
+            this.selectedRows.set(cleaned);
+          }
+        }
+      });
     });
   }
 

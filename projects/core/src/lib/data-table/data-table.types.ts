@@ -18,3 +18,9 @@ export interface DataTablePaginationConfig {
   pageSize: number;
   pageSizeOptions: number[];
 }
+
+export interface DataTableLabels {
+  rowsPerPage?: string;
+  rowsSelected?: (selected: number, total: number) => string;
+  totalRows?: (total: number) => string;
+}

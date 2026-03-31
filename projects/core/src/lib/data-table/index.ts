@@ -9,5 +9,6 @@ export type {
   DataTableColumn,
   SortState,
   SortDirection,
+  DataTableLabels,
   DataTablePaginationConfig,
 } from './data-table.types';
