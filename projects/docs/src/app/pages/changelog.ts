@@ -80,6 +80,14 @@ export class ChangelogComponent {
 
   changelog: ChangelogEntry[] = [
     {
+      version: 'v0.1.0-alpha.24',
+      date: '2026-03-30',
+      changes: [
+        { type: 'fix', description: 'Fix DataTable orphaned selections — selected rows that no longer exist in data are now automatically cleaned up.' },
+        { type: 'feat', description: 'Add labels input to DataTable for customizing footer texts (rowsPerPage, rowsSelected, totalRows).' },
+      ],
+    },
+    {
       version: 'v0.1.0-alpha.21',
       date: '2026-03-30',
       changes: [

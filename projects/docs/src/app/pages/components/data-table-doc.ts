@@ -433,6 +433,7 @@ export class DataTableDocComponent {
     { name: 'paginationConfig', type: 'DataTablePaginationConfig', default: '{ pageSize: 10, ... }', description: this.t().propDescriptions.paginationConfig },
     { name: 'trackBy', type: 'string', default: "''", description: this.t().propDescriptions.trackBy },
     { name: 'noDataText', type: 'string', default: "'No data available'", description: this.t().propDescriptions.noDataText },
+    { name: 'labels', type: 'DataTableLabels', default: '{}', description: this.t().propDescriptions.labels },
     { name: 'selectedRows', type: 'Record<string, unknown>[]', default: '[]', description: this.t().propDescriptions.selectedRows },
     { name: 'sortChanged', type: 'output<SortState>', default: '—', description: this.t().propDescriptions.sortChanged },
     { name: 'rowClicked', type: 'output<Record<string, unknown>>', default: '—', description: this.t().propDescriptions.rowClicked },

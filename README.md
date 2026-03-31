@@ -69,27 +69,65 @@ export class MyComponent {}
 | Component | Description |
 |-----------|-------------|
 | **Accordion** | Expandable sections, single/multi mode |
+| **Alert** | Contextual feedback messages |
 | **Avatar** | User images with fallback initials |
+| **Avatar Group** | Stacked avatars with overflow counter |
 | **Badge** | Status labels — 6 variants, 3 sizes |
 | **Breadcrumb** | Navigation trail with dynamic segments |
 | **Button** | 6 variants, 4 sizes, loading state, link mode |
 | **Button Group** | Grouped actions, horizontal/vertical |
+| **Calendar** | Date selection with single and range modes |
 | **Card** | Content containers — 4 variants, selectable |
+| **Carousel** | Slide-based content viewer |
+| **Chat Bubble** | Chat message display |
 | **Checkbox** | Signal-based with two-way binding |
+| **Color Picker** | Color selection with HEX/RGB/HSL, EyeDropper API |
 | **Combobox** | Searchable dropdown with keyboard navigation |
+| **Command Palette** | Searchable command menu with keyboard navigation |
+| **Data Table** | Sorting, filtering, pagination, selection, export, custom cells |
+| **Date Picker** | Single date picker with calendar dropdown |
+| **Date Range Picker** | Date range selection with presets |
+| **Diff** | Side-by-side text diff viewer |
+| **Divider** | Horizontal/vertical content separator |
+| **Dock** | macOS-style dock navigation |
+| **Drawer** | Slide-out panel overlay |
+| **Dropdown** | Contextual menu with keyboard navigation |
+| **FAB** | Floating action button |
+| **Fieldset** | Grouped form fields with legend |
+| **File Input** | File upload with drag & drop |
+| **Indicator** | Notification dots/badges on elements |
 | **Input** | Text input — default/error/success variants |
+| **Kbd** | Keyboard shortcut display |
+| **Link** | Styled anchor element |
+| **List** | Structured list display |
 | **Loader** | Spinner, dots, and bars variants |
 | **Modal** | Dialog overlays using Angular CDK |
+| **Navbar** | Responsive navigation bar |
+| **Number Input** | Numeric stepper with +/- buttons |
+| **OTP Input** | One-time password input with auto-focus |
+| **Pagination** | Page navigation controls |
+| **Popover** | Floating panel with trigger |
+| **Progress** | Linear progress bar |
+| **Radial Progress** | Circular progress indicator |
 | **Radio** | Signal-based radio groups |
+| **Rating** | Star rating input |
 | **Select** | Dropdown selection with options array |
 | **Sheet** | Slide-out panels from any side |
 | **Skeleton** | Loading placeholders — line/circular/rounded |
 | **Slider** | Range input with min/max/step |
+| **Stat** | Statistic display with label and value |
+| **Status** | Online/offline status indicator |
+| **Steps** | Step-by-step progress indicator |
 | **Switch** | Toggle switches with two-way binding |
 | **Table** | Default/striped/bordered, 3 densities, sticky header |
 | **Tabs** | Tabbed content with triggers and panels |
+| **Tag Input** | Tag/chip input with validation |
+| **Textarea** | Multi-line text input |
+| **Timeline** | Chronological event display |
 | **Toast** | Notifications — 4 variants, positioned, with actions |
 | **Toggle** | Pressed state buttons for toolbars |
+| **Tooltip** | Hover information popups |
+| **Validator** | Form validation display |
 
 ## Theming
 

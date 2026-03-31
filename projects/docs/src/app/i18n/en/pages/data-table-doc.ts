@@ -52,6 +52,7 @@ export const DATA_TABLE_DOC_EN = {
     paginationConfig: 'Page size and available page size options.',
     trackBy: 'Row property key used for identity comparison.',
     noDataText: 'Text shown when data is empty or fully filtered.',
+    labels: 'Override footer texts: rowsPerPage, rowsSelected(selected, total), totalRows(total).',
     selectedRows: 'Two-way bound array of selected row objects.',
     sortChanged: 'Emitted when sort state changes.',
     rowClicked: 'Emitted when a row is clicked.',

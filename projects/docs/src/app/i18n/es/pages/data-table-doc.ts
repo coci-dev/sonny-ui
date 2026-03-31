@@ -52,6 +52,7 @@ export const DATA_TABLE_DOC_ES = {
     paginationConfig: 'Tamaño de página y opciones de tamaño disponibles.',
     trackBy: 'Propiedad de fila usada para comparación de identidad.',
     noDataText: 'Texto mostrado cuando los datos están vacíos o totalmente filtrados.',
+    labels: 'Personalizar textos del footer: rowsPerPage, rowsSelected(selected, total), totalRows(total).',
     selectedRows: 'Array de objetos de fila seleccionados con enlace bidireccional.',
     sortChanged: 'Se emite cuando cambia el estado de ordenamiento.',
     rowClicked: 'Se emite cuando se hace clic en una fila.',
