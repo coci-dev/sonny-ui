@@ -233,6 +233,11 @@ const docsChildren: Routes = [
       import('./pages/components/drawer-doc').then((m) => m.DrawerDocComponent),
   },
   {
+    path: 'components/sidebar',
+    loadComponent: () =>
+      import('./pages/components/sidebar-doc').then((m) => m.SidebarDocComponent),
+  },
+  {
     path: 'components/pagination',
     loadComponent: () =>
       import('./pages/components/pagination-doc').then((m) => m.PaginationDocComponent),

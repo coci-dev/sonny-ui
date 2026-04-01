@@ -79,6 +79,7 @@ export const COMMON_EN: CommonTranslations = {
         { label: 'Rating', path: '/docs/components/rating' },
         { label: 'Select', path: '/docs/components/select' },
         { label: 'Sheet', path: '/docs/components/sheet' },
+        { label: 'Sidebar', path: '/docs/components/sidebar' },
         { label: 'Skeleton', path: '/docs/components/skeleton' },
         { label: 'Slider', path: '/docs/components/slider' },
         { label: 'Stat', path: '/docs/components/stat' },

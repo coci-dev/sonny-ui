@@ -189,3 +189,6 @@ export * from './lib/popover';
 
 // Validator
 export * from './lib/validator';
+
+// Sidebar
+export * from './lib/sidebar';
